@@ -1,0 +1,19 @@
+# Data and build output never go to the (public) repo
+data/raw/
+data/state/
+dist/
+dist-*/
+*.jsonl.gz
+*.tar.gz
+*.enc
+.env
+.env.*
+*credentials*
+*.secret
+.wrangler/
+node_modules/
+__pycache__/
+*.pyc
+tmp/
+content/keywords-*.tsv
+static/img/blog/

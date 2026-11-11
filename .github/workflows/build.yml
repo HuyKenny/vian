@@ -1,0 +1,126 @@
+name: build
+# Daily: fetch the feeds and refresh PRICES only. Weekly (Wed): FULL run = new products appear, vanished ones go (data/weekly = frozen range).
+# Every push to main rebuilds from the saved feeds. Pipeline: fetch affiliate feeds -> build the static site -> check for leaked secrets -> deploy Workers static assets
+# (no Worker script = no billed requests) -> keep the encrypted state as a release asset.
+# PUBLIC repo: logs are public. Scripts print only shop ids and counts; feed URLs are masked; no `set -x` anywhere.
+on:
+  schedule:
+    - cron: "20 0 * * 3"            # Wednesday 01:20 CET: FULL run (new + removed products, IndexNow)
+    - cron: "20 0 * * 0,1,2,4,5,6"  # other days 01:20 CET: prices only (all heavy work happens at night, 1-3 am)
+  # no push trigger: code changes are deployed by the nightly run (manual "Run workflow" with fetch off = deploy at once)
+  workflow_dispatch:
+    inputs:
+      fetch:
+        description: "Fetch fresh feeds (off = rebuild from the last saved feeds)"
+        type: boolean
+        default: true
+      full:
+        description: "Full run: also add new and remove vanished products (off = prices only)"
+        type: boolean
+        default: false
+concurrency:
+  group: build
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    permissions:
+      contents: write          # release asset with the encrypted state
+    env:
+      VIAN_ENV: ${{ vars.VIAN_ENV || 'staging' }}
+      VIAN_FULL: ${{ (github.event.schedule == '20 0 * * 3' || (github.event_name == 'workflow_dispatch' && inputs.full)) && '1' || '0' }}
+      VIAN_MAX_PRODUCTS: ${{ vars.VIAN_MAX_PRODUCTS || '0' }}
+      GA4_ID: ${{ vars.GA4_ID || '' }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: "Cost guard - the repo must stay public (private repos burn the shared 2 000 free minutes)"
+        run: |
+          [ "$(gh api repos/${{ github.repository }} --jq .private)" = "false" ] || { echo "repo is private - stopping to protect free minutes"; exit 1; }
+      - name: Secret scan of the repository history (gitleaks, pinned + checksum)
+        run: |
+          curl -sSL -o /tmp/gl.tgz https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz
+          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  /tmp/gl.tgz" | sha256sum -c -
+          tar xzf /tmp/gl.tgz -C /tmp gitleaks
+          /tmp/gitleaks detect --source . --redact --no-banner --exit-code 1
+      - name: Restore state (encrypted)
+        run: scripts/state.sh pull
+        env:
+          STATE_KEY: ${{ secrets.STATE_KEY }}
+      - name: Fetch feeds
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.fetch)
+        timeout-minutes: 180
+        continue-on-error: true   # a stuck network falls back to the restored feeds
+        run: python3 scripts/fetch.py
+        env:
+          CJ_API_KEY: ${{ secrets.CJ_API_KEY }}
+          CJ_CID: ${{ secrets.CJ_CID }}
+          CJ_PID: ${{ secrets.CJ_PID }}
+          FEEDS_JSON: ${{ secrets.FEEDS_JSON }}
+      - name: Freeze the product range (full run, or first run without a snapshot)
+        run: |
+          if [ "$VIAN_FULL" = 1 ] || [ ! -d data/weekly ]; then rm -rf data/weekly; cp -r data/raw data/weekly; echo "range frozen"; else echo "range kept from the last weekly run"; fi
+      - name: Blog feature photos (Pexels CDN)
+        run: python3 scripts/blog_photos.py
+      - name: Build site
+        timeout-minutes: 75
+        run: python3 scripts/build.py
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+      - name: Visual check (no horizontal scrolling; screenshots as artifact)
+        continue-on-error: true
+        run: |
+          npm i --no-save --silent puppeteer-core@23.11.1 >/dev/null
+          (node scripts/serve.mjs 8765 >/dev/null 2>&1 &)
+          sleep 2
+          CHROME_PATH=$(command -v google-chrome || command -v chromium) node scripts/check_pages.mjs http://localhost:8765 /tmp/shots
+      - name: Image check in real Chrome (shop images, CSP, placeholder swaps)
+        continue-on-error: true
+        run: CHROME_PATH=$(command -v google-chrome || command -v chromium) node scripts/check_images.mjs /tmp/shots
+      - name: SEO lint (structured data, canonicals, sitemaps, links)
+        continue-on-error: true      # report only until the first runs are clean; then make it a hard gate
+        run: mkdir -p /tmp/shots && python3 scripts/seo_lint.py dist /tmp/shots/seo-report.json
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
+        with:
+          name: screenshots
+          path: /tmp/shots
+          retention-days: 7
+          if-no-files-found: ignore
+      - name: Secret check of repo + build output
+        run: python3 scripts/verify_no_secrets.py
+        env:
+          CJ_API_KEY: ${{ secrets.CJ_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          STATE_KEY: ${{ secrets.STATE_KEY }}
+          FEEDS_JSON: ${{ secrets.FEEDS_JSON }}
+      - name: Deploy (static assets only)
+        run: python3 scripts/deploy.py "$VIAN_ENV"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Save state (encrypted)
+        if: always()
+        run: '[ -f data/state/state.json.gz ] && scripts/state.sh push || echo "no state to save"'
+        env:
+          STATE_KEY: ${{ secrets.STATE_KEY }}
+      - name: IndexNow (full runs only - price changes are not worth a submission)
+        if: env.VIAN_ENV == 'production' && env.VIAN_FULL == '1'
+        run: python3 scripts/indexnow.py
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+      - name: Summary
+        if: always()
+        run: |
+          { echo '### Fetch'; echo '```'; cat data/raw/fetch-report.json 2>/dev/null; echo '```'
+            echo '### Build'; echo '```'; cat data/state/build-report.json 2>/dev/null; echo '```'
+            echo '### Landing pages (path, products, index, group, from price)'; echo '```'; head -n 400 data/state/landings.tsv 2>/dev/null; echo '```'
+            echo '### Visual check'; echo '```'; cat /tmp/shots/report.json 2>/dev/null; echo '```'
+            echo '### SEO lint'; echo '```'; python3 -c "import json;d=json.load(open('/tmp/shots/seo-report.json'));print(json.dumps({k:d[k] for k in ('pages','products','indexable','in_sitemap')}));[print('HARD',k,v['count'],v['examples'][:2]) for k,v in d['hard'].items()];[print('soft',k,v['count']) for k,v in d['soft'].items()]" 2>/dev/null; echo '```'; } >> "$GITHUB_STEP_SUMMARY"

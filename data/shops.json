@@ -1,0 +1,176 @@
+{
+ "_doc": "Shops in the catalogue. No secrets: CJ advertiser ids are public. include/exclude = regexes over the shop's own category path (productType). kids = children's furniture shop (its beds are children's beds).",
+ "shops": [
+  {
+   "id": "xxxlutz",
+   "name": "XXXLutz",
+   "domain": "xxxlutz.cz",
+   "network": "cj",
+   "advertiser": "5335380",
+   "color": "#E2001A",
+   "budget": 5400,
+   "exclude": "^(Hračky|Nádobí|Kuchyňské potřeby|Sklenice|Hrnce|Pánve|Pečení|Kuchyňské nože|Příbory|Stolování s dětmi|Oblečení pro miminka|Přebalování|Domácnost > (Žebříky|Úklid|Žehlení))"
+  },
+  {
+   "id": "scandishop",
+   "name": "Scandishop",
+   "domain": "scandishop.cz",
+   "network": "cj",
+   "advertiser": "5884820",
+   "color": "#1F1F1F",
+   "exclude": "(Domácí mazlíčci|Stolování > (Podnosy|Hrnky|Talíře|Misky))"
+  },
+  {
+   "id": "nabytekpaul",
+   "name": "Nábytek Paul",
+   "domain": "nabytekpaul.cz",
+   "network": "cj",
+   "advertiser": "5381727",
+   "color": "#8C5A3C"
+  },
+  {
+   "id": "dreamy",
+   "name": "Dreamy",
+   "domain": "dreamy.cz",
+   "network": "cj",
+   "advertiser": "7318611",
+   "color": "#3E4C8A"
+  },
+  {
+   "id": "vyprodejpovleceni",
+   "name": "Výprodej povlečení",
+   "domain": "vyprodejpovleceni.cz",
+   "network": "cj",
+   "advertiser": "6109393",
+   "color": "#D9467A",
+   "exclude": "(Oblečení|oblečení|Cestovní doplňky|Tělo a domácnost|Dárkové poukazy)"
+  },
+  {
+   "id": "asko",
+   "name": "ASKO Nábytek",
+   "domain": "asko-nabytek.cz",
+   "network": "cj",
+   "advertiser": "4920521",
+   "color": "#C8102E",
+   "exclude": "(Stolování a vaření|Úklid)"
+  },
+  {
+   "id": "ezidle",
+   "name": "eŽidle",
+   "domain": "ezidle.cz",
+   "network": "cj",
+   "advertiser": "5584312",
+   "color": "#2B7A78"
+  },
+  {
+   "id": "kancelarskezidle",
+   "name": "Kancelářské židle",
+   "domain": "kancelarskezidle.com",
+   "network": "cj",
+   "advertiser": "5493238",
+   "color": "#E05A00",
+   "exclude": "(NÁHRADNÍ DÍLY)"
+  },
+  {
+   "id": "elisdesign",
+   "name": "Elis Design",
+   "domain": "elisdesign.cz",
+   "network": "cj",
+   "advertiser": "5957450",
+   "color": "#E7A0B5",
+   "kids": true,
+   "include": "^(Dětský pokoj|Novinky)"
+  },
+  {
+   "id": "decoronline",
+   "name": "Decoronline",
+   "domain": "decoronline.cz",
+   "network": "cj",
+   "advertiser": "5217822",
+   "color": "#111111",
+   "exclude": "(kuchyňské doplňky|Vánoční porcelán|grilování|Kuchyňské spotřebiče)"
+  },
+  {
+   "id": "decodoma",
+   "name": "Decodoma",
+   "domain": "decodoma.cz",
+   "network": "cj",
+   "advertiser": "4882378",
+   "color": "#6A994E",
+   "exclude": "^(Obuv a móda)"
+  },
+  {
+   "id": "butlers",
+   "name": "Butlers",
+   "domain": "butlers.cz",
+   "network": "cj",
+   "advertiser": "4432968",
+   "color": "#B22234",
+   "exclude": "^(Stolování > (Talíře|Příbory|Hrnky|Sklenice)|Kuchyně)"
+  },
+  {
+   "id": "dopplershop",
+   "name": "Dopplershop",
+   "domain": "dopplershop.cz",
+   "network": "cj",
+   "advertiser": "6065245",
+   "color": "#00529B",
+   "exclude": "^(Deštníky)"
+  },
+  {
+   "id": "dormeo",
+   "name": "Dormeo",
+   "domain": "dormeo.cz",
+   "network": "cj",
+   "advertiser": "6976980",
+   "color": "#0072CE",
+   "exclude": "(MIXERS|BLENDERS|KITCHEN|COOKWARE)"
+  },
+  {
+   "id": "baumax",
+   "name": "Baumax",
+   "domain": "baumax.cz",
+   "network": "cj",
+   "advertiser": "5736843",
+   "color": "#F39200",
+   "include": "^(Nábytek|Vybavení a dekorace > (Dekorace|Vnitřní osvětlení|Okenní dekorace|Bytový textil|Koberce|Vánoční)|Vybavení interiéru > Vybavení koupelny|Zahrada a stavebniny > Zahrada a volný čas)"
+  },
+  {
+   "id": "rajnabytku",
+   "name": "Ráj nábytku",
+   "domain": "rajnabytku.cz",
+   "network": "cj",
+   "advertiser": "6474136",
+   "color": "#7A4E2D"
+  },
+  {
+   "id": "hezkakoupelna",
+   "name": "Hezká koupelna",
+   "domain": "hezkakoupelna.cz",
+   "network": "cj",
+   "advertiser": "7816491",
+   "color": "#0E7C86",
+   "include": "^(Koupelnový nábytek|Koupelnové doplňky)"
+  },
+  {
+   "id": "siko",
+   "name": "SIKO",
+   "domain": "siko.cz",
+   "network": "cj",
+   "advertiser": "4932883",
+   "color": "#003C71",
+   "budget": 2400,
+   "include": "^Koupelny > (Nábytek|Koupelnové doplňky)"
+  },
+  {
+   "id": "sanitino",
+   "name": "Sanitino",
+   "domain": "sanitino.cz",
+   "network": "cj",
+   "advertiser": "6358042",
+   "color": "#00A3E0",
+   "budget": 2400,
+   "include": "^Koupelny > (Koupelnový nábytek|Koupelnové doplňky)"
+  }
+ ]
+}
