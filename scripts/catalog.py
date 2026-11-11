@@ -169,12 +169,11 @@ def cluster(offers, shop_rank):
         mk = X.model_key(o["name"])
         words = mk.split()
         d = re.sub(r"\W+", " ", o["desc"][:160].lower()).strip()
-        if len(d) >= 60:
-            key = (o["shop"], X.fold(o["brand"]), mk, d)
-        elif len(words) >= 3 and re.search(r"[A-Z0-9]", o["name"][len(words[0]):]):
-            key = (o["shop"], X.fold(o["brand"]), mk, "")
-        else:
+        # merge only when the name carries a real model name ("Postel Ikaros", "Skříň Abi V1"), not just dictionary words and
+        # the brand ("Sit & More rohová sedačka, textil" is the generic name of hundreds of different sofas)
+        if not specific_name(o["name"], o["brand"]):
             continue
+        key = (o["shop"], X.fold(o["brand"]), mk, d if len(d) >= 60 else "")
         if key in mfirst:
             mdsu.union(mfirst[key], r)
         else:
@@ -256,6 +255,24 @@ def cluster(offers, shop_rank):
 
 
 VOCAB = None
+
+
+GENERIC = {"textil", "kuze", "latka", "ekokuze", "samet", "velvet", "boucle", "dub", "buk", "kov", "masiv", "sonoma", "set", "sada", "typ", "model",
+           "levy", "pravy", "levá", "pravá", "rohova", "rohovy", "s", "se", "a", "na", "do", "pro", "z", "ze", "v", "cm", "mm", "ks", "x", "led", "usb"}
+
+
+def specific_name(name, brand):
+    nice_name("")                     # builds VOCAB
+    bt = set(X.fold(brand).split())
+    for t in re.findall(r"[^\W_]+", X.fold(name)):
+        if t in bt or t in VOCAB or t in GENERIC or len(t) < 2:
+            continue
+        if any(rx.search(t) for _, _, rx in X.COLORS_RX) or any(rx.search(t) for _, _, rx in X.MATERIALS_RX):
+            continue
+        if re.fullmatch(r"\d{1,4}(x\d{1,4}){0,2}", t):  # a bare size ("160x200", "90") is not a model name
+            continue
+        return True
+    return False
 
 
 def nice_name(n):

@@ -241,6 +241,7 @@ button,input,select{font:inherit;color:inherit}
 .fitbox output.ok{color:var(--fir-d)}
 .fitbox output.no{color:var(--clay-d)}
 .offers{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.offers>li{flex:none}
 .ticket{display:grid;grid-template-columns:8px minmax(0,1fr) auto auto;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--ink);border-radius:var(--r-s);padding:10px 12px 10px 0;overflow:hidden}
 .ticket .stripe{align-self:stretch;margin:-10px 0}
 .ticket.best1{box-shadow:var(--sh-s)}
@@ -365,7 +366,7 @@ footer .logo img{background:#fff;border-radius:8px;padding:3px}
   .grid,.grid--5{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .pc__b{padding:9px 10px 11px}
   .pc h3{font-size:.88rem}
-  .ptag{padding:3px 8px 3px 14px}
+  .ptag{padding:3px 8px 3px 17px}
   .ptag b{font-size:.92rem}
   .pc__n{font-size:.74rem}
   .band{padding:16px 0 18px}
