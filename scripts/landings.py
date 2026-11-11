@@ -210,6 +210,15 @@ def generated_records(products, by_cat):
                 h1 = pre_c[:1].upper() + pre_c[1:] + " " + h1[:1].lower() + h1[1:]
                 recs.append({"parent": f"/{cat}/{MAT_SLUG[m]}/", "cat": cat, "slug": f"{cat}/{MAT_SLUG[m]}/{COLOR_SLUG[c]}", "h1": h1, "group": f"{cat}-combo",
                              "_pred": (lambda c, m: lambda p: c in p["colors"] and m in p["mats"])(c, m)})
+    # size x feature / material for beds ("postel 160x200 s úložným prostorem" 1 800/month, "čalouněná postel 160x200")
+    for cat in ("postele",):
+        items = by_cat.get(cat, [])
+        for sz, n in Counter(x for p in items for x in p["sizes"]).most_common(5):
+            label = sz.replace("x", "×")
+            for key, val, h1 in (("feats", "s-uloznym-prostorem", f"Postele {label} s úložným prostorem"), ("mats", "masiv", f"Postele {label} z masivu"),
+                                 ("mats", "kov", f"Kovové postele {label}")):
+                recs.append({"parent": f"/{cat}/{sz}/", "cat": cat, "slug": f"{cat}/{sz}/{val}" if key == "feats" else f"{cat}/{sz}/{MAT_SLUG[val]}", "h1": h1,
+                             "group": f"{cat}-size-combo", "_pred": (lambda sz, key, val: lambda p: sz in p["sizes"] and val in p[key])(sz, key, val)})
     return recs
 
 
