@@ -106,9 +106,9 @@ def cj_gql(query):
 
 def cj_offers(shop):
     pid = os.environ.get("CJ_PID") or ""
-    base0 = f'companyId:"{os.environ["CJ_CID"]}", partnerIds:["{shop["advertiser"]}"], currency:"CZK", availability:IN_STOCK'
+    base0 = f'companyId:"{os.environ["CJ_CID"]}", partnerIds:["{shop["advertiser"]}"], currency:"CZK"'
     base = base0
-    fields = ("id itemGroupId title description brand gtin mpn link imageLink additionalImageLink productType ageGroup gender color "
+    fields = ("id itemGroupId title description brand gtin mpn link imageLink additionalImageLink productType availability color "
               f'condition price{{ amount currency }} salePrice{{ amount }} linkCode(pid:"{pid}"){{ clickUrl }}')
     got = {}
     cap, start = 0, 0
@@ -169,6 +169,8 @@ def cj_offers(shop):
         if not path_ok(shop, path):
             continue
         if (p.get("condition") or "new").lower() not in ("new", ""):
+            continue
+        if (p.get("availability") or "").upper().replace(" ", "_") in ("OUT_OF_STOCK", "DISCONTINUED"):     # made-to-order furniture (PREORDER/BACKORDER) stays
             continue
         price = float(p["price"]["amount"])
         sale = float((p.get("salePrice") or {}).get("amount") or 0)

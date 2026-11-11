@@ -206,7 +206,7 @@ button,input,select{font:inherit;color:inherit}
 .sec{margin:38px 0}
 .sec__h{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:14px}
 .sec__h h2{margin:0}
-.sec__h a{font-weight:600;white-space:nowrap}
+.sec__h a{font-weight:600;white-space:nowrap;flex:none}
 .how{background:var(--card);border:1.5px solid var(--ink);border-radius:var(--r);padding:26px}
 .steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:22px;counter-reset:s}
 .steps li{counter-increment:s;position:relative;padding-top:44px}

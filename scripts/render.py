@@ -24,6 +24,8 @@ SWATCH = {"bila": "#FFFFFF", "cerna": "#1E1E1E", "seda": "#9A9C9A", "bezova": "#
 OPERATOR = {"name": "Ha Duy Huy", "address": "Bartáková 36, 140 00 Praha", "ico": "07876823", "ds": "dxmsrdt",
             "vat": "není plátce DPH", "email": "info@vian.cz"}   # public business-register data (ARES), the site operator on legal pages
 LOGO = '<img src="/img/ui/mark-96.webp" alt="" width="40" height="35"><span class="wm">vian</span>'
+FOOT_A = ["sedacky", "rohove-sedacky", "postele", "matrace", "satni-skrine", "jidelni-stoly", "kancelarske-zidle"]
+FOOT_B = ["koberce", "lustry", "zaclony-a-zavesy", "povleceni", "zrcadla"]
 NAV = ["obyvaci-pokoj", "loznice", "jidelna-a-kuchyne", "pracovna", "detsky-pokoj", "predsin", "koupelna", "zahrada", "svitidla", "textil", "dekorace"]
 
 
@@ -181,8 +183,8 @@ class Site:
 <nav class="rooms" aria-label="Místnosti"><div class="wrap"><ul>{nav}</ul></div></nav></header>
 <main id="main">{content}</main>
 <footer><div class="wrap cols"><div class="fabout"><a class="logo" href="/">{LOGO}</a><p>Vian srovnává ceny nábytku a bytových doplňků z {n_shops} českých e‑shopů. Nic neprodáváme: nakoupíte přímo v obchodě za stejnou cenu. Když nakoupíte přes náš odkaz, obchod nám může zaplatit provizi. Z ní web žije a pořadí nabídek neovlivňuje.</p></div>
-<div><h3>Nábytek</h3><ul><li><a href="/sedacky/">Sedačky</a></li><li><a href="/rohove-sedacky/">Rohové sedačky</a></li><li><a href="/postele/">Postele</a></li><li><a href="/matrace/">Matrace</a></li><li><a href="/satni-skrine/">Šatní skříně</a></li><li><a href="/jidelni-stoly/">Jídelní stoly</a></li><li><a href="/kancelarske-zidle/">Kancelářské židle</a></li><li><a href="/kategorie/">Všechny kategorie</a></li></ul></div>
-<div><h3>Bydlení</h3><ul><li><a href="/koberce/">Koberce</a></li><li><a href="/lustry/">Lustry</a></li><li><a href="/zaclony-a-zavesy/">Záclony a závěsy</a></li><li><a href="/povleceni/">Povlečení</a></li><li><a href="/zrcadla/">Zrcadla</a></li><li><a href="/slevy/">Slevy na nábytek</a></li>{"".join(f'<li><a href="{u}">{E(t)}</a></li>' for u, t in self.footer_links)}</ul></div>
+<div><h3>Nábytek</h3><ul>{self.flinks(FOOT_A)}<li><a href="/kategorie/">Všechny kategorie</a></li></ul></div>
+<div><h3>Bydlení</h3><ul>{self.flinks(FOOT_B)}<li><a href="/slevy/">Slevy na nábytek</a></li>{"".join(f'<li><a href="{u}">{E(t)}</a></li>' for u, t in self.footer_links)}</ul></div>
 <div><h3>Vian</h3><ul><li><a href="/jak-srovnavame/">Jak srovnáváme</a></li>{'<li><a href="/poradna/">Poradna</a></li>' if self.has_guides else ""}<li><a href="/obchody/">Obchody</a></li><li><a href="/znacky/">Značky</a></li><li><a href="/kontakt/">Kontakt</a></li><li><a href="/ochrana-osobnich-udaju/">Ochrana osobních údajů</a></li><li><a href="#" id="consent-open">Nastavení cookies</a></li></ul></div></div>
 <div class="wrap fine"><p>Ceny, rozměry a dostupnost přebíráme od obchodů a mohou se změnit; platí údaj v e‑shopu v okamžiku nákupu. Poslední aktualizace {self.stats["updated"]}.</p>
 <p>Provozovatel: {OPERATOR["name"]}, {OPERATOR["address"]}, IČO {OPERATOR["ico"]}, {OPERATOR["vat"]}. <a href="/kontakt/">Kontakt</a> · <a href="mailto:{OPERATOR["email"]}">{OPERATOR["email"]}</a></p></div></footer>
@@ -191,6 +193,10 @@ class Site:
 <script src="/assets/{self.js}" defer></script></body></html>"""
 
     # ------------------------------------------------------------ pieces
+
+    def flinks(self, cats):
+        ok = getattr(self, "cat_ok", None)
+        return "".join(f'<li><a href="/{k}/">{E(X.CATS[k][0])}</a></li>' for k in cats if ok is None or k in ok)
 
     def shop(self, sid):
         return self.shops.get(sid, {"name": sid, "color": "#888"})

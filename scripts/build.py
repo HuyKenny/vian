@@ -173,6 +173,7 @@ def main():
     for p in products:
         p["dup"] = name_count[p["nkey"]] > 1
     gone = C.gone_products(products, state, state.get("snap", {}))
+    products = [p for p in products if p["page"]]      # staging cap: listings must not link pages that are not built
 
     shop_meta = {s["id"]: {"name": s["name"], "color": s.get("color", "#888"), "domain": s["domain"]} for s in shops}
     stats = {"products": len(products), "shops": len(present), "offers": sum(len(p["offers"]) for p in products), "updated": TODAY_CZ}
@@ -202,6 +203,7 @@ def main():
         if p["brand"]:
             by_brand[X.slugify(p["brand"])].append(p)
     S.nav_ok = {r for r in by_room if by_room[r]}
+    S.cat_ok = {k for k in by_cat if by_cat[k]}
     brand_name = {b: Counter(p["brand"] for p in ps).most_common(1)[0][0] for b, ps in by_brand.items()}
     brand_pages = {b: ps for b, ps in by_brand.items() if len(ps) >= 6 and b and b not in X.TREE}
     S.ctx = {"by_cat": by_cat, "brands": brand_pages, "brand_name": brand_name}
@@ -468,7 +470,7 @@ def product_page(S, p):
     sim = [q for q in S.ctx["by_cat"].get(k, []) if q is not p and q["page"] and q["nkey"] != p["nkey"]][:600]
     st = set(p["styles"]) | set(p["mats"][:1])
     sim = sorted(sim, key=lambda q: (abs(q["price"] - p["price"]) / max(p["price"], 1) - 0.25 * len(st & (set(q["styles"]) | set(q["mats"][:1]))) - 0.1 * len(q["offers"])))[:8]
-    sim_html = f'<section class="sec"><div class="sec__h"><h2>Podobné kusy</h2><a href="/{k}/">Vše v kategorii {E(cat_name(k).lower())} →</a></div>{S.grid(sim)}</section>' if sim else ""
+    sim_html = f'<section class="sec"><div class="sec__h"><h2>Podobné kusy</h2><a href="/{k}/">Celá kategorie →</a></div>{S.grid(sim)}</section>' if sim else ""
 
     ld = {"@context": "https://schema.org", "@type": "Product", "name": p["name"], "image": imgs[:3] or None, "url": S.url(f"/produkt/{p['slug']}/"),
           "description": (p["desc"][:300] or p["name"]), "category": cat_name(k),
@@ -759,9 +761,11 @@ def home_page(S, products, by_room, by_cat, sale):
     guides_sec = (f'<section class="sec"><div class="sec__h"><h2>Z poradny</h2><a href="/poradna/">Všechny články →</a></div>' + S.chips([(p, g["h1"], 0) for p, g in list(S.guides.items())[:8]]) + "</section>") if S.guides else ""
     row = lambda ps: '<ul class="grid grid--5">' + "".join(S.card(p) for p in ps) + "</ul>"
     n_txt = f"{st['products']:,}".replace(",", " ")
+    hero_btns = "".join(f'<a class="btn btn--lg {cls}" href="/{k}/">{t}</a>' for k, t, cls in (("rohove-sedacky", "Sedačky", "btn--cta"), ("postele", "Postele", "btn--g"))
+                        if by_cat.get(k))
     body = f"""<section class="hero"><div class="wrap"><div class="hero__t"><p class="eyebrow">Srovnávač nábytku</p><h1>Nábytek, který se vám <em>vejde</em>. Za nejnižší cenu.</h1>
 <p class="lead">{n_txt} kusů nábytku a doplňků z {st['shops']} českých e‑shopů na jednom místě. Filtrujte podle rozměrů v centimetrech, barvy a materiálu a kupte tam, kde je to nejlevnější.</p>
-<div class="row"><a class="btn btn--lg btn--cta" href="/rohove-sedacky/">Sedačky</a><a class="btn btn--g btn--lg" href="/postele/">Postele</a><a class="btn btn--g btn--lg" href="/kategorie/">Vše</a></div>
+<div class="row">{hero_btns}<a class="btn btn--g btn--lg" href="/kategorie/">Vše</a></div>
 <dl class="hero__stats"><div><dt>{n_txt}</dt><dd>kusů v nabídce</dd></div><div><dt>{st['shops']}</dt><dd>obchodů</dd></div><div><dt>denně</dt><dd>nové ceny</dd></div></dl></div>
 <div class="hero__art"><img src="/img/ui/hero-1200.webp" srcset="/img/ui/hero-640.webp 640w, /img/ui/hero-1200.webp 1200w" sizes="(max-width:980px) 92vw, 620px" alt="Obývací pokoj se zelenou sedačkou a svinovacím metrem na podlaze" width="1200" height="583" fetchpriority="high"></div></div></section>
 <div class="wrap"><section class="sec"><div class="sec__h"><h2>Vyberte místnost</h2><a href="/kategorie/">Všechny kategorie →</a></div><ul class="roomtiles">{rooms}</ul></section>
