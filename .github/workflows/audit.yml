@@ -17,7 +17,6 @@ jobs:
     env:
       VIAN_ENV: production
       VIAN_FULL: ${{ inputs.feeds && '1' || '0' }}
-      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
@@ -26,6 +25,7 @@ jobs:
         run: scripts/state.sh pull
         env:
           STATE_KEY: ${{ secrets.STATE_KEY }}
+          GH_TOKEN: ${{ github.token }}
       - name: Fetch XML feeds (no CJ)
         if: inputs.feeds
         timeout-minutes: 60
