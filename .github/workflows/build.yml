@@ -72,7 +72,9 @@ jobs:
           FEEDS_JSON: ${{ secrets.FEEDS_JSON }}
       - name: Freeze the product range (full run, or first run without a snapshot)
         run: |
-          if [ "$VIAN_FULL" = 1 ] || [ ! -d data/weekly ]; then rm -rf data/weekly; cp -r data/raw data/weekly; echo "range frozen"; else echo "range kept from the last weekly run"; fi
+          NEW=$(python3 -c "import sys;sys.path.insert(0,'scripts');import catalog as C;print(' '.join(C.new_shops()))" 2>/dev/null || true)
+          if [ -n "$NEW" ]; then echo "new shops: $NEW -> full run"; echo "VIAN_FULL=1" >> "$GITHUB_ENV"; fi
+          if [ "$VIAN_FULL" = 1 ] || [ ! -d data/weekly ] || [ -n "$NEW" ]; then rm -rf data/weekly; cp -r data/raw data/weekly; echo "range frozen"; else echo "range kept from the last weekly run"; fi
       - name: Blog feature photos (Pexels CDN)
         run: python3 scripts/blog_photos.py
       - name: Build site

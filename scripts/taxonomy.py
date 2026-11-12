@@ -961,3 +961,45 @@ def model_key(name):
     t = VARIANT_WORDS.sub(" ", t)
     t = re.sub(r"[^a-z0-9]+", " ", t).strip()
     return t
+
+
+# ------------------------------------------------------------------ shape and number of seats (listing filters, 12. 11. 2026)
+SHAPE_CATS = {"jidelni-stoly", "konferencni-stolky", "odkladaci-stolky", "zahradni-stoly", "barove-stoly", "koberce", "detske-koberce",
+              "zrcadla", "sedacky", "rohove-sedacky", "zahradni-sestavy", "dekorativni-polstare", "bazeny-a-virivky"}
+SHAPES = [("kulaty", "kulatý", r"\bkulat\w*|\bkruhov\w*|\bkruh\b|\bprumer|ø|⌀"), ("ovalny", "oválný", r"\boval\w*"),
+          ("ctvercovy", "čtvercový", r"\bctverc\w*"), ("obdelnikovy", "obdélníkový", r"\bobdelnik\w*"),
+          ("tvar-l", "rohový do L", r"\bdo l\b|tvar\w* (pismene )?l\b|\bl sedac|rohov"), ("tvar-u", "do U", r"\bdo u\b|tvar\w* (pismene )?u\b|\bu sedac")]
+SHAPES_RX = [(s, l, re.compile(r)) for s, l, r in SHAPES]
+SHAPE_NAME = {s: l for s, l, _ in SHAPES}
+SEAT_CATS = {"sedacky", "rohove-sedacky", "pohovky", "jidelni-sety", "zahradni-sestavy", "lavice"}
+RX_SEATS = re.compile(r"\b(\d{1,2})\s*-?\s*(mistn|mist\b|osob|sed\b|sedad)|\bpro (\d{1,2}) osob|\b(\d)\s*x\s*zidl|\b(\d)\s*zidl")
+SEAT_WORDS = [(2, r"\bdvoj(sed|mist)|\bdvoumist|\bdvoused"), (3, r"\btroj(sed|mist)|\btrimist|\btrojka\b"), (4, r"\bctyr(mist|sed)")]
+
+
+def shapes_of(text, cat):
+    """Shapes a product has, from its titles (folded); only in categories where shape is something people choose by."""
+    if cat not in SHAPE_CATS:
+        return []
+    t = fold(text)
+    out = [s for s, _, rx in SHAPES_RX if rx.search(t)]
+    if cat in ("sedacky", "rohove-sedacky", "zahradni-sestavy"):
+        out = [s for s in out if s in ("tvar-l", "tvar-u")]
+        if cat == "rohove-sedacky" and not out:
+            out = ["tvar-l"]
+    else:
+        out = [s for s in out if s not in ("tvar-l", "tvar-u")]
+    return out[:2]
+
+
+def seats_of(text, cat):
+    """Number of seats (2, 3, 4 = 4 and more) from the title: "3místná", "pro 6 osob", "stůl + 4 židle"."""
+    if cat not in SEAT_CATS:
+        return 0
+    t = fold(text)
+    m = RX_SEATS.search(t)
+    n = 0
+    if m:
+        n = int(next(g for g in (m.group(1), m.group(3), m.group(4), m.group(5)) if g))
+    else:
+        n = next((k for k, rx in SEAT_WORDS if re.search(rx, t)), 0)
+    return min(n, 4) if 2 <= n <= 12 else 0

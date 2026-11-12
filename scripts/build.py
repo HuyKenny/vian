@@ -138,8 +138,14 @@ def facets(items, extra_cats=None, label="Upřesnit"):
     brands = [(i, b, n) for i, (b, n) in enumerate(bc.most_common(60))]
     sc = Counter(o["shop"] for p in items for o in p["offers"])
     widths = sum(1 for p in items if p["wmin"])
+    has = lambda key: sum(1 for p in items if (p.get("dims") or {}).get(key))
+    enough = lambda k: k >= max(6, len(items) * 0.15)
+    sizes = [(z, n) for z, n in Counter(z for p in items for z in p.get("sizes") or []).most_common(14) if n >= 2]
+    seats = sorted(((v, n) for v, n in Counter(p.get("seats") for p in items if p.get("seats")).items() if n >= 2))
     f = {"brand": brands if len(brands) > 1 else [], "shop": sc.most_common(), "colors": cnt("colors"), "mats": cnt("mats")[:14],
-         "styles": cnt("styles"), "feats": cnt("feats"), "width": widths >= max(6, len(items) * 0.3)}
+         "styles": cnt("styles"), "feats": cnt("feats"), "width": widths >= max(6, len(items) * 0.3),
+         "height": enough(has("h")), "depth": enough(has("d")), "sizes": sizes if len(sizes) > 1 else [],
+         "shape": cnt("shape"), "seats": seats if len(seats) > 1 else []}
     if extra_cats:
         f["cats"], f["cats_label"] = extra_cats, label
     return f
@@ -149,7 +155,9 @@ def write_json(out, S, key, items):
     items = items[:JSON_ITEMS]
     bc = [b for b, _ in Counter(p["brand"] for p in items if p["brand"]).most_common(60)]
     bidx = {b: i for i, b in enumerate(bc)}
-    out.write(f"data/l/{key}.json", json.dumps({"b": bc, "i": [S.item_json(p, bidx) for p in items]}, ensure_ascii=False, separators=(",", ":")))
+    shops = {o["shop"] for p in items for o in p["offers"][:1]}
+    out.write(f"data/l/{key}.json", json.dumps({"b": bc, "s": {sid: S.shop(sid)["name"] for sid in sorted(shops)}, "i": [S.item_json(p, bidx) for p in items]},
+                                               ensure_ascii=False, separators=(",", ":")))
     return f"/data/l/{key}.json"
 
 
@@ -211,6 +219,8 @@ def main():
     products.sort(key=pop_key)
     for i, p in enumerate(products):
         p["nkey"] = X.slugify(p["name"])
+        p["shape"] = X.shapes_of(p["name"] + " " + p.get("dry", ""), p["cat"])
+        p["seats"] = X.seats_of(p["name"] + " " + p.get("dry", ""), p["cat"])
         p["page"] = not MAX_PRODUCTS or i < MAX_PRODUCTS
         p["index"] = len(p["offers"]) > 1 or len(p["desc"]) >= 120 or bool(p["variants"])
     name_count = Counter(p["nkey"] for p in products)
@@ -860,8 +870,10 @@ def home_page(S, products, by_room, by_cat, sale):
     styles = S.chips([(L["path"], L["h1"], L["n"]) for L in sorted(hubs, key=lambda L: -L["n"])[:10]])
     guides_sec = (f'<section class="sec"><div class="sec__h"><h2>Z poradny</h2><a href="/poradna/">Všechny články →</a></div>' + S.chips([(p, g["h1"], 0) for p, g in list(S.guides.items())[:8]]) + "</section>") if S.guides else ""
     cnt = Counter(o["shop"] for p in products for o in p["offers"])
-    logos = [R.shop_logo(S.shop(sid)) for sid, _ in cnt.most_common() if S.shop(sid).get("logo")][:14]
-    shop_strip = (f'<section class="sec"><div class="sec__h"><h2>Obchody, které srovnáváme</h2><a href="/obchody/">Všechny obchody →</a></div><ul class="shopstrip">' + "".join(f"<li>{l}</li>" for l in logos) + "</ul></section>") if len(logos) >= 6 else ""
+    top_shops = [sid for sid, _ in cnt.most_common() if S.shop(sid).get("logo")][:21]
+    shop_strip = (f'<section class="sec"><div class="sec__h"><h2>Obchody, které srovnáváme</h2><a href="/obchody/">Všech {len(cnt)} obchodů →</a></div><ul class="shoptiles">'
+                  + "".join(f'<li><a href="/obchody/{sid}/" title="{E(S.shop(sid)["name"])}">{R.shop_logo(S.shop(sid))}</a></li>' for sid in top_shops)
+                  + "</ul></section>") if len(top_shops) >= 6 else ""
     row = lambda ps: '<ul class="grid grid--5">' + "".join(S.card(p) for p in ps) + "</ul>"
     n_txt = f"{st['products']:,}".replace(",", " ")
     hero_btns = "".join(f'<a class="btn btn--lg {cls}" href="/{k}/">{t}</a>' for k, t, cls in (("rohove-sedacky", "Sedačky", "btn--cta"), ("postele", "Postele", "btn--g"))

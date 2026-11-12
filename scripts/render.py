@@ -254,15 +254,22 @@ class Site:
         meta = shops_in(n) + (f" · {nv} {plural(nv, 'varianta', 'varianty', 'variant')}" if nv > 1 else "")
         alt_u = next((img_url(u) for u in p.get("imgs") or [] if u and u != p["img"]), "")
         alt = f' data-alt="{E(alt_u)}"' if alt_u and p["img"] else ""
-        return (f'<li class="pc"><a class="pc__img" href="{href}" tabindex="-1" aria-hidden="true"><img src="{img}" alt=""{load}{alt} referrerpolicy="no-referrer" width="400" height="300">{sale}{tape}</a>'
-                f'<div class="pc__b"><span class="pc__brand">{E(p["brand"])}</span><h3><a href="{href}">{E(p["name"])}</a></h3>'
-                f'{swatches(p.get("colors")) or "<span class=sw></span>"}<div class="pc__f">{self.tag(p["price"], "od" if (n > 1 or nv > 1) else "")}<span class="pc__n">{meta}</span></div></div></li>')
+        best = p["offers"][0]
+        go, ga = E(best["go"]), self.go_attrs(best["shop"])
+        where = ("nejlevněji " if n > 1 else "") + self.shop(best["shop"])["name"]
+        return (f'<li class="pc"><a class="pc__img" href="{go}" {ga} tabindex="-1" aria-hidden="true"><img src="{img}" alt=""{load}{alt} referrerpolicy="no-referrer" width="400" height="300">{sale}{tape}</a>'
+                f'<div class="pc__b"><span class="pc__brand">{E(p["brand"])}</span><h3><a href="{go}" {ga}>{E(p["name"])}</a></h3>'
+                f'{swatches(p.get("colors")) or "<span class=sw></span>"}<div class="pc__f">{self.tag(p["price"], "od" if (n > 1 or nv > 1) else "")}<span class="pc__n">{meta}</span></div>'
+                f'<div class="pc__a"><span class="pc__w">{E(where)}</span><a class="pc__d" href="{href}">Detail</a></div></div></li>')
 
     def item_json(self, p, bidx):
         """Compact row for client-side filtering:
-        [name, slug, img, price, shops, brand#, colors, mats, styles, wmin, wmax, discount, shopids, variants, tape, feats]"""
+        [name, slug, img, price, shops, brand#, colors, mats, styles, wmin, wmax, discount, shopids, variants, tape, feats,
+         go (cheapest offer), its shop, height, depth, sizes, shapes, seats]"""
+        dm = p.get("dims") or {}
         return [p["name"], p["slug"], img_url(p["img"]), p["price"], len(p["offers"]), bidx.get(p["brand"], -1), p["colors"], p["mats"], p["styles"],
-                p["wmin"] or 0, p["wmax"] or 0, self.discount(p), [o["shop"] for o in p["offers"]], len(p.get("variants") or []), self.tape(p), p["feats"]]
+                p["wmin"] or 0, p["wmax"] or 0, self.discount(p), [o["shop"] for o in p["offers"]], len(p.get("variants") or []), self.tape(p), p["feats"],
+                p["offers"][0]["go"], p["offers"][0]["shop"], dm.get("h") or 0, dm.get("d") or 0, p.get("sizes") or [], p.get("shape") or [], p.get("seats") or 0]
 
     def grid(self, items, first_lazy=True, cls="grid"):
         return f'<ul class="{cls}">' + "".join(self.card(p, lazy=first_lazy or i > 3) for i, p in enumerate(items)) + "</ul>"
@@ -292,15 +299,16 @@ class Site:
         self.pending_ld = {"@context": "https://schema.org", "@type": "ItemList", "numberOfItems": len(items),
                            "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": self.url(f'/produkt/{p["slug"]}/'), "name": p["name"]}
                                                for i, p in enumerate(chunk[:24], (cur - 1) * PER_PAGE)]} if chunk else None
-        filt = self.filters(items, facets or {})
+        facets = facets or {}
+        filt = self.filters(items, facets)
         n = len(items)
-        return (f'<div class="layout">{filt}<div class="results"><div class="listhead"><p><b id="count">{n}</b> {plural(n, "kus", "kusy", "kusů")}</p>'
-                f'<button class="btn btn--g ftoggle" type="button" aria-controls="filters">Filtry</button>'
-                f'<label class="sort">Řadit <select id="sort"><option value="pop">nejvíc obchodů</option><option value="price"{" selected" if order == "price" else ""}>nejlevnější</option>'
+        cats = facets.get("cats")
+        refine = (f'<nav class="refine" aria-label="{E(facets.get("cats_label", "Upřesnit"))}"><span>{E(facets.get("cats_label", "Upřesnit"))}:</span>'
+                  + "".join(f'<a href="{u}">{E(t)}</a>' for u, t, _ in cats[:40]) + "</nav>") if cats else ""
+        return (f'<div class="layout">{refine}{filt}<div class="factive" id="factive" hidden></div><div class="results"><div class="listhead"><p><b id="count">{n}</b> {plural(n, "kus", "kusy", "kusů")}</p>'
+                f'<label class="sort">Řadit <select id="sort"><option value="pop">doporučené</option><option value="price"{" selected" if order == "price" else ""}>nejlevnější</option>'
                 f'<option value="pricedesc">nejdražší</option><option value="sale">největší sleva</option></select></label></div>'
-                f'<div class="qf" role="group" aria-label="Rychlé filtry"><button type="button" data-q="sale">Ve slevě</button><button type="button" data-q="multi">Ve více obchodech</button>'
-                + "".join(f'<button type="button" data-q="pmax" data-v="{c}">do {kc(c)}</button>' for c in self.quick_caps(items)) +
-                f'</div><ul class="grid" id="plist" data-json="{json_url}" data-page="{cur}" data-order="{order}">{"".join(self.card(p, lazy=i > 3) for i, p in enumerate(chunk))}</ul>'
+                f'<ul class="grid grid--list" id="plist" data-json="{json_url}" data-page="{cur}" data-order="{order}">{"".join(self.card(p, lazy=i > 3) for i, p in enumerate(chunk))}</ul>'
                 f'{pager_html(path, cur, pages) if path else ""}</div></div>')
 
     @staticmethod
@@ -315,40 +323,61 @@ class Site:
         return sorted({lo, hi})
 
     def filters(self, items, facets):
-        h = '<form class="card filters" id="filters" aria-label="Filtry">'
-        cats = facets.get("cats")
-        if cats:
-            srch = '<input class="fsearch" type="search" placeholder="Hledat" aria-label="Hledat v odkazech">' if len(cats) > 10 else ""
-            h += (f'<fieldset class="fcats"><legend>{E(facets.get("cats_label", "Upřesnit"))}</legend>{srch}<div class="flinks">' + "".join(
-                f'<a href="{u}">{E(t)}{f"<span class=count>{n}</span>" if n else ""}</a>' for u, t, n in cats) + "</div></fieldset>")
+        """Favi-like filter bar: one <form>, every group a <details> pill whose popover holds the inputs; "Všechny filtry" turns
+        the same form into a drawer with all groups open (also the mobile view). app.js filters the category JSON."""
+        def pill(key, label, inner):
+            return (f'<details class="fb" data-g="{key}"><summary>{E(label)}<span class="fb__n"></span></summary><div class="fb__pop">'
+                    f'<fieldset><legend>{E(label)}</legend>{inner}</fieldset><button class="btn fb__ok" type="button">Zobrazit</button></div></details>')
+
+        def rng(name, unit, step, label, show=True):
+            return (f'<div class="fprice">{f"<b>{E(label)}</b>" if show else ""}<input type="number" name="{name}min" min="0" step="{step}" placeholder="od" aria-label="{E(label)} od ({unit})">'
+                    f'<span>–</span><input type="number" name="{name}max" min="0" step="{step}" placeholder="do" aria-label="{E(label)} do ({unit})"><span>{unit}</span></div>')
+
+        def checks(name, vals):
+            return '<div class="flinks">' + "".join(f'<label><input type="checkbox" name="{name}" value="{E(str(v))}"> {E(t)}<span class="count">{n}</span></label>' for v, t, n in vals) + "</div>"
+
+        pills = []
+        caps = self.quick_caps(items)
+        quick = '<div class="fquick">' + "".join(f'<button type="button" data-pmax="{c}">do {kc(c)}</button>' for c in caps) + "</div>" if caps else ""
+        pills.append(pill("price", "Cena", rng("p", "Kč", 100, "Cena", show=False) + quick))
+        dims = ""
         if facets.get("width"):
-            h += ('<fieldset class="fit"><legend>Vejde se to?</legend><p class="muted">Změřte místo a zadejte šířku v cm.</p>'
-                  '<div class="fprice"><input type="number" name="wmin" min="0" step="5" placeholder="od" aria-label="Šířka od (cm)">'
-                  '<span>–</span><input type="number" name="wmax" min="0" step="5" placeholder="do" aria-label="Šířka do (cm)"><span>cm</span></div></fieldset>')
-        h += ('<fieldset><legend>Cena</legend><div class="fprice"><input type="number" name="pmin" min="0" step="100" placeholder="od" aria-label="Cena od (Kč)">'
-              '<span>–</span><input type="number" name="pmax" min="0" step="100" placeholder="do" aria-label="Cena do (Kč)"><span>Kč</span></div></fieldset>')
+            dims += '<p class="muted">Vejde se to? Změřte místo a zadejte rozměr v cm.</p>' + rng("w", "cm", 5, label="Šířka")
+        if facets.get("height"):
+            dims += rng("h", "cm", 5, label="Výška")
+        if facets.get("depth"):
+            dims += rng("d", "cm", 5, label="Hloubka")
+        if facets.get("sizes"):
+            dims += '<p class="fsub">Rozměr</p><div class="fchips">' + "".join(
+                f'<label><input type="checkbox" name="size" value="{E(z)}"><span>{E(z.replace("x", " × "))}</span></label>' for z, n in facets["sizes"]) + "</div>"
+        if dims:
+            pills.append(pill("dims", "Rozměry", dims))
         cols = facets.get("colors")
         if cols:
-            h += '<fieldset><legend>Barva</legend><div class="fsw">' + "".join(
+            pills.append(pill("colors", "Barva", '<div class="fsw">' + "".join(
                 f'<label title="{X.COLOR_NAME[c]}"><input type="checkbox" name="colors" value="{c}"><i style="--c:{SWATCH[c]}"></i><span>{X.COLOR_NAME[c]}</span><span class="count">{n}</span></label>'
-                for c, n in cols) + "</div></fieldset>"
-        for key, legend, names in (("mats", "Materiál", X.MATERIAL_NAME), ("styles", "Styl", X.STYLE_NAME), ("feats", "Provedení", X.FEATURE_NAME)):
+                for c, n in cols) + "</div>"))
+        for key, legend, names in (("mats", "Materiál", X.MATERIAL_NAME), ("styles", "Styl", X.STYLE_NAME), ("shape", "Tvar", X.SHAPE_NAME), ("feats", "Provedení", X.FEATURE_NAME)):
             vals = facets.get(key)
             if vals:
-                h += f'<fieldset><legend>{legend}</legend><div class="flinks">' + "".join(
-                    f'<label><input type="checkbox" name="{key}" value="{v}"> {E(names[v])}<span class="count">{n}</span></label>' for v, n in vals) + "</div></fieldset>"
+                pills.append(pill(key, legend, checks(key, [(v, names[v], n) for v, n in vals])))
+        seats = facets.get("seats")
+        if seats:
+            pills.append(pill("seats", "Počet míst", checks("seats", [(v, f"{v} a více" if v == 4 else f"{v} místa", n) for v, n in seats])))
+        shops = facets.get("shop")
+        if shops and len(shops) > 1:
+            srch = '<input class="fsearch" type="search" placeholder="Hledat obchod" aria-label="Hledat obchod">' if len(shops) > 10 else ""
+            pills.append(pill("shop", "Obchod", srch + checks("shop", [(sid, self.shop(sid)["name"], n) for sid, n in shops])))
         brands = facets.get("brand")
         if brands:
             srch = '<input class="fsearch" type="search" placeholder="Hledat značku" aria-label="Hledat značku">' if len(brands) > 10 else ""
-            h += (f'<fieldset><legend>Značka</legend>{srch}<div class="flinks">' + "".join(
-                f'<label><input type="checkbox" name="brand" value="{i}"> {E(b)}<span class="count">{n}</span></label>' for i, b, n in brands) + "</div></fieldset>")
-        shops = facets.get("shop")
-        if shops and len(shops) > 1:
-            h += '<fieldset><legend>Obchod</legend><div class="flinks">' + "".join(
-                f'<label><input type="checkbox" name="shop" value="{E(s)}"> {E(self.shop(s)["name"])}<span class="count">{n}</span></label>' for s, n in shops) + "</div></fieldset>"
-        h += ('<fieldset><legend>Jen</legend><label><input type="checkbox" name="multi" value="1"> ve více obchodech</label>'
-              '<label><input type="checkbox" name="sale" value="1"> ve slevě</label></fieldset>')
-        return h + '<button class="btn btn--g freset" type="button" hidden>Zrušit filtry</button><div class="fbar"><button class="btn fclose" type="button">Zobrazit</button></div></form>'
+            pills.append(pill("brand", "Značka", srch + checks("brand", [(i, b, n) for i, b, n in brands])))
+        toggles = ('<label class="fbt"><input type="checkbox" name="sale" value="1"><span>Ve slevě</span></label>'
+                   '<label class="fbt"><input type="checkbox" name="multi" value="1"><span>Ve více obchodech</span></label>')
+        return ('<form class="filters" id="filters" aria-label="Filtry"><div class="fhead"><b>Všechny filtry</b><button class="fx" type="button" aria-label="Zavřít">✕</button></div>'
+                '<div class="fbar"><button class="fall" type="button"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M3 5h14M6 10h8M8 15h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Všechny filtry</button>'
+                + "".join(pills) + toggles + '</div><div class="ffoot"><button class="btn btn--g freset" type="button">Zrušit vše</button>'
+                '<button class="btn fclose" type="button">Zobrazit <span class="fcount"></span></button></div></form><div class="fshade" hidden></div>')
 
     def band(self, h1, lead, icon=None, extra=""):
         art = f'<img class="band__ic" src="/img/ic/{icon}.webp" alt="" width="120" height="120">' if icon else ""

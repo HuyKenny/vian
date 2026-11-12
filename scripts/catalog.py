@@ -53,10 +53,18 @@ def img_rank(u):
     return 1
 
 
+def new_shops():
+    """Shops with a fresh feed but no frozen weekly range yet (just added to data/shops.json): their first night is a full run."""
+    if not WEEKLY.exists():
+        return []
+    return sorted(p.name.split(".")[0] for p in RAW.glob("*.jsonl.gz") if not (WEEKLY / p.name).exists())
+
+
 def full_mode():
     """Full run = the range comes straight from the fresh feeds (new products appear, vanished ones go).
-    Otherwise (daily/push runs) the range is the weekly snapshot and today's feeds only refresh price and link."""
-    return os.environ.get("VIAN_FULL") == "1" or not WEEKLY.exists()
+    Otherwise (daily/push runs) the range is the weekly snapshot and today's feeds only refresh price and link.
+    A new shop (fresh feed, nothing frozen) makes the run full too, so it shows up the next night, not next Wednesday."""
+    return os.environ.get("VIAN_FULL") == "1" or not WEEKLY.exists() or bool(new_shops())
 
 
 def todays_prices(path):

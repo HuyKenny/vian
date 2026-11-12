@@ -103,46 +103,64 @@
 
   /* ---------- listing filters ---------- */
   var SW = { bila: "#FFFFFF", cerna: "#1E1E1E", seda: "#9A9C9A", bezova: "#E3D3B8", hneda: "#7A5236", zelena: "#4F7A5A", modra: "#3F6E9E", ruzova: "#E7B3B8", cervena: "#B3322C", zluta: "#E9C24A", oranzova: "#D8743C", zlata: "#C7A043", stribrna: "#C9CCCF" };
-  /* row: [name, slug, img, price, shops, brand#, colors, mats, styles, wmin, wmax, discount, shopids, variants, tape, feats] */
-  function card(it, brands) {
+  /* row: [0 name, 1 slug, 2 img, 3 price, 4 shops, 5 brand#, 6 colors, 7 mats, 8 styles, 9 wmin, 10 wmax, 11 discount, 12 shopids, 13 variants, 14 tape, 15 feats,
+           16 go (cheapest offer), 17 its shop, 18 height, 19 depth, 20 sizes, 21 shapes, 22 seats] */
+  function card(it, brands, shops) {
     var sale = it[11] >= 10 ? '<span class="flag">−' + it[11] + " %</span>" : "";
     var tape = it[14] ? '<span class="tape">' + esc(it[14]) + "</span>" : "";
     var brand = '<span class="pc__brand">' + (it[5] >= 0 && brands[it[5]] ? esc(brands[it[5]]) : "") + "</span>";
     var sw = '<span class="sw">' + (it[6] || []).slice(0, 4).map(function (c) { return '<i style="--c:' + (SW[c] || "#ccc") + '"></i>'; }).join("") + "</span>";
     var nv = it[13] || 0, meta = shopsIn(it[4]) + (nv > 1 ? " · " + nv + (nv < 5 ? " varianty" : " variant") : "");
-    var href = "/produkt/" + it[1] + "/";
-    return '<li class="pc"><a class="pc__img" href="' + href + '" tabindex="-1" aria-hidden="true"><img src="' + esc(it[2] || "/img/ui/placeholder.svg") + '" alt="" loading="lazy" referrerpolicy="no-referrer" width="400" height="300">' + sale + tape + "</a>" +
-      '<div class="pc__b">' + brand + '<h3><a href="' + href + '">' + esc(it[0]) + "</a></h3>" + sw + '<div class="pc__f"><span class="ptag">' + ((it[4] > 1 || nv > 1) ? "<small>od</small>" : "") + "<b>" + kc(it[3]) + "</b></span>" +
-      '<span class="pc__n">' + meta + "</span></div></div></li>";
+    var detail = "/produkt/" + it[1] + "/";
+    /* like Favi: the card goes straight to the shop, "Detail" to our product page (search rows have no shop link: detail) */
+    var go = it[16] ? esc(it[16]) : detail;
+    var ga = it[16] ? ' rel="sponsored nofollow noopener" target="_blank" data-go="' + esc(it[17]) + '"' : "";
+    var sname = it[17] && shops && shops[it[17]] ? shops[it[17]] : "";
+    var where = sname ? (it[4] > 1 ? "nejlevněji " : "") + esc(sname) : "";
+    return '<li class="pc"><a class="pc__img" href="' + go + '"' + ga + ' tabindex="-1" aria-hidden="true"><img src="' + esc(it[2] || "/img/ui/placeholder.svg") + '" alt="" loading="lazy" referrerpolicy="no-referrer" width="400" height="300">' + sale + tape + "</a>" +
+      '<div class="pc__b">' + brand + '<h3><a href="' + go + '"' + ga + ">" + esc(it[0]) + "</a></h3>" + sw + '<div class="pc__f"><span class="ptag">' + ((it[4] > 1 || nv > 1) ? "<small>od</small>" : "") + "<b>" + kc(it[3]) + "</b></span>" +
+      '<span class="pc__n">' + meta + "</span></div>" +
+      '<div class="pc__a"><span class="pc__w">' + where + '</span><a class="pc__d" href="' + detail + '">Detail</a></div></div></li>';
   }
   var list = $("#plist"), form = $("#filters");
   if (list && form) {
-    var data = null, shown = 36, sortSel = $("#sort"), count = $("#count"), pager = $(".pager"), reset = $(".freset", form);
+    var data = null, shown = 36, sortSel = $("#sort"), count = $("#count"), pager = $(".pager"), chipsBox = $("#factive"), shade = $(".fshade");
+    var RANGES = [["p", "Cena", "Kč"], ["w", "Šířka", "cm"], ["h", "Výška", "cm"], ["d", "Hloubka", "cm"]];
+    var LISTS = ["brand", "shop", "colors", "mats", "styles", "feats", "size", "shape", "seats"];
+    var num = function (n) { var el = form.elements[n]; return el ? (+el.value || 0) : 0; };
     var active = function () {
-      var f = { brand: [], shop: [], colors: [], mats: [], styles: [], feats: [], multi: false, sale: false, pmin: 0, pmax: 0, wmin: 0, wmax: 0 };
+      var f = { multi: false, sale: false };
+      LISTS.forEach(function (k) { f[k] = []; });
       $$("input[type=checkbox]:checked", form).forEach(function (c) { if (Array.isArray(f[c.name])) f[c.name].push(c.value); else f[c.name] = true; });
-      f.pmin = +form.pmin.value || 0; f.pmax = +form.pmax.value || 0;
-      if (form.wmin) { f.wmin = +form.wmin.value || 0; f.wmax = +form.wmax.value || 0; }
+      RANGES.forEach(function (r) { f[r[0] + "min"] = num(r[0] + "min"); f[r[0] + "max"] = num(r[0] + "max"); });
       return f;
     };
-    var isDefault = function (f) { return !f.brand.length && !f.shop.length && !f.colors.length && !f.mats.length && !f.styles.length && !f.feats.length && !f.multi && !f.sale && !f.pmin && !f.pmax && !f.wmin && !f.wmax && sortSel.value === (list.dataset.order || "pop"); };
-    var any = function (have, want) { return !want.length || (have || []).some(function (x) { return want.indexOf(x) >= 0; }); };
+    var isEmpty = function (f) {
+      return !f.multi && !f.sale && LISTS.every(function (k) { return !f[k].length; }) && RANGES.every(function (r) { return !f[r[0] + "min"] && !f[r[0] + "max"]; });
+    };
+    var isDefault = function (f) { return isEmpty(f) && sortSel.value === (list.dataset.order || "pop"); };
+    var any = function (have, want) { return !want.length || (have || []).some(function (x) { return want.indexOf(String(x)) >= 0; }); };
+    var inRange = function (v, lo, hi) { return !(lo || hi) || (v && (!lo || v >= lo) && (!hi || v <= hi)); };
+    var fcount = $(".fcount", form);
     var apply = function () {
       var f = active();
+      syncUi(f);
       if (isDefault(f) && !data) return;
       (data ? Promise.resolve(data) : getJSON(list.dataset.json)).then(function (d) {
         data = d;
         var items = d.i.filter(function (it) {
           if (f.multi && it[4] < 2) return false;
           if (f.sale && it[11] < 10) return false;
-          if (f.pmin && it[3] < f.pmin) return false;
-          if (f.pmax && it[3] > f.pmax) return false;
+          if (!inRange(it[3], f.pmin, f.pmax)) return false;
           if ((f.wmin || f.wmax) && !it[9]) return false;          /* width unknown: hide it, we cannot promise it fits */
           if (f.wmax && it[9] > f.wmax) return false;              /* the narrowest variant must fit */
           if (f.wmin && it[10] < f.wmin) return false;
+          if (!inRange(it[18], f.hmin, f.hmax) || !inRange(it[19], f.dmin, f.dmax)) return false;
           if (f.brand.length && f.brand.indexOf(String(it[5])) < 0) return false;
           if (f.shop.length && !any(it[12], f.shop)) return false;
           if (!any(it[6], f.colors) || !any(it[7], f.mats) || !any(it[8], f.styles) || !any(it[15], f.feats)) return false;
+          if (!any(it[20], f.size) || !any(it[21], f.shape)) return false;
+          if (f.seats.length && f.seats.indexOf(String(it[22] || "")) < 0) return false;
           return true;
         });
         var s = sortSel.value;
@@ -150,11 +168,11 @@
         else if (s === "pricedesc") items.sort(function (a, b) { return b[3] - a[3]; });
         else if (s === "sale") items.sort(function (a, b) { return b[11] - a[11]; });
         count.textContent = items.length;
+        if (fcount) fcount.textContent = items.length + (items.length === 1 ? " kus" : items.length < 5 && items.length ? " kusy" : " kusů");
         var def = isDefault(f);
         if (pager) pager.style.display = def ? "" : "none";
-        reset.hidden = def;
         if (def) { location.reload(); return; }
-        list.innerHTML = items.length ? items.slice(0, shown).map(function (it) { return card(it, d.b); }).join("") :
+        list.innerHTML = items.length ? items.slice(0, shown).map(function (it) { return card(it, d.b, d.s); }).join("") :
           '<li class="empty"><img src="/img/ic/kreslo.webp" alt="" width="120" height="120"><p>Takovou kombinaci teď nemáme. Zkuste uvolnit filtry nebo rozměr.</p></li>';
         var more = $("#lmore");
         if (items.length > shown) {
@@ -163,37 +181,60 @@
         } else if (more) more.remove();
       });
     };
+    /* pill counters + chips of the active filters ("bílá ✕", "Cena do 5 000 Kč ✕", "Zrušit vše") */
+    var labelOf = function (c) { var l = c.closest("label"); if (!l) return c.value; var t = l.cloneNode(true); $$(".count", t).forEach(function (x) { x.remove(); }); return t.textContent.trim(); };
+    var syncUi = function (f) {
+      $$(".fb", form).forEach(function (fb) {
+        var n = $$("input[type=checkbox]:checked", fb).length + $$("input[type=number]", fb).filter(function (i) { return +i.value; }).length;
+        $(".fb__n", fb).textContent = n ? " · " + n : "";
+        fb.classList.toggle("on", !!n);
+      });
+      $$(".fbt", form).forEach(function (l) { l.classList.toggle("on", $("input", l).checked); });
+      if (!chipsBox) return;
+      var chips = [];
+      $$("input[type=checkbox]:checked", form).forEach(function (c) { chips.push(['<button type="button" data-c="' + esc(c.name) + '|' + esc(c.value) + '">' + esc(labelOf(c)) + " ✕</button>"]); });
+      RANGES.forEach(function (r) {
+        var lo = f[r[0] + "min"], hi = f[r[0] + "max"];
+        if (!lo && !hi) return;
+        var fmt = function (v) { return r[2] === "Kč" ? kc(v) : v + " cm"; };
+        var t = r[1] + " " + (lo && hi ? fmt(lo).replace(" Kč", "") + "–" + fmt(hi) : lo ? "od " + fmt(lo) : "do " + fmt(hi));
+        chips.push(['<button type="button" data-r="' + r[0] + '">' + esc(t) + " ✕</button>"]);
+      });
+      chipsBox.innerHTML = chips.join("") + (chips.length ? '<button type="button" class="clr" data-all="1">Zrušit vše</button>' : "");
+      chipsBox.hidden = !chips.length;
+    };
+    chipsBox && chipsBox.addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return;
+      if (b.dataset.all) { form.reset(); }
+      else if (b.dataset.r) { form.elements[b.dataset.r + "min"].value = ""; form.elements[b.dataset.r + "max"].value = ""; }
+      else { var p = b.dataset.c.split("|"); $$('input[name="' + p[0] + '"]', form).forEach(function (c) { if (c.value === p.slice(1).join("|")) c.checked = false; }); }
+      shown = 36; apply();
+    });
     form.addEventListener("change", function () { shown = 36; apply(); });
     var wt;
-    $$('input[name="wmin"], input[name="wmax"], input[name="pmin"], input[name="pmax"]', form).forEach(function (i) { i.addEventListener("input", function () { clearTimeout(wt); wt = setTimeout(function () { shown = 36; apply(); }, 350); }); });
+    $$("input[type=number]", form).forEach(function (i) { i.addEventListener("input", function () { clearTimeout(wt); wt = setTimeout(function () { shown = 36; apply(); }, 350); }); });
     sortSel && sortSel.addEventListener("change", function () { shown = 36; apply(); });
     $$(".fquick button", form).forEach(function (b) {
-      b.addEventListener("click", function () { form.pmax.value = b.classList.contains("on") ? "" : b.dataset.pmax; $$(".fquick button", form).forEach(function (x) { x.classList.toggle("on", x === b && form.pmax.value); }); apply(); });
+      b.addEventListener("click", function () { form.pmax.value = b.classList.contains("on") ? "" : b.dataset.pmax; $$(".fquick button", form).forEach(function (x) { x.classList.toggle("on", x === b && form.pmax.value); }); shown = 36; apply(); });
     });
-    var qf = $$(".qf button");
-    var qsync = function () {
-      qf.forEach(function (b) {
-        var q = b.dataset.q, on = q === "pmax" ? +form.pmax.value === +b.dataset.v : q === "sort" ? sortSel.value === b.dataset.v : form.elements[q].checked;
-        b.classList.toggle("on", on); b.setAttribute("aria-pressed", on);
-      });
-    };
-    qf.forEach(function (b) {
-      b.addEventListener("click", function () {
-        var q = b.dataset.q, on = b.classList.contains("on");
-        if (q === "pmax") form.pmax.value = on ? "" : b.dataset.v;
-        else if (q === "sort") sortSel.value = on ? (list.dataset.order || "pop") : b.dataset.v;
-        else form.elements[q].checked = !on;
-        shown = 36; qsync(); apply();
-      });
-    });
-    form.addEventListener("change", qsync); sortSel && sortSel.addEventListener("change", qsync);
-    reset.addEventListener("click", function () { form.reset(); sortSel.value = list.dataset.order || "pop"; location.reload(); });
+    $$(".freset", form).forEach(function (r) { r.addEventListener("click", function () { form.reset(); shown = 36; apply(); }); });
     $$(".fsearch", form).forEach(function (fs) {
-      fs.addEventListener("input", function () { var w = fold(fs.value); $$(".flinks label, .flinks a", fs.parentNode).forEach(function (l) { l.style.display = fold(l.textContent).indexOf(w) >= 0 ? "" : "none"; }); });
+      fs.addEventListener("input", function () { var w = fold(fs.value); $$(".flinks label", fs.parentNode).forEach(function (l) { l.style.display = fold(l.textContent).indexOf(w) >= 0 ? "" : "none"; }); });
     });
-    var tg = $(".ftoggle"), close = $(".fclose", form);
-    tg && tg.addEventListener("click", function () { form.classList.add("open"); document.body.style.overflow = "hidden"; });
-    close && close.addEventListener("click", function () { form.classList.remove("open"); document.body.style.overflow = ""; });
+    /* popovers: one open at a time, close on click outside / Esc / "Zobrazit" */
+    var pills = $$(".fb", form);
+    var closePills = function (except) { pills.forEach(function (p) { if (p !== except) p.open = false; }); };
+    pills.forEach(function (p) { p.addEventListener("toggle", function () { if (p.open && !form.classList.contains("all")) closePills(p); }); });
+    $$(".fb__ok", form).forEach(function (b) { b.addEventListener("click", function () { closePills(); }); });
+    document.addEventListener("click", function (e) { if (!form.classList.contains("all") && !e.target.closest(".fb")) closePills(); });
+    /* "Všechny filtry": the same form as a drawer, every group open */
+    var openAll = function () { form.classList.add("all"); pills.forEach(function (p) { p.open = true; }); if (shade) shade.hidden = false; document.body.style.overflow = "hidden"; apply(); };
+    var closeAll = function () { form.classList.remove("all"); closePills(); if (shade) shade.hidden = true; document.body.style.overflow = ""; };
+    $$(".fall", form).forEach(function (b) { b.addEventListener("click", openAll); });
+    $$(".fx, .fclose", form).forEach(function (b) { b.addEventListener("click", closeAll); });
+    shade && shade.addEventListener("click", closeAll);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") { if (form.classList.contains("all")) closeAll(); else closePills(); } });
+    syncUi(active());
   }
 
   /* ---------- product page ---------- */
