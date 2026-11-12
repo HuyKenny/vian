@@ -324,8 +324,11 @@ R = lambda s: re.compile(s, I)
 TITLE_RULES = [
     # v2 categories (12. 11. 2026)
     ("police", R(r"\bpolic[eiy]?\b|nastenn\w* polic|\bpolick|\bpolicka")),
-    ("odkladaci-stolky", R(r"(odkladac|prirucn|kavov|sofa|boc)\w* (stol|stolek|stolk|stul)")),
-    ("konzolove-stolky", R(r"konzolov\w* (stol|stolek|stolk)|\bkonzol[ae]\b")),
+    ("odkladaci-stolky", R(r"(odkladac|prirucn|kavov|sofa|boc)\w* (stolek|stolk|stol|stul)")),
+    # brackets are not console tables: shelf brackets -> hardware, washbasin/countertop supports -> bathroom accessories
+    ("kliky-a-kovani", R(r"\bkonzol\w* (na|pro|pod) polic|\bpolicov\w* konzol|\bnastenn\w* konzol(?!ov\w* stol)")),
+    ("koupelnove-doplnky", R(r"\b(podpern|nosn|skryt)\w* (podpern\w* )?konzol|\bkonzol\w* (pro|pod|k|na) (desk|umyvad)")),
+    ("konzolove-stolky", R(r"konzolov\w* (stolek|stolk|stol)|\bkonzol[ae]\b")),
     ("truhly", R(r"\btruhl[ay]\b|\btruhlic|\bbedna\b|\bbedn[ey]\b")),
     ("paravany", R(r"\bparavan|delic\w* (sten|panel|prick)|\bparaván")),
     ("biokrby", R(r"\bbiokrb|\bbio krb|elektrick\w* krb|\bkrb\b|krbov\w* (vlozk|nara|sada|zasten|kos|kamn)|kos na drev|\bkamna\b")),
@@ -442,7 +445,7 @@ TITLE_RULES = [
     # children (before generic furniture)
     ("detske-postele", R(r"detsk\w* (postel|postylk|lozk)|patrov\w* postel|postel pro deti|domeckov\w* postel|\bpostyl|kolebk|kolisk|junior postel|postel (s|se) skluzavk|vyvysen\w* postel")),
     ("detske-pokoje", R(r"(detsk|studentsk)\w* (pokoj|sestav)")),
-    ("detske-stolky-a-zidle", R(r"(detsk|studentsk|rostouc)\w* (stul|stol|stolek|stolecek|zidl|zidlick|kreslo|kreslick|sedack|stolick)")),
+    ("detske-stolky-a-zidle", R(r"(detsk|studentsk|rostouc)\w* (stolecek|stolek|stolick|stul|stol|zidlick|zidl|kreslick|kreslo|sedack)")),
     ("detske-skrine-a-ulozne-boxy", R(r"detsk\w* (skrin|komod|regal|knihovn|polic|satn)|(organizer|organizer|box|kos|truhla|regal) na hrack")),
     ("detske-dekorace", R(r"(do|pro) detsk\w* pokoj|detsk\w* (dekorac|obraz|samolepk|tapet|vesak|hodiny)")),
     # office & gaming
@@ -472,10 +475,10 @@ TITLE_RULES = [
     ("tv-stolky", R(r"\btv box|\btv\b.*(stol|skrin|komod|lavic|regal|nabytek|sten)|televizn\w* (stol|skrin|komod)|(stolek|skrinka|komoda|lavice) (pod|na) (tv|televiz)")),
     ("obyvaci-steny", R(r"obyvac\w* (sten|sestav|nabytek|program)|nabytkov\w* (sestav|sten)|\bobyvak\b")),
     ("vitriny", R(r"vitrin")),
-    ("konferencni-stolky", R(r"konferencn\w* (stol|stolek|stolk|stul)|^(\w+ ){0,1}stolek\b|stolek (do obyvak|ke gauc|k sedac)")),
+    ("konferencni-stolky", R(r"konferencn\w* (stolek|stolk|stol|stul)|stolek (do obyvak|ke gauc|k sedac)")),
     # bedroom
-    ("toaletni-stolky", R(r"(toaletn|kosmetick)\w* (stol|stolek)|\btoaletk")),
-    ("nocni-stolky", R(r"nocn\w* (stol|stolek|skrin)")),
+    ("toaletni-stolky", R(r"(toaletn|kosmetick)\w* (stolek|stol)|\btoaletk")),
+    ("nocni-stolky", R(r"nocn\w* (stolek|stol|skrin)")),
     ("rosty", R(r"\brost(y|u|em)?\b(?!.*\bs rostem)|lamelov\w* rost|postelov\w* rost")),
     ("matrace", R(r"\bmatrac|\bpristylk")),
     ("postele", R(r"\bpostel|\blozk|jednoluzk|dvouluzk|manzelsk\w* (postel|lozk)|\bloznice\b")),
@@ -517,6 +520,8 @@ TITLE_RULES = [
     # leftover lighting words
     ("stropni-svitidla", R(r"\bsvitidl|\bsvetlo\b")),
     ("stolni-lampy", R(r"\blampa\b|\blampy\b")),
+    # bare "Stolek Ben" / "Brand stolek X" = coffee table; last, so "Noční stolek" ties go to the specific rule above
+    ("konferencni-stolky", R(r"^(\w+ ){0,1}stolek\b")),
 ]
 
 # shop category path -> category, when the title alone said nothing (paths are folded too)

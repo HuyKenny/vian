@@ -170,7 +170,8 @@ def load_offers(shops):
                 "img": "" if s.get("no_images") else https(r.get("img")),
                 "imgs": [] if s.get("no_images") else [https(u) for u in r.get("imgs") or [] if u][:4],
                 "price": round(price), "was": round(float(r.get("was") or 0)), "url": r.get("url") or "", "go": r["go"],
-                "cat": cat, "path": r.get("cat") or "", "dims": X.dims(r["t"], desc, cat),
+                "cat": cat, "cw": 2 if verdict[1] and verdict[0] == cat else 1,   # the title itself names the category: its vote counts double
+                "path": r.get("cat") or "", "dims": X.dims(r["t"], desc, cat),
                 "colors": colors, "mats": mats, "styles": styles, "feats": feats,
             })
         for path, c in per_path.items():
@@ -352,7 +353,9 @@ def cluster(offers, shop_rank):
         else:
             name = nice_name(rep["title"] if not rep["params"] else rep["name"])
         brands = Counter(o["brand"] for o in allo if o["brand"])
-        cats = Counter(o["cat"] for o in allo)
+        cats = Counter()     # one shop's title says "TV stolek", the other files it under its own category: the title wins
+        for o in allo:
+            cats[o["cat"]] += o.get("cw", 1)
         desc = max((o["desc"] for o in allo), key=len)
         img = next((o["img"] for o in sorted(allo, key=lambda o: (img_rank(o["img"]), o["price"])) if o["img"]), "")
         imgs = []
