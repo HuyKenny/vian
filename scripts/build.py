@@ -317,6 +317,17 @@ def main():
     js_name = f"app.{hashlib.md5(js).hexdigest()[:8]}.js"
     out.write("assets/" + css_name, css)
     out.write("assets/" + js_name, js)
+    # earlier CSS/JS stay online: HTML cached in browsers or at the edge keeps its styles after a deploy (12. 11. 2026)
+    keep = state.setdefault("assets", {})
+    for name, data in ((css_name, css), (js_name, js)):
+        keep.setdefault(name, {"day": DAY, "b64": base64.b64encode(data).decode()})
+    for kind in ("site.", "app."):
+        old = sorted((n for n in keep if n.startswith(kind)), key=lambda n: keep[n]["day"])
+        for n in old[:-4]:
+            keep.pop(n)
+    for name, rec in keep.items():
+        if name not in (css_name, js_name) and not (DIST / "assets" / name).exists():
+            out.write("assets/" + name, base64.b64decode(rec["b64"]))
     S = R.Site(BASE, ENV, GA4, css_name, js_name, shop_meta, stats)
     go_js = f"go.{hashlib.md5(GO_JS.encode()).hexdigest()[:8]}.js"
     out.write("assets/" + go_js, GO_JS)
