@@ -259,11 +259,11 @@ ICON.update({"rohove-sedacky": "rohova-sedacka", "taburety-a-sedaci-vaky": "tabu
              "umele-kvetiny": "kvetinac", "ulozne-boxy-a-kose": "komoda", "stropni-svitidla": "lustr", "venkovni-svitidla": "zahrada",
              "rucniky-a-osusky": "koupelna", "potahy-na-nabytek": "sofa"})
 # sheets 3 and 4 (Canva, 12. 11. 2026): icons for the v2 departments and categories
-ICON.update({"kuchyne-a-stolovani": "hrnec", "spotrebice": "kavovar", "podlahy-a-kovani": "podlaha", "domacnost": "uklid",
-             "vanoce-a-svatky": "vanocni-stromek", "hrnce": "hrnec", "panve": "panev", "pekace-a-formy": "hrnec",
-             "kuchynske-noze": "noze", "prkenka": "noze", "kuchynske-nacini": "hrnec", "talire": "stolovani",
+ICON.update({"kuchyne-a-stolovani": "kuchyne-hrnec", "spotrebice": "kavovar", "podlahy-a-kovani": "podlaha", "domacnost": "uklid",
+             "vanoce-a-svatky": "vanocni-stromek", "hrnce": "kuchyne-hrnec", "panve": "panev", "pekace-a-formy": "kuchyne-hrnec",
+             "kuchynske-noze": "noze", "prkenka": "noze", "kuchynske-nacini": "kuchyne-hrnec", "talire": "stolovani",
              "hrnky-a-salky": "stolovani", "sklenice": "stolovani", "pribory": "stolovani", "tacy-a-podnosy": "stolovani",
-             "skladovani-potravin": "hrnec", "termosky-a-lahve": "stolovani", "kuchynsky-textil": "stolovani", "drezy": "drez",
+             "skladovani-potravin": "kuchyne-hrnec", "termosky-a-lahve": "stolovani", "kuchynsky-textil": "stolovani", "drezy": "drez",
              "kuchynske-baterie": "drez", "odpadkove-kose": "uklid", "kuchynske-doplnky": "noze", "kavovary": "kavovar",
              "rychlovarne-konvice": "kavovar", "mixery-a-roboty": "mixer", "odstavnovace": "mixer", "toustovace-a-grily": "kavovar",
              "fritezy": "mixer", "drobne-kuchynske-spotrebice": "mixer", "digestore": "kavovar", "vysavace": "uklid",
