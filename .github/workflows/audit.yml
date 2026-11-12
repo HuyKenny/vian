@@ -92,7 +92,7 @@ jobs:
           echo '### SEO lint' >> "$GITHUB_STEP_SUMMARY"; echo '```' >> "$GITHUB_STEP_SUMMARY"
           python3 -c "import json;d=json.load(open('/tmp/audit/seo-report.json'));print({k:d[k] for k in ('pages','products','indexable','in_sitemap')});[print('HARD',k,v['count'],v['examples'][:3]) for k,v in d['hard'].items()];[print('soft',k,v['count'],v['examples'][:2]) for k,v in d['soft'].items()]" >> "$GITHUB_STEP_SUMMARY" 2>&1 || true
           echo '```' >> "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
         if: always()
         with:
           name: audit
