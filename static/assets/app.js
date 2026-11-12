@@ -1,3 +1,4 @@
+/* v2026-11-12b */
 /* vian.cz — search, listing filters (incl. width in cm), "does it fit" calculator, gallery, consent + GA4 click events. No dependencies, no tracking without consent. */
 (function () {
   "use strict";
