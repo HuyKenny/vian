@@ -23,7 +23,8 @@ SWATCH = {"bila": "#FFFFFF", "cerna": "#1E1E1E", "seda": "#9A9C9A", "bezova": "#
           "ruzova": "#E7B3B8", "cervena": "#B3322C", "zluta": "#E9C24A", "oranzova": "#D8743C", "zlata": "#C7A043", "stribrna": "#C9CCCF"}
 OPERATOR = {"name": "Ha Duy Huy", "address": "Bartáková 36, 140 00 Praha", "ico": "07876823", "ds": "dxmsrdt",
             "vat": "není plátce DPH", "email": "info@vian.cz"}   # public business-register data (ARES), the site operator on legal pages
-LOGO = '<img src="/img/ui/mark-96.webp" alt="" width="40" height="35"><span class="wm">vian</span>'
+LOGO = '<img src="/img/ui/logo.svg" alt="vian" width="110" height="60">'
+LOGO_LIGHT = '<img src="/img/ui/logo-light.svg" alt="vian" width="110" height="60">'
 FOOT_A = ["sedacky", "rohove-sedacky", "postele", "matrace", "satni-skrine", "jidelni-stoly", "kancelarske-zidle"]
 FOOT_B = ["koberce", "lustry", "zaclony-a-zavesy", "povleceni", "zrcadla"]
 NAV = ["obyvaci-pokoj", "loznice", "jidelna-a-kuchyne", "pracovna", "detsky-pokoj", "predsin", "koupelna", "zahrada", "svitidla", "textil", "dekorace"]
@@ -174,7 +175,7 @@ class Site:
         return f"""<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}"><link rel="canonical" href="{self.url(path)}"><meta name="robots" content="{robots}">
 <meta property="og:title" content="{E(title)}"><meta property="og:description" content="{E(desc)}"><meta property="og:url" content="{self.url(path)}"><meta property="og:type" content="website"><meta property="og:locale" content="cs_CZ"><meta property="og:site_name" content="Vian"><meta property="og:image" content="{E(og)}"><meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#2F5D50"><link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192"><link rel="apple-touch-icon" href="/favicon-180.png"><link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#2F5D50"><link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192"><link rel="apple-touch-icon" href="/favicon-180.png"><link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/fonts/fraunces-cs.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/onest-cs.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/assets/{self.css}">{pre}{SPECULATION}{ga}{head_ld}</head><body>
 <a class="skip" href="#main">Přeskočit na obsah</a>
 <header class="top"><div class="wrap"><a class="logo" href="/" aria-label="Vian – úvod">{LOGO}</a>
@@ -182,7 +183,7 @@ class Site:
 <nav class="hl" aria-label="Rychlé odkazy"><a href="/slevy/">Slevy</a>{'<a href="/poradna/">Poradna</a>' if self.has_guides else ""}</nav></div>
 <nav class="rooms" aria-label="Místnosti"><div class="wrap"><ul>{nav}</ul></div></nav></header>
 <main id="main">{content}</main>
-<footer><div class="wrap cols"><div class="fabout"><a class="logo" href="/">{LOGO}</a><p>Vian srovnává ceny nábytku a bytových doplňků z {n_shops} českých e‑shopů. Nic neprodáváme: nakoupíte přímo v obchodě za stejnou cenu. Když nakoupíte přes náš odkaz, obchod nám může zaplatit provizi. Z ní web žije a pořadí nabídek neovlivňuje.</p></div>
+<footer><div class="wrap cols"><div class="fabout"><a class="logo" href="/">{LOGO_LIGHT}</a><p>Vian srovnává ceny nábytku a bytových doplňků z {n_shops} českých e‑shopů. Nic neprodáváme: nakoupíte přímo v obchodě za stejnou cenu. Když nakoupíte přes náš odkaz, obchod nám může zaplatit provizi. Z ní web žije a pořadí nabídek neovlivňuje.</p></div>
 <div><h3>Nábytek</h3><ul>{self.flinks(FOOT_A)}<li><a href="/kategorie/">Všechny kategorie</a></li></ul></div>
 <div><h3>Bydlení</h3><ul>{self.flinks(FOOT_B)}<li><a href="/slevy/">Slevy na nábytek</a></li>{"".join(f'<li><a href="{u}">{E(t)}</a></li>' for u, t in self.footer_links)}</ul></div>
 <div><h3>Vian</h3><ul><li><a href="/jak-srovnavame/">Jak srovnáváme</a></li>{'<li><a href="/poradna/">Poradna</a></li>' if self.has_guides else ""}<li><a href="/obchody/">Obchody</a></li><li><a href="/znacky/">Značky</a></li><li><a href="/kontakt/">Kontakt</a></li><li><a href="/ochrana-osobnich-udaju/">Ochrana osobních údajů</a></li><li><a href="#" id="consent-open">Nastavení cookies</a></li></ul></div></div>
@@ -237,9 +238,9 @@ class Site:
         meta = shops_in(n) + (f" · {nv} {plural(nv, 'varianta', 'varianty', 'variant')}" if nv > 1 else "")
         alt_u = next((img_url(u) for u in p.get("imgs") or [] if u and u != p["img"]), "")
         alt = f' data-alt="{E(alt_u)}"' if alt_u and p["img"] else ""
-        return (f'<li class="pc"><a class="pc__img" href="{href}" tabindex="-1" aria-hidden="true"><img src="{img}" alt=""{load}{alt} referrerpolicy="no-referrer" width="320" height="320">{sale}{tape}</a>'
-                f'<div class="pc__b">{f"<span class=pc__brand>{E(p["brand"])}</span>" if p["brand"] else ""}<h3><a href="{href}">{E(p["name"])}</a></h3>'
-                f'{swatches(p.get("colors"))}<div class="pc__f">{self.tag(p["price"], "od" if (n > 1 or nv > 1) else "")}<span class="pc__n">{meta}</span></div></div></li>')
+        return (f'<li class="pc"><a class="pc__img" href="{href}" tabindex="-1" aria-hidden="true"><img src="{img}" alt=""{load}{alt} referrerpolicy="no-referrer" width="400" height="300">{sale}{tape}</a>'
+                f'<div class="pc__b"><span class="pc__brand">{E(p["brand"])}</span><h3><a href="{href}">{E(p["name"])}</a></h3>'
+                f'{swatches(p.get("colors")) or "<span class=sw></span>"}<div class="pc__f">{self.tag(p["price"], "od" if (n > 1 or nv > 1) else "")}<span class="pc__n">{meta}</span></div></div></li>')
 
     def item_json(self, p, bidx):
         """Compact row for client-side filtering:
@@ -257,6 +258,14 @@ class Site:
         data = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
             {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", "", a)}} for q, a in qa]}
         return h, data
+
+    def tiles(self, cats, cls="subtiles", size=56):
+        """Equal tiles (icon, name in max. 2 lines, count) for categories: one size for all, whatever the name length."""
+        if not cats:
+            return ""
+        return f'<ul class="{cls}">' + "".join(
+            f'<li><a href="/{k}/"><img src="/img/ic/{X.ICON[k]}.webp" alt="" width="{size}" height="{size}" loading="lazy"><span>{E(name)}</span><small>{n} {plural(n, "kus", "kusy", "kusů")}</small></a></li>'
+            for k, name, n in cats) + "</ul>"
 
     def chips(self, links, cls="chips"):
         return f'<ul class="{cls}">' + "".join(f'<li><a href="{u}">{E(t)}{f"<small>{n}</small>" if n else ""}</a></li>' for u, t, n in links) + "</ul>" if links else ""

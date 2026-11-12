@@ -107,11 +107,11 @@
   function card(it, brands) {
     var sale = it[11] >= 10 ? '<span class="flag">−' + it[11] + " %</span>" : "";
     var tape = it[14] ? '<span class="tape">' + esc(it[14]) + "</span>" : "";
-    var brand = it[5] >= 0 && brands[it[5]] ? '<span class="pc__brand">' + esc(brands[it[5]]) + "</span>" : "";
-    var sw = it[6] && it[6].length ? '<span class="sw">' + it[6].slice(0, 4).map(function (c) { return '<i style="--c:' + (SW[c] || "#ccc") + '"></i>'; }).join("") + "</span>" : "";
+    var brand = '<span class="pc__brand">' + (it[5] >= 0 && brands[it[5]] ? esc(brands[it[5]]) : "") + "</span>";
+    var sw = '<span class="sw">' + (it[6] || []).slice(0, 4).map(function (c) { return '<i style="--c:' + (SW[c] || "#ccc") + '"></i>'; }).join("") + "</span>";
     var nv = it[13] || 0, meta = shopsIn(it[4]) + (nv > 1 ? " · " + nv + (nv < 5 ? " varianty" : " variant") : "");
     var href = "/produkt/" + it[1] + "/";
-    return '<li class="pc"><a class="pc__img" href="' + href + '" tabindex="-1" aria-hidden="true"><img src="' + esc(it[2] || "/img/ui/placeholder.svg") + '" alt="" loading="lazy" referrerpolicy="no-referrer" width="320" height="320">' + sale + tape + "</a>" +
+    return '<li class="pc"><a class="pc__img" href="' + href + '" tabindex="-1" aria-hidden="true"><img src="' + esc(it[2] || "/img/ui/placeholder.svg") + '" alt="" loading="lazy" referrerpolicy="no-referrer" width="400" height="300">' + sale + tape + "</a>" +
       '<div class="pc__b">' + brand + '<h3><a href="' + href + '">' + esc(it[0]) + "</a></h3>" + sw + '<div class="pc__f"><span class="ptag">' + ((it[4] > 1 || nv > 1) ? "<small>od</small>" : "") + "<b>" + kc(it[3]) + "</b></span>" +
       '<span class="pc__n">' + meta + "</span></div></div></li>";
   }

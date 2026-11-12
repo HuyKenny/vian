@@ -541,8 +541,7 @@ def room_page(S, room, items, subs, jsn):
     n = len(items)
     title = f"{h1} – srovnání cen z {S.stats['shops']} obchodů" + SUFFIX
     desc = f"{h1}: {blurb.lower()}. {n} kusů z českých e‑shopů, ceny od {R.kc(lo)}. Porovnejte rozměry a ceny na jednom místě."
-    tiles = '<ul class="subtiles">' + "".join(f'<li><a href="/{k}/"><img src="/img/ic/{X.ICON[k]}.webp" alt="" width="56" height="56" loading="lazy"><span>{E(cat_name(k))}</span><small>{len(ps)}</small></a></li>'
-                                             for k, ps in sorted(subs, key=lambda x: -len(x[1]))) + "</ul>"
+    tiles = S.tiles([(k, cat_name(k), len(ps)) for k, ps in sorted(subs, key=lambda x: -len(x[1]))])
     lead = f"{blurb}. {n} {R.plural(n, 'kus', 'kusy', 'kusů')} z {len({o['shop'] for p in items for o in p['offers']})} obchodů, ceny od {R.kc(lo)}."
     body, lds = listing_body(S, f"/{room}/", E(h1), lead, items, jsn, X.ICON[room], texts_key=f"room:{room}", extra=tiles)
     return S.layout(f"/{room}/", title, desc, body, crumbs=[HOME, (name, f"/{room}/")], jsonld=lds, full=True)
@@ -554,10 +553,10 @@ def category_page(S, k, items, jsn):
     n = len(items)
     title = f"{h1} – srovnání cen od {R.kc(lo)}" + SUFFIX
     desc = f"{h1}: {n} {R.plural(n, 'kus', 'kusy', 'kusů')} z {len({o['shop'] for p in items for o in p['offers']})} českých e‑shopů, ceny od {R.kc(lo)}. Filtr podle rozměrů, barvy a materiálu."
-    sibs = [(f"/{c}/", cat_name(c), 0) for c in X.CATS if X.CATS[c][1] == room and c != k and S.ctx["by_cat"].get(c)]
+    sibs = [(c, cat_name(c), len(S.ctx["by_cat"][c])) for c in X.CATS if X.CATS[c][1] == room and c != k and S.ctx["by_cat"].get(c)]
     lead = f"{n} {R.plural(n, 'kus', 'kusy', 'kusů')} skladem, ceny od {R.kc(lo)} do {R.kc(hi)}. Polovina stojí méně než {R.kc(med)}."
     body, lds = listing_body(S, f"/{k}/", E(h1), lead, items, jsn, X.ICON[k], texts_key=f"cat:{k}", links=[], links_label="Upřesnit",
-                             extra=S.chips(sibs, "chips chips--sib"))
+                             extra=S.tiles(sibs))
     return S.layout(f"/{k}/", title, desc, body, crumbs=crumbs_for(k), jsonld=lds, full=True)
 
 
@@ -686,8 +685,8 @@ def categories_index(S, by_room, by_cat):
     for room in X.TOP:
         if not by_room.get(room):
             continue
-        subs = [(f"/{k}/", cat_name(k), len(by_cat[k])) for k in X.CATS if X.CATS[k][1] == room and by_cat.get(k)]
-        parts.append(f'<section class="catgrp"><h2><a href="/{room}/"><img src="/img/ic/{X.ICON[room]}.webp" alt="" width="56" height="56" loading="lazy">{E(X.ROOMS[room][0])}</a></h2>{S.chips(subs)}</section>')
+        subs = [(k, cat_name(k), len(by_cat[k])) for k in X.CATS if X.CATS[k][1] == room and by_cat.get(k)]
+        parts.append(f'<section class="catgrp"><h2><a href="/{room}/"><img src="/img/ic/{X.ICON[room]}.webp" alt="" width="56" height="56" loading="lazy">{E(X.ROOMS[room][0])}</a></h2>{S.tiles(subs)}</section>')
     hubs = sorted([L for L in S.landings.values() if L["parent"] is None], key=lambda L: -L["n"])
     extra = ('<h2 style="margin-top:34px">Podle stylu a materiálu</h2>' + S.chips([(L["path"], L["h1"], L["n"]) for L in hubs])) if hubs else ""
     body = f'<h1>Všechny kategorie</h1><p class="lead">Nábytek a doplňky podle místnosti.</p><div class="catgrid">{"".join(parts)}</div>{extra}'
@@ -745,17 +744,17 @@ def search_page(S):
     return S.layout("/hledat/", "Hledání" + SUFFIX, "Hledání v nábytku na Vian.cz", body, noindex=True)
 
 
-HOME_CATS = ["rohove-sedacky", "sedacky", "postele", "matrace", "satni-skrine", "jidelni-stoly", "jidelni-zidle", "kresla", "konferencni-stolky",
-             "komody", "kancelarske-zidle", "koberce", "lustry", "zaclony-a-zavesy", "zahradni-sestavy", "tv-stolky"]
+# the 14 most searched categories (Marketing Miner, 11. 11. 2026), in order of demand
+HOME_CATS = ["konferencni-stolky", "satni-skrine", "kancelarske-zidle", "matrace", "jidelni-zidle", "postele", "jidelni-stoly", "sedacky",
+             "rohove-sedacky", "koberce", "komody", "kresla", "lustry", "tv-stolky"]
 
 
 def home_page(S, products, by_room, by_cat, sale):
     st = S.stats
     hot = [p for p in products if len(p["offers"]) > 1 and p["img"]][:10] or [p for p in products if p["img"]][:10]
     sale = [p for p in sale if p["img"]][:10]
-    rooms = "".join(f'<li><a href="/{r}/"><img src="/img/ic/{X.ICON[r]}.webp" alt="" width="96" height="96" loading="lazy"><span>{E(X.ROOMS[r][0])}</span><small>{len(by_room[r])} kusů</small></a></li>'
-                    for r in X.TOP if by_room.get(r))
-    cats = S.chips([(f"/{k}/", cat_name(k), len(by_cat[k])) for k in HOME_CATS if by_cat.get(k)], "chips chips--big")
+    tiles = S.tiles([(k, cat_name(k), len(by_cat[k])) for k in HOME_CATS if by_cat.get(k)], "cattiles", 96)
+    rooms = S.chips([(f"/{r}/", X.ROOMS[r][0], 0) for r in X.TOP if by_room.get(r)])
     hubs = [L for L in S.landings.values() if L["parent"] is None and L["index"]]
     styles = S.chips([(L["path"], L["h1"], L["n"]) for L in sorted(hubs, key=lambda L: -L["n"])[:10]])
     guides_sec = (f'<section class="sec"><div class="sec__h"><h2>Z poradny</h2><a href="/poradna/">Všechny články →</a></div>' + S.chips([(p, g["h1"], 0) for p, g in list(S.guides.items())[:8]]) + "</section>") if S.guides else ""
@@ -768,8 +767,8 @@ def home_page(S, products, by_room, by_cat, sale):
 <div class="row">{hero_btns}<a class="btn btn--g btn--lg" href="/kategorie/">Vše</a></div>
 <dl class="hero__stats"><div><dt>{n_txt}</dt><dd>kusů v nabídce</dd></div><div><dt>{st['shops']}</dt><dd>obchodů</dd></div><div><dt>denně</dt><dd>nové ceny</dd></div></dl></div>
 <div class="hero__art"><img src="/img/ui/hero-1200.webp" srcset="/img/ui/hero-640.webp 640w, /img/ui/hero-1200.webp 1200w" sizes="(max-width:980px) 92vw, 620px" alt="Obývací pokoj se zelenou sedačkou a svinovacím metrem na podlaze" width="1200" height="583" fetchpriority="high"></div></div></section>
-<div class="wrap"><section class="sec"><div class="sec__h"><h2>Vyberte místnost</h2><a href="/kategorie/">Všechny kategorie →</a></div><ul class="roomtiles">{rooms}</ul></section>
-<section class="sec"><div class="sec__h"><h2>Nejčastěji hledané</h2></div>{cats}</section>
+<div class="wrap"><section class="sec"><div class="sec__h"><h2>Nejhledanější kategorie</h2><a href="/kategorie/">Všechny kategorie →</a></div>{tiles}</section>
+<section class="sec"><div class="sec__h"><h2>Podle místnosti</h2></div>{rooms}</section>
 <section class="sec"><div class="sec__h"><h2>Ve více obchodech najednou</h2><a href="/kategorie/">Procházet →</a></div>{row(hot)}</section>
 {f'<section class="sec"><div class="sec__h"><h2>Teď ve slevě</h2><a href="/slevy/">Všechny slevy →</a></div>{row(sale)}</section>' if sale else ''}
 {f'<section class="sec"><div class="sec__h"><h2>Podle stylu a materiálu</h2></div>{styles}</section>' if hubs else ''}

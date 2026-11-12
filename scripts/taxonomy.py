@@ -137,6 +137,16 @@ TREE = {**{k: (v[0], None, v[1], v[2], v[3]) for k, v in ROOMS.items()},
         **{k: (v[0], v[1], v[2], "", v[3]) for k, v in CATS.items()}}
 TOP = list(ROOMS)
 ICON = {k: v[4] for k, v in TREE.items()}
+# second Canva sheet (12. 11. 2026): a fitting icon for every big category, so tiles never repeat one picture
+ICON.update({"rohove-sedacky": "rohova-sedacka", "taburety-a-sedaci-vaky": "taburet", "konferencni-stolky": "konferencni-stolek", "tv-stolky": "tv-stolek",
+             "vitriny": "skrin", "matrace": "matrace", "rosty": "matrace", "nocni-stolky": "nocni-stolek", "toaletni-stolky": "zrcadlo",
+             "jidelni-stoly": "jidelni-stul", "jidelni-zidle": "jidelni-zidle", "barove-zidle": "barova-zidle", "lavice": "predsin",
+             "servirovaci-stolky": "jidelni-stul", "kancelarske-zidle": "kancelarska-zidle", "herni-kresla": "kancelarska-zidle",
+             "kancelarske-skrine": "skrin", "botniky": "botnik", "zaclony-a-zavesy": "zaclony", "povleceni": "povleceni",
+             "prikryvky-a-polstare": "povleceni", "dekorativni-polstare": "povleceni", "deky-a-prehozy": "povleceni", "ubrusy-a-prostirani": "jidelni-stul",
+             "zrcadla": "zrcadlo", "obrazy": "obraz", "nastenne-dekorace": "obraz", "ramy-na-fotky": "obraz", "kvetinace": "kvetinac",
+             "umele-kvetiny": "kvetinac", "ulozne-boxy-a-kose": "komoda", "stropni-svitidla": "lustr", "venkovni-svitidla": "zahrada",
+             "rucniky-a-osusky": "koupelna", "potahy-na-nabytek": "sofa"})
 
 # products cheaper than this in a category are almost always accessories in the wrong place (a "postel" for 190 Kč is a sheet)
 PRICE_FLOOR = {"rohove-sedacky": 4000, "sedacky": 2500, "pohovky": 2000, "kresla": 700, "postele": 1500, "matrace": 800, "rosty": 400,
