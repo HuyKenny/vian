@@ -739,7 +739,29 @@ def classify(rec, kids=False):
     return kids_fix(slug or path_class(rec), rec, kids)
 
 
+# sanitary brands (SIKO, Sanitino): their "horní skříňka", "sloupek", "háček", "polička" belong in the bathroom
+BATH_BRANDS = re.compile(r"^(cersanit|geberit|sapho|aqualine|ravak|novaservis|rav slezak|ideal standard|kielle|jika|laufen|grohe|"
+                         r"hansgrohe|kludi|roca|villeroy|duravit|kolo|polysan|gelco|mereo|bemeta|nimco|keuco|kermi|teka|intedoor|hopa|"
+                         r"siko|ptacek|riho|kaldewei|swiss aqua|alca|tece|vitra|catalano|simas)\b")
+BATH_FIX = {"kuchynske-linky": "koupelnove-skrinky", "komody": "koupelnove-skrinky", "satni-skrine": "koupelnove-skrinky",
+            "knihovny-a-regaly": "koupelnove-skrinky", "vesaky": "koupelnove-doplnky", "police": "koupelnove-doplnky",
+            "konzolove-stolky": "koupelnove-doplnky"}
+
+
+def bath_fix(slug, rec):
+    if slug in BATH_FIX:
+        t = fold(clean(rec.get("t"))).replace("-", " ").strip()
+        if BATH_BRANDS.search(t) or re.search(r"koupel|sanit", fold(rec.get("cat") or "")):
+            return BATH_FIX[slug]
+    return slug
+
+
 def decide(rec, title, clean_path_cat, kids=False):
+    cat, src = _decide(rec, title, clean_path_cat, kids)
+    return bath_fix(cat, rec), src
+
+
+def _decide(rec, title, clean_path_cat, kids=False):
     """Final category from the title verdict and the shop's own category when that category is CLEAN (nearly all of its
     products are one kind of thing, measured on this run's data). A clean shop category beats a lone generic noun in the
     title ("POLŠTÁŘOVÁ postel" in Postele, "Skříň pod umyvadlo" in Koupelnové skříňky, a fototapeta in Dekorace na zeď)

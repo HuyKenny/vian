@@ -847,7 +847,14 @@ HOME_CATS = ["konferencni-stolky", "satni-skrine", "kancelarske-zidle", "matrace
              "rohove-sedacky", "koberce", "komody", "kresla", "lustry", "tv-stolky"]
 
 
-NOT_SHOWCASE = {"koupelna", "textil", "dekorace", "kuchyne-a-stolovani", "spotrebice", "podlahy-a-kovani", "domacnost", "vanoce-a-svatky"}
+# home rows show furniture only: rooms with real furniture, minus the small stuff that lives in them (hooks, shelves, LED strips)
+SHOWCASE_ROOMS = {"obyvaci-pokoj", "loznice", "jidelna-a-kuchyne", "pracovna", "detsky-pokoj", "predsin", "zahrada"}
+NOT_SHOWCASE_CATS = {"vesaky", "police", "kuchynske-linky", "konzolove-stolky", "paravany", "biokrby", "stojany-na-destniky", "toppery-a-chranice-matraci",
+                     "nastenky-a-tabule", "trezory", "stojany-na-vino", "detske-dekorace", "detsky-textil", "pro-miminka", "detska-svitidla",
+                     "detske-koberce", "slunecniky-a-zasteny", "polstare-na-zahradni-nabytek", "grily", "ohniste-a-ohrivace", "bazeny-a-virivky",
+                     "sauny", "trampoliny", "zahradni-domky", "zahradni-boxy", "skleniky-a-pestovani", "substraty-a-hnojiva", "zavlazovani",
+                     "zahradni-dekorace"}
+SHOWCASE_MIN_PRICE = 1500
 
 
 def home_page(S, products, by_room, by_cat, sale):
@@ -856,7 +863,8 @@ def home_page(S, products, by_room, by_cat, sale):
         """Home rows show furniture (not soap dispensers), at most two pieces of one category, for variety."""
         out, seen = [], Counter()
         for p in pool:
-            if p["img"] and X.TREE[p["cat"]][1] not in NOT_SHOWCASE and seen[p["cat"]] < per_cat:
+            if (p["img"] and p["price"] >= SHOWCASE_MIN_PRICE and X.TREE[p["cat"]][1] in SHOWCASE_ROOMS
+                    and p["cat"] not in NOT_SHOWCASE_CATS and seen[p["cat"]] < per_cat):
                 out.append(p)
                 seen[p["cat"]] += 1
                 if len(out) == n:
