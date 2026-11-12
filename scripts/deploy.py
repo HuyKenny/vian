@@ -11,6 +11,7 @@ Needs CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID in the environment (GitHub se
 """
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -53,6 +54,29 @@ def base_cfg(name, directory):
             "assets": {"directory": str(directory), "html_handling": "auto-trailing-slash", "not_found_handling": "404-page"}}
 
 
+def keep_live_assets():
+    """Copy the hashed CSS/JS the live site uses now into dist/assets. The main Worker (which alone serves /assets/) and
+    the shard Workers go live minutes apart; without the old files, pages still served by the not-yet-updated side
+    reference a hash that no longer exists and render without styles (seen 12. 11. 2026)."""
+    out = DIST / "assets"
+    try:
+        html = subprocess.run(["curl", "-sfL", "--max-time", "20", "-A", "VianDeploy/1.0", f"https://{ZONE}/"],
+                              capture_output=True, text=True, timeout=30).stdout
+    except Exception as e:  # noqa: BLE001 - best effort, never block a deploy
+        print(f"keep_live_assets: {e}")
+        return
+    kept = 0
+    for name in sorted(set(re.findall(r'/assets/([\w.-]+\.(?:css|js))', html))):
+        if (out / name).exists():
+            continue
+        r = subprocess.run(["curl", "-sfL", "--max-time", "20", "-A", "VianDeploy/1.0", "-o", str(out / name), f"https://{ZONE}/assets/{name}"])
+        if r.returncode:
+            (out / name).unlink(missing_ok=True)
+        else:
+            kept += 1
+    print(f"keep_live_assets: kept {kept} live asset file(s)")
+
+
 def plan_shards(slugs_by_char, room):
     """Greedy: consecutive first characters into shards of <= LIMIT files each."""
     shards, cur, n = [], [], 0
@@ -79,6 +103,7 @@ def main():
         cfg["workers_dev"] = True
         wrangler(cfg, "vian-staging")
         return
+    keep_live_assets()
     shard_dirs = []
     if total > LIMIT:
         prod = DIST / "produkt"
@@ -102,14 +127,16 @@ def main():
     for name, d, chars in shard_dirs:
         if count(d) > LIMIT:
             sys.exit(f"shard {name} too big")
-        cfg = base_cfg(name, d)
-        cfg["workers_dev"] = False
-        cfg["routes"] = [{"pattern": f"{ZONE}/produkt/{c}*", "zone_name": ZONE} for c in chars]
-        wrangler(cfg, name)
+    # main first: it carries the old and the new CSS/JS, so pages of both versions keep their styles while the shards follow
     cfg = base_cfg("vian", DIST)
     cfg["workers_dev"] = False
     cfg["routes"] = [{"pattern": f"{ZONE}/*", "zone_name": ZONE}, {"pattern": f"www.{ZONE}/*", "zone_name": ZONE}]
     wrangler(cfg, "vian")
+    for name, d, chars in shard_dirs:
+        cfg = base_cfg(name, d)
+        cfg["workers_dev"] = False
+        cfg["routes"] = [{"pattern": f"{ZONE}/produkt/{c}*", "zone_name": ZONE} for c in chars]
+        wrangler(cfg, name)
 
 
 if __name__ == "__main__":
