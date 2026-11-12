@@ -751,8 +751,18 @@ HOME_CATS = ["konferencni-stolky", "satni-skrine", "kancelarske-zidle", "matrace
 
 def home_page(S, products, by_room, by_cat, sale):
     st = S.stats
-    hot = [p for p in products if len(p["offers"]) > 1 and p["img"]][:10] or [p for p in products if p["img"]][:10]
-    sale = [p for p in sale if p["img"]][:10]
+    def showcase(pool, n=10, per_cat=2):
+        """Home rows show furniture (not soap dispensers), at most two pieces of one category, for variety."""
+        out, seen = [], Counter()
+        for p in pool:
+            if p["img"] and X.TREE[p["cat"]][1] not in ("koupelna", "textil", "dekorace") and seen[p["cat"]] < per_cat:
+                out.append(p)
+                seen[p["cat"]] += 1
+                if len(out) == n:
+                    break
+        return out
+    hot = showcase([p for p in products if len(p["offers"]) > 1]) or showcase(products)
+    sale = showcase(sale)
     tiles = S.tiles([(k, cat_name(k), len(by_cat[k])) for k in HOME_CATS if by_cat.get(k)], "cattiles", 96)
     rooms = S.chips([(f"/{r}/", X.ROOMS[r][0], 0) for r in X.TOP if by_room.get(r)])
     hubs = [L for L in S.landings.values() if L["parent"] is None and L["index"]]
