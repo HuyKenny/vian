@@ -9,7 +9,11 @@
    "advertiser": "5335380",
    "color": "#E2001A",
    "budget": 5400,
-   "exclude": "^(Hračky|Nádobí|Kuchyňské potřeby|Sklenice|Hrnce|Pánve|Pečení|Kuchyňské nože|Příbory|Stolování s dětmi|Oblečení pro miminka|Přebalování|Domácnost > (Žebříky|Úklid|Žehlení))"
+   "exclude": "^(Hračky|Nádobí|Kuchyňské potřeby|Sklenice|Hrnce|Pánve|Pečení|Kuchyňské nože|Příbory|Stolování s dětmi|Oblečení pro miminka|Přebalování|Domácnost > (Žebříky|Úklid|Žehlení))",
+   "logo": "/img/shops/xxxlutz.webp",
+   "lw": 360,
+   "lh": 106,
+   "logo_src": 14833
   },
   {
    "id": "scandishop",
@@ -18,7 +22,11 @@
    "network": "cj",
    "advertiser": "5884820",
    "color": "#1F1F1F",
-   "exclude": "(Domácí mazlíčci|Stolování > (Podnosy|Hrnky|Talíře|Misky))"
+   "exclude": "(Domácí mazlíčci|Stolování > (Podnosy|Hrnky|Talíře|Misky))",
+   "logo": "/img/shops/scandishop.webp",
+   "lw": 360,
+   "lh": 70,
+   "logo_src": 23046
   },
   {
    "id": "nabytekpaul",
@@ -34,7 +42,11 @@
    "domain": "dreamy.cz",
    "network": "cj",
    "advertiser": "7318611",
-   "color": "#3E4C8A"
+   "color": "#3E4C8A",
+   "logo": "/img/shops/dreamy.webp",
+   "lw": 360,
+   "lh": 113,
+   "logo_src": 22672
   },
   {
    "id": "vyprodejpovleceni",
@@ -43,7 +55,11 @@
    "network": "cj",
    "advertiser": "6109393",
    "color": "#D9467A",
-   "exclude": "(Oblečení|oblečení|Cestovní doplňky|Tělo a domácnost|Dárkové poukazy)"
+   "exclude": "(Oblečení|oblečení|Cestovní doplňky|Tělo a domácnost|Dárkové poukazy)",
+   "logo": "/img/shops/vyprodejpovleceni.webp",
+   "lw": 360,
+   "lh": 83,
+   "logo_src": 18275
   },
   {
    "id": "asko",
@@ -52,7 +68,11 @@
    "network": "cj",
    "advertiser": "4920521",
    "color": "#C8102E",
-   "exclude": "(Stolování a vaření|Úklid)"
+   "exclude": "(Stolování a vaření|Úklid)",
+   "logo": "/img/shops/asko.webp",
+   "lw": 320,
+   "lh": 120,
+   "logo_src": 22544
   },
   {
    "id": "ezidle",
@@ -60,7 +80,11 @@
    "domain": "ezidle.cz",
    "network": "cj",
    "advertiser": "5584312",
-   "color": "#2B7A78"
+   "color": "#2B7A78",
+   "logo": "/img/shops/ezidle.webp",
+   "lw": 344,
+   "lh": 120,
+   "logo_src": 22719
   },
   {
    "id": "kancelarskezidle",
@@ -69,7 +93,11 @@
    "network": "cj",
    "advertiser": "5493238",
    "color": "#E05A00",
-   "exclude": "(NÁHRADNÍ DÍLY)"
+   "exclude": "(NÁHRADNÍ DÍLY)",
+   "logo": "/img/shops/kancelarskezidle.webp",
+   "lw": 360,
+   "lh": 117,
+   "logo_src": 32294
   },
   {
    "id": "elisdesign",
@@ -88,7 +116,11 @@
    "network": "cj",
    "advertiser": "5217822",
    "color": "#111111",
-   "exclude": "(kuchyňské doplňky|Vánoční porcelán|grilování|Kuchyňské spotřebiče)"
+   "exclude": "(kuchyňské doplňky|Vánoční porcelán|grilování|Kuchyňské spotřebiče)",
+   "logo": "/img/shops/decoronline.webp",
+   "lw": 221,
+   "lh": 120,
+   "logo_src": 25831
   },
   {
    "id": "decodoma",
@@ -97,7 +129,11 @@
    "network": "cj",
    "advertiser": "4882378",
    "color": "#6A994E",
-   "exclude": "^(Obuv a móda)"
+   "exclude": "^(Obuv a móda)",
+   "logo": "/img/shops/decodoma.webp",
+   "lw": 346,
+   "lh": 120,
+   "logo_src": 17841
   },
   {
    "id": "butlers",
@@ -106,7 +142,11 @@
    "network": "cj",
    "advertiser": "4432968",
    "color": "#B22234",
-   "exclude": "^(Stolování > (Talíře|Příbory|Hrnky|Sklenice)|Kuchyně)"
+   "exclude": "^(Stolování > (Talíře|Příbory|Hrnky|Sklenice)|Kuchyně)",
+   "logo": "/img/shops/butlers.webp",
+   "lw": 229,
+   "lh": 120,
+   "logo_src": 22602
   },
   {
    "id": "dopplershop",
@@ -115,7 +155,11 @@
    "network": "cj",
    "advertiser": "6065245",
    "color": "#00529B",
-   "exclude": "^(Deštníky)"
+   "exclude": "^(Deštníky)",
+   "logo": "/img/shops/dopplershop.webp",
+   "lw": 166,
+   "lh": 120,
+   "logo_src": 22668
   },
   {
    "id": "dormeo",
@@ -124,7 +168,11 @@
    "network": "cj",
    "advertiser": "6976980",
    "color": "#0072CE",
-   "exclude": "(MIXERS|BLENDERS|KITCHEN|COOKWARE)"
+   "exclude": "(MIXERS|BLENDERS|KITCHEN|COOKWARE)",
+   "logo": "/img/shops/dormeo.webp",
+   "lw": 360,
+   "lh": 112,
+   "logo_src": 7314
   },
   {
    "id": "baumax",
@@ -133,7 +181,11 @@
    "network": "cj",
    "advertiser": "5736843",
    "color": "#F39200",
-   "include": "^(Nábytek|Vybavení a dekorace > (Dekorace|Vnitřní osvětlení|Okenní dekorace|Bytový textil|Koberce|Vánoční)|Vybavení interiéru > Vybavení koupelny|Zahrada a stavebniny > Zahrada a volný čas)"
+   "include": "^(Nábytek|Vybavení a dekorace > (Dekorace|Vnitřní osvětlení|Okenní dekorace|Bytový textil|Koberce|Vánoční)|Vybavení interiéru > Vybavení koupelny|Zahrada a stavebniny > Zahrada a volný čas)",
+   "logo": "/img/shops/baumax.webp",
+   "lw": 360,
+   "lh": 89,
+   "logo_src": 22568
   },
   {
    "id": "rajnabytku",
@@ -150,7 +202,11 @@
    "network": "cj",
    "advertiser": "7816491",
    "color": "#0E7C86",
-   "include": "^(Koupelnový nábytek|Koupelnové doplňky)"
+   "include": "^(Koupelnový nábytek|Koupelnové doplňky)",
+   "logo": "/img/shops/hezkakoupelna.webp",
+   "lw": 360,
+   "lh": 80,
+   "logo_src": 22770
   },
   {
    "id": "siko",
@@ -160,7 +216,11 @@
    "advertiser": "4932883",
    "color": "#003C71",
    "budget": 2400,
-   "include": "^Koupelny > (Nábytek|Koupelnové doplňky)"
+   "include": "^Koupelny > (Nábytek|Koupelnové doplňky)",
+   "logo": "/img/shops/siko.webp",
+   "lw": 254,
+   "lh": 120,
+   "logo_src": 23055
   },
   {
    "id": "sanitino",
@@ -170,7 +230,11 @@
    "advertiser": "6358042",
    "color": "#00A3E0",
    "budget": 2400,
-   "include": "^Koupelny > (Koupelnový nábytek|Koupelnové doplňky)"
+   "include": "^Koupelny > (Koupelnový nábytek|Koupelnové doplňky)",
+   "logo": "/img/shops/sanitino.webp",
+   "lw": 360,
+   "lh": 62,
+   "logo_src": 23044
   }
  ]
 }

@@ -114,6 +114,18 @@ def dims_svg(dm):
     return f'<figure class="dimfig"><svg viewBox="0 0 260 172" role="img" aria-label="Rozměry {E(X.size_label(dm))}">{"".join(parts)}</svg></figure>'
 
 
+def shop_logo(m, big=False):
+    """<img> of a shop's logo (kuponmat library, trimmed WebP in static/img/shops), display size balanced by sqrt of the aspect ratio; "" without a logo."""
+    if not m.get("logo"):
+        return ""
+    w, h = m["lw"], m["lh"]
+    area, mw, mh = (6200, 170, 56) if big else (3600, 112, 38)
+    k = (area / (w * h)) ** 0.5
+    dw, dh = w * k, h * k
+    f = min(1, mw / dw, mh / dh)
+    return (f'<img class="slogo{" slogo--big" if big else ""}" src="{m["logo"]}" alt="{E(m["name"])}" width="{round(dw * f)}" height="{round(dh * f)}" loading="lazy" decoding="async">')
+
+
 class Site:
     def __init__(self, base, env, ga, css, js, shops, stats):
         self.base, self.env, self.ga, self.css, self.js = base, env, ga, css, js

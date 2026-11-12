@@ -175,7 +175,8 @@ def main():
     gone = C.gone_products(products, state, state.get("snap", {}))
     products = [p for p in products if p["page"]]      # staging cap: listings must not link pages that are not built
 
-    shop_meta = {s["id"]: {"name": s["name"], "color": s.get("color", "#888"), "domain": s["domain"]} for s in shops}
+    shop_meta = {s["id"]: {"name": s["name"], "color": s.get("color", "#888"), "domain": s["domain"],
+                           **({"logo": s["logo"], "lw": s["lw"], "lh": s["lh"]} if s.get("logo") else {})} for s in shops}
     stats = {"products": len(products), "shops": len(present), "offers": sum(len(p["offers"]) for p in products), "updated": TODAY_CZ}
 
     if DIST.exists():
@@ -372,7 +373,7 @@ def offer_rows(S, offers, best_price, label=None):
         was = f'<s>{R.kc(o["was"])}</s>' if o.get("was") and o["was"] > o["price"] else ""
         diff = f'<small>o {R.kc(o["price"] - best_price)} dráž</small>' if o["price"] > best_price else '<small>nejlepší cena</small>' if n > 1 else ""
         rows.append(f'<li class="ticket{" best1" if i == 0 and n > 1 else ""}"><span class="stripe" style="background:{m["color"]}"></span>'
-                    f'<span class="sname"><b>{E(m["name"])}</b>{diff}</span>'
+                    f'<span class="sname">{R.shop_logo(m)}<span class="stxt"><b>{E(m["name"])}</b>{diff}</span></span>'
                     f'<span class="tprice">{was}{R.kc(o["price"])}</span><a class="btn{" btn--g" if i else ""}" href="{E(o["go"])}" {S.go_attrs(o["shop"])}>Do obchodu</a></li>')
     return "".join(rows)
 
@@ -696,10 +697,10 @@ def categories_index(S, by_room, by_cat):
 
 def shops_page(S, shops, present, products):
     cnt = Counter(o["shop"] for p in products for o in p["offers"])
-    lis = "".join(f'<li style="--c:{s.get("color", "#888")}"><h3>{E(s["name"])}</h3><p class="muted">{cnt.get(s["id"], 0)} kusů v nabídce</p><p><a class="lnk" href="https://{s["domain"]}/" rel="nofollow noopener" target="_blank">{E(s["domain"])}</a></p></li>'
+    lis = "".join(f'<li style="--c:{s.get("color", "#888")}">{R.shop_logo(S.shop(s["id"]), big=True)}<h3>{E(s["name"])}</h3><p class="muted">{cnt.get(s["id"], 0)} kusů v nabídce</p><p><a class="lnk" href="https://{s["domain"]}/" rel="nofollow noopener" target="_blank">{E(s["domain"])}</a></p></li>'
                   for s in sorted(shops, key=lambda s: -cnt.get(s["id"], 0)) if s["id"] in present)
     body = (f'<h1>Obchody, které srovnáváme</h1><p class="lead">Ceny a dostupnost bereme z produktových feedů těchto e‑shopů. Ceny obnovujeme každý den, nabídku produktů jednou týdně.</p>'
-            f'<ul class="shoplist">{lis}</ul>')
+            f'<ul class="shoplist">{lis}</ul><p class="muted" style="margin-top:18px;font-size:.88rem">Loga a názvy obchodů patří jejich majitelům a uvádíme je jen k označení obchodu, jehož nabídku porovnáváme. Nejde o oficiální doporučení ani partnerství. Odstranění loga na žádost: <a class="lnk" href="/kontakt/">kontakt</a>.</p>')
     return S.layout("/obchody/", "Obchody s nábytkem, které srovnáváme" + SUFFIX, "Seznam českých e‑shopů s nábytkem a bytovými doplňky, jejichž ceny Vian srovnává.", body,
                     crumbs=[HOME, ("Obchody", "/obchody/")])
 
@@ -768,6 +769,9 @@ def home_page(S, products, by_room, by_cat, sale):
     hubs = [L for L in S.landings.values() if L["parent"] is None and L["index"]]
     styles = S.chips([(L["path"], L["h1"], L["n"]) for L in sorted(hubs, key=lambda L: -L["n"])[:10]])
     guides_sec = (f'<section class="sec"><div class="sec__h"><h2>Z poradny</h2><a href="/poradna/">Všechny články →</a></div>' + S.chips([(p, g["h1"], 0) for p, g in list(S.guides.items())[:8]]) + "</section>") if S.guides else ""
+    cnt = Counter(o["shop"] for p in products for o in p["offers"])
+    logos = [R.shop_logo(S.shop(sid)) for sid, _ in cnt.most_common() if S.shop(sid).get("logo")][:14]
+    shop_strip = (f'<section class="sec"><div class="sec__h"><h2>Obchody, které srovnáváme</h2><a href="/obchody/">Všechny obchody →</a></div><ul class="shopstrip">' + "".join(f"<li>{l}</li>" for l in logos) + "</ul></section>") if len(logos) >= 6 else ""
     row = lambda ps: '<ul class="grid grid--5">' + "".join(S.card(p) for p in ps) + "</ul>"
     n_txt = f"{st['products']:,}".replace(",", " ")
     hero_btns = "".join(f'<a class="btn btn--lg {cls}" href="/{k}/">{t}</a>' for k, t, cls in (("rohove-sedacky", "Sedačky", "btn--cta"), ("postele", "Postele", "btn--g"))
@@ -781,6 +785,7 @@ def home_page(S, products, by_room, by_cat, sale):
 <section class="sec"><div class="sec__h"><h2>Podle místnosti</h2></div>{rooms}</section>
 <section class="sec"><div class="sec__h"><h2>Ve více obchodech najednou</h2><a href="/kategorie/">Procházet →</a></div>{row(hot)}</section>
 {f'<section class="sec"><div class="sec__h"><h2>Teď ve slevě</h2><a href="/slevy/">Všechny slevy →</a></div>{row(sale)}</section>' if sale else ''}
+{shop_strip}
 {f'<section class="sec"><div class="sec__h"><h2>Podle stylu a materiálu</h2></div>{styles}</section>' if hubs else ''}
 {guides_sec}
 <section class="sec how"><h2>Jak Vian funguje</h2><ol class="steps"><li><h3>Změřte místo</h3><p>Šířku stěny, výklenku nebo prostor mezi dveřmi. U každé kategorie pak vyfiltrujete jen kusy, které se tam vejdou.</p></li>

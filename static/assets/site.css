@@ -393,3 +393,9 @@ footer .logo img{width:104px}
   .search button{padding:8px 12px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---------- shop logos (kuponmat library) ---------- */
+.slogo{box-sizing:content-box;background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 7px;object-fit:contain;flex:none}.slogo--big{padding:6px 10px;margin-bottom:8px;display:block}
+.ticket .sname{flex-direction:row;align-items:center;gap:10px}.ticket .stxt{display:flex;flex-direction:column;min-width:0}
+.shopstrip{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px 12px}.shopstrip .slogo{display:block}
+@media(max-width:720px){.slogo{max-width:96px;height:auto}.slogo--big{max-width:150px}}
