@@ -27,6 +27,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 355
+    environment: production    # secrets live in this environment, which deploys only from main
     permissions:
       contents: write          # release asset with the encrypted state
     env:

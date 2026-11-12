@@ -14,6 +14,7 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     timeout-minutes: 150
+    environment: production    # secrets live in this environment, which deploys only from main
     env:
       VIAN_ENV: production
       VIAN_FULL: ${{ inputs.feeds && '1' || '0' }}
