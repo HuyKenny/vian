@@ -8,13 +8,16 @@ Illustrations from Canva (one icon sheet cut into 16 pieces, so they share one h
 import html
 import json
 import re
+from urllib.parse import quote
 
 import taxonomy as X
 
 E = html.escape
 PER_PAGE = 36
 SUFFIX = " | Vian"
+# prerender on hover; never /go/ (a prerender would count as a click at the network), /data/ or the search page
 SPECULATION = ('<script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/data/*"}},'
+               '{"not":{"href_matches":"/go/*"}},{"not":{"href_matches":"/hledat/*"}},'
                '{"not":{"selector_matches":"[rel~=nofollow],[target=_blank]"}}]},"eagerness":"moderate"}]}</script>')
 SEARCH_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>'
 RULER_ICON = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="8" width="20" height="8" rx="1.5"/>'
@@ -54,16 +57,42 @@ def shorten(text, limit, keep_tail=""):
     return head + "…" + tail
 
 
+def shorten_mid(text, limit):
+    """Shorten from the middle: product names say what it is first and which variant last ("… 142/196 cm, levá"),
+    so cutting the end made thousands of variants share one title (SEO lint 12. 11. 2026: 2 705 duplicates)."""
+    text = re.sub(r"\s+", " ", text).strip()
+    if len(text) <= limit:
+        return text
+    words = text.split(" ")
+    tail = []
+    while words and len(" ".join(tail + words[-1:])) <= limit * 0.4:
+        tail = words[-1:] + tail
+        words = words[:-1]
+    while tail and tail[0].strip(",;:").lower() in ("cm", "mm", "m", "ks", "x", "×", "/", "-", "–"):   # never open with a lone unit
+        tail = tail[1:]
+    head =shorten(" ".join(words), limit - len(" ".join(tail)) - 1)
+    return (head.rstrip("…").rstrip(" ,;:-–—(") + "… " + " ".join(tail)).strip() if tail else head
+
+
+DOTIDOT = "https://image.dotidot.io/image_generator/"
+
+
 def img_url(u, size="card"):
-    """Smaller renditions straight from the shops' image CDNs — we never resize anything ourselves (0 CPU on Cloudflare).
-    XXXLutz (Amplience) measured 11. 11. 2026: feed preset 44 kB -> ?fmt=webp&w=400 5 kB."""
+    """Smaller renditions — we never resize anything ourselves (0 CPU on Cloudflare).
+    XXXLutz (Amplience) measured 11. 11. 2026: feed preset 44 kB -> ?fmt=webp&w=400 5 kB; Shoptet has its own presets.
+    Every other shop sends originals (ezidle 136 kB, Upgates 555 kB PNG): those go through wsrv.nl (free image CDN, Kenny
+    12. 11. 2026) as WebP at the size we show; when wsrv cannot deliver one, app.js (fixImg) shows the original."""
     if not u:
         return u
     card = size == "card"
+    if u.startswith(DOTIDOT):        # dotidot answers every image with a 302 to its storage host: skip the hop
+        u = "https://dotidot-production-control-app-control-app-images.storage.dotidot.io/" + u[len(DOTIDOT):]
     if "media.xxxlutz.com/" in u:
         return u.split("?")[0] + ("?fmt=auto&w=400" if card else "?fmt=auto&w=900")
     if "cdn.myshoptet.com" in u and "/user/shop/orig/" in u:
         return u.replace("/user/shop/orig/", "/user/shop/detail/" if card else "/user/shop/big/")
+    if u.startswith("https://") and "cdn.myshoptet.com" not in u and "wsrv.nl" not in u:
+        return f"https://wsrv.nl/?url={quote(u, safe='')}&w={480 if card else 960}&we&output=webp&q=78"
     return u
 
 
@@ -191,7 +220,7 @@ class Site:
 <title>{E(title)}</title><meta name="description" content="{E(desc)}"><link rel="canonical" href="{self.url(path)}"><meta name="robots" content="{robots}">
 <meta property="og:title" content="{E(title)}"><meta property="og:description" content="{E(desc)}"><meta property="og:url" content="{self.url(path)}"><meta property="og:type" content="website"><meta property="og:locale" content="cs_CZ"><meta property="og:site_name" content="Vian"><meta property="og:image" content="{E(og)}"><meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#2F5D50"><link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192"><link rel="apple-touch-icon" href="/favicon-180.png"><link rel="manifest" href="/site.webmanifest">
-<link rel="preload" href="/fonts/fraunces-cs.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/onest-cs.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/assets/{self.css}">{pre}{SPECULATION}{ga}{head_ld}</head><body>
+<link rel="preload" href="/fonts/fraunces-cs.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/onest-cs.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/assets/{self.css}"><link rel="preconnect" href="https://wsrv.nl"><link rel="preconnect" href="https://media.xxxlutz.com">{pre}{SPECULATION}{ga}{head_ld}</head><body>
 <a class="skip" href="#main">Přeskočit na obsah</a>
 <header class="top"><div class="wrap"><a class="logo" href="/" aria-label="Vian – úvod">{LOGO}</a>
 <form class="search" role="search" action="/hledat/" method="get"><label class="sr" for="q">Hledat nábytek, značku nebo obchod</label>{SEARCH_ICON}<input id="q" name="q" type="search" placeholder="Rohová sedačka, postel 160×200, dubový stůl…" autocomplete="off"><button type="submit">Hledat</button><div class="sugg" id="sugg" role="listbox"></div></form>

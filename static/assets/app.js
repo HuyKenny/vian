@@ -21,14 +21,14 @@
      gallery thumbnail -> hidden; main image -> next gallery image; card -> its alternative image; placeholder only as the very last resort. */
   function viaProxy(u) { return "https://wsrv.nl/?w=480&output=webp&url=" + encodeURIComponent(u); }
   function unproxy(u) { var m = u.match(/[?&]url=([^&]+)/); return u.indexOf("wsrv.nl") >= 0 && m ? decodeURIComponent(m[1]) : u; }
-  /* A shop picture the browser cannot show: 1) the same picture through an image proxy, 2) the product's other pictures
-     (gallery / alternative), each also direct then proxied, 3) the box stays empty. Every address is tried at most once. */
+  /* A shop picture the browser cannot show: 1) the other route to the same picture (resized via wsrv <-> the shop's original),
+     2) the product's other pictures (gallery / alternative), 3) the box stays empty. Every address is tried at most once. */
   function fixImg(im) {
     if (im.tagName !== "IMG" || !im.src || im.src.indexOf(location.host) >= 0) return;
-    var t = im._t = im._t || {}, orig = unproxy(im.currentSrc || im.src);
-    t["d:" + orig] = 1;
-    if (!t["p:" + orig] && (im.currentSrc || im.src).indexOf("wsrv.nl") < 0) { t["p:" + orig] = 1; im.src = viaProxy(orig); return; }
-    t["p:" + orig] = 1;
+    var t = im._t = im._t || {}, cur = im.currentSrc || im.src, orig = unproxy(cur);
+    t[(cur.indexOf("wsrv.nl") >= 0 ? "p:" : "d:") + orig] = 1;       /* most pictures arrive resized through wsrv: the original is the fallback */
+    if (!t["d:" + orig]) { t["d:" + orig] = 1; im.src = orig; return; }
+    if (!t["p:" + orig]) { t["p:" + orig] = 1; im.src = viaProxy(orig); return; }
     var th = im.closest ? im.closest(".thumbs button") : null;
     if (th) { th.dataset.bad = "1"; th.hidden = true; var left = $$(".thumbs button").filter(function (b) { return !b.dataset.bad; }); if (left.length < 2) { var st = $(".thumbs"); if (st) st.hidden = true; } return; }
     var cand = im.id === "gmain" ? $$(".thumbs button").map(function (b) { return b.dataset.src; }) : [im.dataset.alt];
@@ -223,6 +223,11 @@
       fs.addEventListener("input", function () { var w = fold(fs.value); $$(".flinks label", fs.parentNode).forEach(function (l) { l.style.display = fold(l.textContent).indexOf(w) >= 0 ? "" : "none"; }); });
     });
     /* popovers: one open at a time, close on click outside / Esc / "Zobrazit" */
+    /* fetch the category data when the visitor reaches for the filters, so the first click filters at once */
+    var warmed = false;
+    var warm = function () { if (warmed || data) return; warmed = true; getJSON(list.dataset.json).then(function (d) { data = data || d; }); };
+    form.addEventListener("pointerenter", warm);
+    form.addEventListener("focusin", warm);
     var pills = $$(".fb", form);
     var closePills = function (except) { pills.forEach(function (p) { if (p !== except) p.open = false; }); };
     pills.forEach(function (p) { p.addEventListener("toggle", function () { if (p.open && !form.classList.contains("all")) closePills(p); }); });

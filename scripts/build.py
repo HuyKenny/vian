@@ -440,11 +440,14 @@ def main():
 
     # ---------------- sitemaps, robots, headers
     sm = []
+    pic = {f"/produkt/{p['slug']}/": p["img"] for p in products if p.get("img", "").startswith("https://")}
     for group, paths in out.sitemap.items():
         for i in range(0, len(paths), 40000):
             name = f"sitemap-{group}-{i // 40000 + 1}.xml"
-            body = "".join(f"<url><loc>{BASE}{p}</loc><lastmod>{state['lastmod'].get(p, TODAY.isoformat())}</lastmod></url>" for p in paths[i:i + 40000])
-            out.write(name, f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{body}</urlset>')
+            body = "".join(f"<url><loc>{BASE}{p}</loc><lastmod>{state['lastmod'].get(p, TODAY.isoformat())}</lastmod>"
+                           + (f"<image:image><image:loc>{E(pic[p])}</image:loc></image:image>" if p in pic else "") + "</url>" for p in paths[i:i + 40000])
+            out.write(name, '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+                            f'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">{body}</urlset>')
             sm.append(name)
     out.write("sitemap_index.xml", '<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
               + "".join(f"<sitemap><loc>{BASE}/{n}</loc><lastmod>{TODAY.isoformat()}</lastmod></sitemap>" for n in sm) + "</sitemapindex>")
@@ -466,7 +469,7 @@ def main():
            "font-src 'self'; manifest-src 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; "
            "upgrade-insecure-requests\n")
     preload = f"  Link: </assets/{css_name}>; rel=preload; as=style, </fonts/fraunces-cs.woff2>; rel=preload; as=font; type=font/woff2; crossorigin, </fonts/onest-cs.woff2>; rel=preload; as=font; type=font/woff2; crossorigin\n"
-    html_cache = "  Cache-Control: public, max-age=300, stale-while-revalidate=86400\n"
+    html_cache = "  Cache-Control: public, max-age=300, stale-while-revalidate=3600\n"   # a stale page lives an hour at most
     out.write("_headers", "/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n/fonts/*\n  Cache-Control: public, max-age=31536000, immutable\n"
               "/data/*\n  Cache-Control: public, max-age=3600\n  X-Robots-Tag: noindex\n"
               "/img/*\n  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000\n"
@@ -538,13 +541,15 @@ def product_page(S, p):
     bs = S.shop(best["shop"])
     code = re.sub(r"\D", "", p["ean"])[-4:] or p["slug"][-4:]
     uniq = f" (kód {code})" if p.get("dup") else ""
+    room = 68 - len(SUFFIX) - len(uniq)
     core = f"{p['name']} – srovnání cen" if n > 1 else f"{p['name']} – cena a rozměry"
-    title = R.shorten(core, 68 - len(SUFFIX) - len(uniq)) + uniq + SUFFIX
+    title = (core if len(core) <= room else R.shorten_mid(p["name"], room)) + uniq + SUFFIX
     sl = X.size_label(p["dims"])
     desc = (f"{p['name']}: {'od ' + R.kc(p['price']) + ' v ' + str(n) + ' obchodech' if n > 1 else 'cena ' + R.kc(p['price']) + ' v obchodě ' + bs['name']}"
             f"{', rozměry ' + sl if sl else ''}{', ' + str(len(var)) + ' variant' if len(var) > 1 else ''}. Porovnejte nabídky a kupte přímo v e‑shopu.")
     imgs = [p["img"]] + p["imgs"] if p["img"] else p["imgs"]
     imgs = [u for u in imgs if u][:7]
+    orig_imgs = imgs      # structured data, og:image and the image sitemap name the shop's own full-size pictures
     thumb_srcs = [R.img_url(u, "card") for u in imgs]
     imgs = [R.img_url(u, "main") for u in imgs]
     main_img = E(imgs[0]) if imgs else "/img/ui/placeholder.svg"
@@ -625,7 +630,7 @@ def product_page(S, p):
     sim = sorted(sim, key=lambda q: (abs(q["price"] - p["price"]) / max(p["price"], 1) - 0.25 * len(st & (set(q["styles"]) | set(q["mats"][:1]))) - 0.1 * len(q["offers"])))[:8]
     sim_html = f'<section class="sec"><div class="sec__h"><h2>Podobné kusy</h2><a href="/{k}/">Celá kategorie →</a></div>{S.grid(sim)}</section>' if sim else ""
 
-    ld = {"@context": "https://schema.org", "@type": "Product", "name": p["name"], "image": imgs[:3] or None, "url": S.url(f"/produkt/{p['slug']}/"),
+    ld = {"@context": "https://schema.org", "@type": "Product", "name": p["name"], "image": orig_imgs[:3] or None, "url": S.url(f"/produkt/{p['slug']}/"),
           "description": (p["desc"][:300] or p["name"]), "category": cat_name(k),
           "offers": {"@type": "AggregateOffer", "priceCurrency": "CZK", "lowPrice": p["price"], "highPrice": max(o["price"] for o in p["offers"]),
                      "offerCount": max(n, len(var)), "availability": "https://schema.org/InStock"}}
@@ -650,7 +655,7 @@ def product_page(S, p):
             f'<div class="prod__more"><div>{dimfig}{spec_html}</div><div>{desc_html}{hist_html}</div></div>{sim_html}')
     cr = crumbs_for(k) + [(R.shorten(p["name"], 60), f"/produkt/{p['slug']}/")]
     return S.layout(f"/produkt/{p['slug']}/", title, desc, body, crumbs=cr, jsonld=[ld], preload_img=imgs[0] if imgs else None,
-                    og_img=imgs[0] if imgs else None, noindex=not p["index"])
+                    og_img=orig_imgs[0] if orig_imgs else None, noindex=not p["index"])
 
 
 def gone_page(S, g):
