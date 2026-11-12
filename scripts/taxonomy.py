@@ -667,6 +667,7 @@ def veto(title_f, path_f):
 # Weak rules: generic words that only decide when nothing more concrete is in the title ("Vánoční polštář" = a cushion).
 WEAK = {"vanocni-dekorace", "sosky-a-doplnky", "ulozne-boxy-a-kose", "detske-dekorace"}
 RULE_ORDER = {i: i for i in range(len(TITLE_RULES))}
+FALLBACK = {len(TITLE_RULES) - 1}   # the bare "stolek" rule: only when no other rule matched ("Televizní stolek" is a TV stand)
 
 
 KIDS_MAP = {"koberce": "detske-koberce", "stolni-lampy": "detska-svitidla", "lustry": "detska-svitidla", "stropni-svitidla": "detska-svitidla",
@@ -704,7 +705,7 @@ def title_class(rec):
     for i, (slug, rx) in enumerate(TITLE_RULES):
         m = rx.search(t)
         if m:
-            key = (slug in WEAK, m.start(), -(m.end() - m.start()), i)
+            key = (slug in WEAK or i in FALLBACK, m.start(), -(m.end() - m.start()), i)
             if best is None or key < best[0]:
                 best = (key, slug, m.group(0))
     v = VETO_TITLE.search(t)

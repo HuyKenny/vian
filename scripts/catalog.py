@@ -189,6 +189,18 @@ def load_offers(shops):
     return out, dropped
 
 
+def pick_cat(cats, desc):
+    """Majority of the offers' categories; on a tie (two shops, two opinions: "TV stolek" vs the other shop's coffee
+    tables) the description's opening words decide ("Televizní stolek Toronto 120 cm …")."""
+    ranked = cats.most_common()
+    tied = {c for c, n in ranked if n == ranked[0][1]}
+    if len(tied) > 1 and desc:
+        v = X.title_class({"t": desc[:160]})[0]
+        if v in tied:
+            return v
+    return ranked[0][0]
+
+
 class DSU:
     def __init__(self):
         self.p = {}
@@ -369,7 +381,7 @@ def cluster(offers, shop_rank):
         uniq = lambda key: [k for k, _ in Counter(x for o in allo for x in o[key]).most_common()]
         products.append({
             "id": pid, "name": name, "brand": brands.most_common(1)[0][0] if brands else "", "ean": eans[0] if eans else "",
-            "cat": cats.most_common(1)[0][0], "desc": desc, "img": img, "imgs": imgs[:7],
+            "cat": pick_cat(cats, desc), "desc": desc, "img": img, "imgs": imgs[:7],
             "dry": " ".join({o["name"] for o in allo}).lower()[:600],
             "paths": " ".join(sorted({o["path"] for o in allo if o["path"]}))[:500],
             "offers": shop_offers, "price": shop_offers[0]["price"], "variants": var if len(var) > 1 else [],
