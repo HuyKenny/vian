@@ -3,6 +3,8 @@
 
     python3 scripts/fetch.py            # all enabled shops in data/shops.json
     python3 scripts/fetch.py bambule    # only these shop ids
+    python3 scripts/fetch.py --net cj           # only CJ shops (sequential: CJ answers 403 to parallel requests)
+    python3 scripts/fetch.py --net feeds --part 1/3   # every 3rd XML feed shop (run parts as parallel processes)
     FETCH_LIMIT=300 python3 scripts/fetch.py bambule   # tiny sample for local work
 
 Keys come from the environment (GitHub secrets; locally scripts/localenv.py reads ~/ai/credentials/):
@@ -13,6 +15,7 @@ This repository is PUBLIC and so are its Actions logs: nothing here may print a 
 Only shop ids, counts and exception class names are logged; every feed URL is registered with ::add-mask:: first.
 Safety: a failed download keeps the previous file; so does a feed that shrank below 50 % of the previous run.
 """
+import fcntl
 import gzip
 import json
 import os
@@ -208,7 +211,7 @@ def xml_offers(shop, resp, link_of):
     for kind, d, params, imgs in xml_items(resp):
         pmap = {k: v for k, v in params}
         if kind == "SHOPITEM":
-            pid = d.get("ITEM_ID")
+            pid = d.get("ITEM_ID") or d.get("ID") or d.get("PRODUCTID")      # idea-nabytek: <ID>
             title = d.get("PRODUCTNAME") or d.get("PRODUCT") or d.get("NAME")
             url, img = d.get("URL"), d.get("IMGURL") or d.get("IMAGE_MAIN")
             price, cur = price_of(d.get("PRICE_VAT") or d.get("PRICE"))
@@ -226,6 +229,8 @@ def xml_offers(shop, resp, link_of):
             sale, _ = price_of(d.get("sale_price"))
             price, was = (sale, regular) if 0 < sale < regular else (regular, 0)
             ean, brand, cat, desc = d.get("gtin", ""), d.get("brand", ""), d.get("product_type", "") or d.get("google_product_category", ""), d.get("description", "")
+        if shop.get("cat_field"):               # aulix: product_type is wrong ("Zahrada > …" for every lamp)
+            cat = d.get(shop["cat_field"]) or cat
         if cur and cur != "CZK":
             continue
         if not (pid and title and url and price > 0) or not path_ok(shop, cat or ""):
@@ -375,23 +380,51 @@ def run(shop):
     return {"shop": shop["id"], "ok": True, "offers": n, "seconds": round(time.time() - t0)}
 
 
+def release(shop, remaining):
+    """Close downloaded feeds no later shop of this process needs (big feeds would pile up on disk)."""
+    left = set()
+    for s in remaining:
+        try:
+            left.update(feed_urls(s))
+        except Exception:
+            pass
+    try:
+        mine = feed_urls(shop)
+    except Exception:
+        return
+    for u in mine:
+        if u not in left and u in _FEED_CACHE:
+            _FEED_CACHE.pop(u).close()
+
+
 def main():
     mask_feed_urls()
-    only = set(sys.argv[1:])
+    args = sys.argv[1:]
+    net = args[args.index("--net") + 1] if "--net" in args else ""
+    part = args[args.index("--part") + 1] if "--part" in args else "1/1"
+    only = {a for i, a in enumerate(args) if not a.startswith("--") and (i == 0 or args[i - 1] not in ("--net", "--part"))}
+    k, n = (int(x) for x in part.split("/"))
     RAW.mkdir(parents=True, exist_ok=True)
     shops = json.load(open(APP / "data/shops.json"))["shops"]
+    todo = [s for s in shops if s["id"] in only] if only else [s for s in shops if s.get("enabled") is not False]
+    if net == "cj":
+        todo = [s for s in todo if s["network"] == "cj"]
+    elif net == "feeds":
+        todo = [s for s in todo if s["network"] != "cj"][k - 1::n]
     report = []
-    for s in shops:
-        if (only and s["id"] not in only) or (not only and s.get("enabled") is False):
-            continue
+    for i, s in enumerate(todo):
         report.append(run(s))
-    old = {}
+        if s["network"] != "cj":
+            release(s, todo[i + 1:])
     rp = RAW / "fetch-report.json"
-    if rp.exists():
-        old = {r["shop"]: r for r in json.load(open(rp)).get("shops", [])}
-    for r in report:
-        old[r["shop"]] = r
-    json.dump({"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "shops": list(old.values())}, open(rp, "w"), indent=1)
+    with open(RAW / ".fetch-report.lock", "w") as lock:      # parallel parts merge into one report
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        old = {}
+        if rp.exists():
+            old = {r["shop"]: r for r in json.load(open(rp)).get("shops", [])}
+        for r in report:
+            old[r["shop"]] = r
+        json.dump({"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "shops": list(old.values())}, open(rp, "w"), indent=1)
 
 
 if __name__ == "__main__":

@@ -237,6 +237,11 @@
   $$("[data-consent]").forEach(function (b) {
     b.addEventListener("click", function () { store("vian-consent", b.dataset.consent); cbar.hidden = true; setConsent(b.dataset.consent === "yes"); });
   });
+  var sq = $("#shopq"), sl = $("#shoplist");
+  if (sq && sl) sq.addEventListener("input", function () {
+    var q = sq.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    sl.querySelectorAll("li").forEach(function (li) { li.hidden = !!q && (li.dataset.name || "").indexOf(q) < 0; });
+  });
   var co = $("#consent-open");
   co && co.addEventListener("click", function (e) { e.preventDefault(); if (cbar) cbar.hidden = false; });
   document.addEventListener("click", function (e) {

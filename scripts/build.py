@@ -86,6 +86,48 @@ class Out:
             self.sitemap[group].append(path)
 
 
+CAT_CAP = int(os.environ.get("VIAN_CAT_CAP", "1500"))   # Kenny 12. 11. 2026: enough to choose from, not everything
+MIN_CAT = 8                                              # a category is public (nav, tiles, sitemap) from this many products
+
+
+def quality(p):
+    """How useful a product is to a shopper comparing prices: more shops first, then a photo, a brand, a known width,
+    a real discount, variants and a description."""
+    return (100 * (len(p["offers"]) - 1) + (20 if p["img"] else 0) + (10 if p["brand"] else 0) + (10 if p.get("wmin") else 0)
+            + (5 if R.Site.discount(p) >= 10 else 0) + 2 * min(len(p.get("variants") or []), 5) + (5 if len(p.get("desc") or "") >= 120 else 0))
+
+
+def cap_categories(products, cap):
+    """At most `cap` products per category. Products in 2+ shops always stay; the rest is taken round-robin over the
+    shops (each shop's best first), so one big shop cannot fill a category on its own. Deterministic (ties by id), so
+    the same feed gives the same selection every night and pages do not flicker."""
+    if not cap:
+        return products, {}
+    by_cat = defaultdict(list)
+    for p in products:
+        by_cat[p["cat"]].append(p)
+    keep, capped = [], {}
+    for k, ps in by_cat.items():
+        if len(ps) <= cap:
+            keep += ps
+            continue
+        ps = sorted(ps, key=lambda p: (-quality(p), p["id"]))
+        multi = [p for p in ps if len(p["offers"]) > 1][:cap]
+        queues = defaultdict(list)
+        for p in ps:
+            if len(p["offers"]) == 1:
+                queues[p["offers"][0]["shop"]].append(p)
+        order = sorted(queues, key=lambda sid: (-quality(queues[sid][0]), sid))
+        picked, i = list(multi), 0
+        while len(picked) < cap and any(queues.values()):
+            for sid in order:
+                if queues[sid] and len(picked) < cap:
+                    picked.append(queues[sid].pop(0))
+        keep += picked
+        capped[k] = len(ps) - len(picked)
+    return keep, capped
+
+
 def pop_key(p):
     return (-len(p["offers"]), -(1 if p["img"] else 0), -(1 if R.Site.discount(p) >= 10 else 0), -len(p.get("variants") or []), p["price"])
 
@@ -145,7 +187,7 @@ def crumbs_for(k):
 
 def main():
     import faulthandler
-    faulthandler.dump_traceback_later(int(os.environ.get("VIAN_BUILD_WATCHDOG", "4200")), exit=True)
+    faulthandler.dump_traceback_later(int(os.environ.get("VIAN_BUILD_WATCHDOG", "8100")), exit=True)
     t0 = time.time()
     shops = [s for s in json.load(open(APP / "data/shops.json"))["shops"] if s.get("enabled", True)]
     rank = {s["id"]: i for i, s in enumerate(shops)}
@@ -158,6 +200,8 @@ def main():
     products = C.cluster(offers, rank)
     bad = C.sanity(products)
     products = [p for p in products if p["offers"]]
+    products, capped = cap_categories(products, CAT_CAP)
+    log(f"category cap {CAT_CAP}: {sum(capped.values())} products left out in {len(capped)} categories")
     new_slugs = C.assign_slugs(products, state)
     C.price_history(products, state)
     present = sorted({o["shop"] for p in products for o in p["offers"]})
@@ -203,13 +247,14 @@ def main():
         by_room[X.TREE[p["cat"]][1]].append(p)
         if p["brand"]:
             by_brand[X.slugify(p["brand"])].append(p)
-    S.nav_ok = {r for r in by_room if by_room[r]}
-    S.cat_ok = {k for k in by_cat if by_cat[k]}
+    S.cat_ok = {k for k in by_cat if len(by_cat[k]) >= MIN_CAT}
+    S.nav_ok = {X.CATS[k][1] for k in S.cat_ok}
     brand_name = {b: Counter(p["brand"] for p in ps).most_common(1)[0][0] for b, ps in by_brand.items()}
     brand_pages = {b: ps for b, ps in by_brand.items() if len(ps) >= 6 and b and b not in X.TREE}
     S.ctx = {"by_cat": by_cat, "brands": brand_pages, "brand_name": brand_name}
 
     reserved = ({f"/{k}/" for k in X.TREE} | {f"/znacky/{b}/" for b in brand_pages}
+                | {f"/obchody/{s['id']}/" for s in shops}
                 | {"/", "/kategorie/", "/znacky/", "/slevy/", "/obchody/", "/jak-srovnavame/", "/hledat/", "/poradna/", "/kontakt/", "/ochrana-osobnich-udaju/"})
     landings, ldropped = LD.plan(products, reserved)
     S.landings = {L["path"]: L for L in landings}
@@ -239,9 +284,9 @@ def main():
     # ---------------- rooms and categories
     for room in X.TOP:
         items = sorted(by_room.get(room, []), key=pop_key)
-        if not items:
+        if not items or room not in S.nav_ok:
             continue
-        subs = [(k, by_cat[k]) for k in X.CATS if X.CATS[k][1] == room and by_cat.get(k)]
+        subs = [(k, by_cat[k]) for k in X.CATS if X.CATS[k][1] == room and k in S.cat_ok]
         j = write_json(out, S, room, items)
         paged(out, S, f"/{room}/", items, lambda: room_page(S, room, items, subs, j), "listings")
     for k in X.CATS:
@@ -249,7 +294,7 @@ def main():
         if not ps:
             continue
         j = write_json(out, S, k, ps)
-        paged(out, S, f"/{k}/", ps, lambda: category_page(S, k, ps, j), "listings", index=len(ps) >= 6)
+        paged(out, S, f"/{k}/", ps, lambda: category_page(S, k, ps, j), "listings", index=k in S.cat_ok)
 
     # ---------------- landings (facets, hubs, hand-written)
     for L in landings:
@@ -276,6 +321,17 @@ def main():
 
     # ---------------- static pages, search, home, 404
     out.page("/kategorie/", categories_index(S, by_room, by_cat), "pages")
+    by_shop = defaultdict(list)
+    for p in products:
+        for sid in {o["shop"] for o in p["offers"]}:
+            by_shop[sid].append(p)
+    S.shop_pages = {sid for sid, ps in by_shop.items() if ps}
+    for s in shops:
+        ps = sorted(by_shop.get(s["id"], []), key=pop_key)
+        if not ps:
+            continue
+        j = write_json(out, S, f"o-{s['id']}", ps)
+        paged(out, S, f"/obchody/{s['id']}/", ps, lambda: shop_page(S, s, ps, j), "listings", index=len(ps) >= 12)
     out.page("/obchody/", shops_page(S, shops, present, products), "pages")
     out.page("/jak-srovnavame/", about_page(S, present), "pages")
     out.page("/kontakt/", contact_page(S), "pages")
@@ -339,7 +395,8 @@ def main():
               "indexable_products": sum(1 for p in products if p["page"] and p["index"]), "gone_pages": len(gone), "categories": len(by_cat),
               "landings": len(landings), "brands": len(brand_pages), "changed": len(out.changed), "shops": present,
               "per_shop": dict(Counter(o["shop"] for p in products for o in p["offers"])), "per_cat": dict(Counter(p["cat"] for p in products).most_common()),
-              "with_width": sum(1 for p in products if p["wmin"]), "dropped": dict(dropped), "categorisation": dict(C.STATS)}
+              "with_width": sum(1 for p in products if p["wmin"]), "dropped": dict(dropped), "categorisation": dict(C.STATS),
+              "public_categories": len(S.cat_ok), "departments": len(S.nav_ok), "capped": capped, "shop_pages": len(S.shop_pages)}
     json.dump(report, open(APP / "data/state/build-report.json", "w"), indent=1, ensure_ascii=False)
     log(json.dumps({k: v for k, v in report.items() if k not in ("per_cat",)}, ensure_ascii=False))
     log(f"built {out.files} files in {time.time() - t0:.0f}s")
@@ -554,7 +611,7 @@ def category_page(S, k, items, jsn):
     n = len(items)
     title = f"{h1} – srovnání cen od {R.kc(lo)}" + SUFFIX
     desc = f"{h1}: {n} {R.plural(n, 'kus', 'kusy', 'kusů')} z {len({o['shop'] for p in items for o in p['offers']})} českých e‑shopů, ceny od {R.kc(lo)}. Filtr podle rozměrů, barvy a materiálu."
-    sibs = [(c, cat_name(c), len(S.ctx["by_cat"][c])) for c in X.CATS if X.CATS[c][1] == room and c != k and S.ctx["by_cat"].get(c)]
+    sibs = [(c, cat_name(c), len(S.ctx["by_cat"][c])) for c in X.CATS if X.CATS[c][1] == room and c != k and c in S.cat_ok]
     lead = f"{n} {R.plural(n, 'kus', 'kusy', 'kusů')} skladem, ceny od {R.kc(lo)} do {R.kc(hi)}. Polovina stojí méně než {R.kc(med)}."
     body, lds = listing_body(S, f"/{k}/", E(h1), lead, items, jsn, X.ICON[k], texts_key=f"cat:{k}", links=[], links_label="Upřesnit",
                              extra=S.tiles(sibs))
@@ -684,23 +741,53 @@ def brands_index(S, pages, names):
 def categories_index(S, by_room, by_cat):
     parts = []
     for room in X.TOP:
-        if not by_room.get(room):
+        if room not in S.nav_ok:
             continue
-        subs = [(k, cat_name(k), len(by_cat[k])) for k in X.CATS if X.CATS[k][1] == room and by_cat.get(k)]
+        subs = [(k, cat_name(k), len(by_cat[k])) for k in X.CATS if X.CATS[k][1] == room and k in S.cat_ok]
         parts.append(f'<section class="catgrp"><h2><a href="/{room}/"><img src="/img/ic/{X.ICON[room]}.webp" alt="" width="56" height="56" loading="lazy">{E(X.ROOMS[room][0])}</a></h2>{S.tiles(subs)}</section>')
     hubs = sorted([L for L in S.landings.values() if L["parent"] is None], key=lambda L: -L["n"])
     extra = ('<h2 style="margin-top:34px">Podle stylu a materiálu</h2>' + S.chips([(L["path"], L["h1"], L["n"]) for L in hubs])) if hubs else ""
-    body = f'<h1>Všechny kategorie</h1><p class="lead">Nábytek a doplňky podle místnosti.</p><div class="catgrid">{"".join(parts)}</div>{extra}'
-    return S.layout("/kategorie/", "Kategorie nábytku a bytových doplňků" + SUFFIX, "Přehled kategorií: sedačky, postele, matrace, skříně, stoly, židle, svítidla, koberce a dekorace podle místností.",
+    n_cats = len(S.cat_ok)
+    body = f'<h1>Všechny kategorie</h1><p class="lead">{n_cats} kategorií nábytku a bytových doplňků v {len(parts)} odděleních.</p><div class="catgrid">{"".join(parts)}</div>{extra}'
+    return S.layout("/kategorie/", "Kategorie nábytku a bytových doplňků" + SUFFIX, f"Přehled {n_cats} kategorií: nábytek podle místností, svítidla, koberce, textil, dekorace, kuchyně, koupelna, zahrada a podlahy.",
                     body, crumbs=[HOME, ("Kategorie", "/kategorie/")])
+
+
+def shop_page(S, s, items, jsn):
+    """One shop: what it sells here (its categories), its products sorted like everywhere else, and where it is the
+    cheapest of several shops."""
+    sid, name = s["id"], s["name"]
+    lo, med, hi = price_stats(items)
+    n = len(items)
+    cats = Counter(p["cat"] for p in items)
+    tiles = S.tiles([(k, cat_name(k), c) for k, c in cats.most_common(14) if k in S.cat_ok])
+    multi = [p for p in items if len(p["offers"]) > 1]
+    best = sum(1 for p in multi if p["offers"][0]["shop"] == sid)
+    cmp_txt = (f" {len(multi)} {R.plural(len(multi), 'kus nabízí', 'kusy nabízejí', 'kusů nabízí')} i jiné obchody, u {best} z nich je {E(name)} nejlevnější."
+               if multi else "")
+    lead = (f"{n} {R.plural(n, 'kus', 'kusy', 'kusů')} z e‑shopu {E(s['domain'])} v {len(cats)} {R.plural(len(cats), 'kategorii', 'kategoriích', 'kategoriích')}, "
+            f"ceny od {R.kc(lo)}.{cmp_txt}")
+    title = f"{name} – nabídka a srovnání cen" + SUFFIX
+    desc = f"{name}: {n} {R.plural(n, 'kus', 'kusy', 'kusů')} nábytku a doplňků, ceny od {R.kc(lo)}. Porovnejte s dalšími českými e‑shopy na jednom místě."
+    head = f'<div class="shophead" style="--c:{s.get("color", "#888")}">{R.shop_logo(S.shop(sid), big=True)}</div>' if s.get("logo") else ""
+    body, lds = listing_body(S, f"/obchody/{sid}/", E(name), lead, items, jsn, None, texts_key=f"shop:{sid}", extra=head + tiles)
+    return S.layout(f"/obchody/{sid}/", title, desc, body, crumbs=[HOME, ("Obchody", "/obchody/"), (name, f"/obchody/{sid}/")], jsonld=lds, full=True)
 
 
 def shops_page(S, shops, present, products):
     cnt = Counter(o["shop"] for p in products for o in p["offers"])
-    lis = "".join(f'<li style="--c:{s.get("color", "#888")}">{R.shop_logo(S.shop(s["id"]), big=True)}<h3>{E(s["name"])}</h3><p class="muted">{cnt.get(s["id"], 0)} kusů v nabídce</p><p><a class="lnk" href="https://{s["domain"]}/" rel="nofollow noopener" target="_blank">{E(s["domain"])}</a></p></li>'
-                  for s in sorted(shops, key=lambda s: -cnt.get(s["id"], 0)) if s["id"] in present)
-    body = (f'<h1>Obchody, které srovnáváme</h1><p class="lead">Ceny a dostupnost bereme z produktových feedů těchto e‑shopů. Ceny obnovujeme každý den, nabídku produktů jednou týdně.</p>'
-            f'<ul class="shoplist">{lis}</ul><p class="muted" style="margin-top:18px;font-size:.88rem">Loga a názvy obchodů patří jejich majitelům a uvádíme je jen k označení obchodu, jehož nabídku porovnáváme. Nejde o oficiální doporučení ani partnerství. Odstranění loga na žádost: <a class="lnk" href="/kontakt/">kontakt</a>.</p>')
+    dept = {}
+    for p in products:
+        for o in p["offers"]:
+            dept.setdefault(o["shop"], Counter())[X.TREE[p["cat"]][1]] += 1
+    def li(s):
+        top = ", ".join(X.ROOMS[r][0].lower() for r, _ in dept.get(s["id"], Counter()).most_common(3))
+        return (f'<li style="--c:{s.get("color", "#888")}" data-name="{E(X.fold(s["name"]))}">{R.shop_logo(S.shop(s["id"]), big=True)}'
+                f'<h3><a href="/obchody/{s["id"]}/">{E(s["name"])}</a></h3><p class="muted">{cnt.get(s["id"], 0)} kusů · {E(top)}</p></li>')
+    lis = "".join(li(s) for s in sorted(shops, key=lambda s: X.fold(s["name"])) if s["id"] in present)
+    body = (f'<h1>Obchody, které srovnáváme</h1><p class="lead">{len(present)} českých e‑shopů s nábytkem a vybavením domácnosti. Ceny a dostupnost bereme z jejich produktových feedů. Ceny obnovujeme každý den, nabídku produktů jednou týdně.</p>'
+            '<p><label class="sr" for="shopq">Najít obchod</label><input id="shopq" class="shopq" type="search" placeholder="Najít obchod…" autocomplete="off"></p>'
+            f'<ul class="shoplist" id="shoplist">{lis}</ul><p class="muted" style="margin-top:18px;font-size:.88rem">Loga a názvy obchodů patří jejich majitelům a uvádíme je jen k označení obchodu, jehož nabídku porovnáváme. Nejde o oficiální doporučení ani partnerství. Odstranění loga na žádost: <a class="lnk" href="/kontakt/">kontakt</a>.</p>')
     return S.layout("/obchody/", "Obchody s nábytkem, které srovnáváme" + SUFFIX, "Seznam českých e‑shopů s nábytkem a bytovými doplňky, jejichž ceny Vian srovnává.", body,
                     crumbs=[HOME, ("Obchody", "/obchody/")])
 
@@ -708,10 +795,10 @@ def shops_page(S, shops, present, products):
 def about_page(S, present):
     body = (f'<div class="prose" style="margin-top:0"><h1>Jak srovnáváme</h1>'
             f'<p>Vian je srovnávač cen nábytku a bytových doplňků. Nic neprodáváme a nesbíráme objednávky. Každý den obnovíme ceny a jednou týdně nabídku produktů z {len(present)} českých e‑shopů, roztřídíme je podle místností a kategorií a stejné kusy z různých obchodů dáme k sobě.</p>'
-            '<h2>Jak poznáme, že jde o stejný kus</h2><p>Mezi obchody párujeme podle čárového kódu (EAN). Varianty jednoho modelu v rámci obchodu, třeba stejnou postel ve třech šířkách a dvou barvách, spojíme na jednu stránku a ke každé variantě ukážeme její cenu. Když si nejsme jistí, necháme kusy zvlášť.</p>'
+            '<h2>Jak poznáme, že jde o stejný kus</h2><p>Mezi obchody párujeme podle čárového kódu (EAN) a podle značky s kódem výrobce. Varianty jednoho modelu v rámci obchodu, třeba stejnou postel ve třech šířkách a dvou barvách, spojíme na jednu stránku a ke každé variantě ukážeme její cenu. Když si nejsme jistí, necháme kusy zvlášť.</p>'
             '<h2>Rozměry</h2><p>Rozměry přebíráme z názvu a popisu, které obchod uvádí. Kde obchod napíše šířku, hloubku a výšku, nakreslíme je. Kde jen tři čísla bez popisu, ukážeme je tak, jak jsou: obchody je řadí různě. Před nákupem velkého kusu si rozměry vždy ověřte v e‑shopu a změřte dveře a schodiště, kudy se bude nosit.</p>'
             '<h2>Odkud jsou ceny</h2><p>Ceny, dostupnost, obrázky a popisy posílají obchody v produktových feedech. Cena se v obchodě může mezi naší aktualizací a vaším nákupem změnit; platí vždy cena v e‑shopu. Vývoj ceny a „nejnižší cenu za 30 dní“ počítáme jen z hodnot, které jsme sami zaznamenali.</p>'
-            '<h2>Jak web vydělává</h2><p>Když přes náš odkaz nakoupíte, obchod nám může zaplatit provizi z partnerského programu (CJ). Cenu pro vás to nemění a pořadí nabídek neovlivňuje: řadíme vždy od nejlevnější.</p>'
+            '<h2>Jak web vydělává</h2><p>Když přes náš odkaz nakoupíte, obchod nám může zaplatit provizi z partnerského programu (sítě CJ, eHub, Dognet a AffiliatePort). Cenu pro vás to nemění a pořadí nabídek neovlivňuje: řadíme vždy od nejlevnější.</p>'
             f'<h2>Kontakt</h2><p>Chybu v ceně, rozměru nebo zařazení nám napište na <a class="lnk" href="mailto:{R.OPERATOR["email"]}">{R.OPERATOR["email"]}</a>. Provozovatel a další údaje jsou na stránce <a class="lnk" href="/kontakt/">Kontakt</a>.</p></div>')
     return S.layout("/jak-srovnavame/", "Jak srovnáváme ceny nábytku" + SUFFIX, "Jak Vian získává ceny nábytku, páruje stejné kusy mezi obchody, slučuje varianty a z čeho žije.", body,
                     crumbs=[HOME, ("Jak srovnáváme", "/jak-srovnavame/")])
@@ -734,7 +821,7 @@ def privacy_page(S):
             f'<h2>Správce údajů</h2><p>{o["name"]}, {o["address"]}, IČO {o["ico"]}, {o["vat"]}. Kontakt: <a class="lnk" href="mailto:{o["email"]}">{o["email"]}</a>. Dozorovým úřadem je Úřad pro ochranu osobních údajů (uoou.cz), u kterého můžete podat stížnost.</p>'
             '<p>Vian nemá registraci, účty ani formuláře. Neukládáme o vás žádné osobní údaje.</p>'
             '<h2>Měření návštěvnosti</h2><p>Google Analytics 4 (Google Ireland Ltd.) je na stránce ve výchozím režimu „bez souhlasu“ (Google Consent Mode): dokud nedáte souhlas v liště, nenastavuje cookies, neukládá identifikátory a o návštěvě se do Googlu posílá jen anonymní signál bez cookies. Po souhlasu měříme, které stránky lidé čtou a na které obchody klikají. Souhlas můžete kdykoli změnit odkazem „Nastavení cookies“ v patičce.</p>'
-            '<h2>Odkazy do obchodů</h2><p>Odkazy do e‑shopů vedou přes partnerskou síť CJ, která si může uložit cookie, aby obchod poznal, že jste přišli od nás. Řídí se zásadami té sítě a obchodu.</p>'
+            '<h2>Odkazy do obchodů</h2><p>Odkazy do e‑shopů vedou přes partnerské sítě (CJ, eHub, Dognet, AffiliatePort), které si mohou uložit cookie, aby obchod poznal, že jste přišli od nás. Řídí se zásadami té sítě a obchodu.</p>'
             '<h2>Kalkulačka „Vejde se?“</h2><p>Rozměry, které zadáte do kalkulačky u produktu, se počítají jen ve vašem prohlížeči a nikam se neodesílají.</p></div>')
     return S.layout("/ochrana-osobnich-udaju/", "Ochrana osobních údajů" + SUFFIX, "Jak Vian zachází s osobními údaji a cookies.", body,
                     crumbs=[HOME, ("Ochrana osobních údajů", "/ochrana-osobnich-udaju/")])
@@ -750,13 +837,16 @@ HOME_CATS = ["konferencni-stolky", "satni-skrine", "kancelarske-zidle", "matrace
              "rohove-sedacky", "koberce", "komody", "kresla", "lustry", "tv-stolky"]
 
 
+NOT_SHOWCASE = {"koupelna", "textil", "dekorace", "kuchyne-a-stolovani", "spotrebice", "podlahy-a-kovani", "domacnost", "vanoce-a-svatky"}
+
+
 def home_page(S, products, by_room, by_cat, sale):
     st = S.stats
     def showcase(pool, n=10, per_cat=2):
         """Home rows show furniture (not soap dispensers), at most two pieces of one category, for variety."""
         out, seen = [], Counter()
         for p in pool:
-            if p["img"] and X.TREE[p["cat"]][1] not in ("koupelna", "textil", "dekorace") and seen[p["cat"]] < per_cat:
+            if p["img"] and X.TREE[p["cat"]][1] not in NOT_SHOWCASE and seen[p["cat"]] < per_cat:
                 out.append(p)
                 seen[p["cat"]] += 1
                 if len(out) == n:
@@ -765,7 +855,7 @@ def home_page(S, products, by_room, by_cat, sale):
     hot = showcase([p for p in products if len(p["offers"]) > 1]) or showcase(products)
     sale = showcase(sale)
     tiles = S.tiles([(k, cat_name(k), len(by_cat[k])) for k in HOME_CATS if by_cat.get(k)], "cattiles", 96)
-    rooms = S.chips([(f"/{r}/", X.ROOMS[r][0], 0) for r in X.TOP if by_room.get(r)])
+    rooms = S.chips([(f"/{r}/", X.ROOMS[r][0], 0) for r in X.TOP if r in S.nav_ok])
     hubs = [L for L in S.landings.values() if L["parent"] is None and L["index"]]
     styles = S.chips([(L["path"], L["h1"], L["n"]) for L in sorted(hubs, key=lambda L: -L["n"])[:10]])
     guides_sec = (f'<section class="sec"><div class="sec__h"><h2>Z poradny</h2><a href="/poradna/">Všechny články →</a></div>' + S.chips([(p, g["h1"], 0) for p, g in list(S.guides.items())[:8]]) + "</section>") if S.guides else ""
@@ -782,7 +872,7 @@ def home_page(S, products, by_room, by_cat, sale):
 <dl class="hero__stats"><div><dt>{n_txt}</dt><dd>kusů v nabídce</dd></div><div><dt>{st['shops']}</dt><dd>obchodů</dd></div><div><dt>denně</dt><dd>nové ceny</dd></div></dl></div>
 <div class="hero__art"><img src="/img/ui/hero-1200.webp" srcset="/img/ui/hero-640.webp 640w, /img/ui/hero-1200.webp 1200w" sizes="(max-width:980px) 92vw, 620px" alt="Obývací pokoj se zelenou sedačkou a svinovacím metrem na podlaze" width="1200" height="583" fetchpriority="high"></div></div></section>
 <div class="wrap"><section class="sec"><div class="sec__h"><h2>Nejhledanější kategorie</h2><a href="/kategorie/">Všechny kategorie →</a></div>{tiles}</section>
-<section class="sec"><div class="sec__h"><h2>Podle místnosti</h2></div>{rooms}</section>
+<section class="sec"><div class="sec__h"><h2>Podle místnosti a oddělení</h2><a href="/kategorie/">{len(S.cat_ok)} kategorií →</a></div>{rooms}</section>
 <section class="sec"><div class="sec__h"><h2>Ve více obchodech najednou</h2><a href="/kategorie/">Procházet →</a></div>{row(hot)}</section>
 {f'<section class="sec"><div class="sec__h"><h2>Teď ve slevě</h2><a href="/slevy/">Všechny slevy →</a></div>{row(sale)}</section>' if sale else ''}
 {shop_strip}

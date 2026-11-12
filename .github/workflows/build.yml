@@ -26,7 +26,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 340
+    timeout-minutes: 355
     permissions:
       contents: write          # release asset with the encrypted state
     env:
@@ -56,9 +56,15 @@ jobs:
           STATE_KEY: ${{ secrets.STATE_KEY }}
       - name: Fetch feeds
         if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.fetch)
-        timeout-minutes: 180
+        timeout-minutes: 160
         continue-on-error: true   # a stuck network falls back to the restored feeds
-        run: python3 scripts/fetch.py
+        # CJ alone (it answers 403 to parallel requests) next to 3 processes for the eHub / Dognet / AffiliatePort XML feeds.
+        # stdout stays live (::add-mask:: for every feed URL); the logs hold only shop ids and counts.
+        run: |
+          python3 scripts/fetch.py --net cj 2> /tmp/fetch-cj.log &
+          for i in 1 2 3; do python3 scripts/fetch.py --net feeds --part $i/3 2> /tmp/fetch-feeds-$i.log & done
+          wait
+          cat /tmp/fetch-*.log
         env:
           CJ_API_KEY: ${{ secrets.CJ_API_KEY }}
           CJ_CID: ${{ secrets.CJ_CID }}
@@ -70,7 +76,7 @@ jobs:
       - name: Blog feature photos (Pexels CDN)
         run: python3 scripts/blog_photos.py
       - name: Build site
-        timeout-minutes: 75
+        timeout-minutes: 140
         run: python3 scripts/build.py
         env:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}

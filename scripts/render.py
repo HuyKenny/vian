@@ -27,7 +27,9 @@ LOGO = '<img src="/img/ui/logo.svg" alt="vian" width="110" height="60">'
 LOGO_LIGHT = '<img src="/img/ui/logo-light.svg" alt="vian" width="110" height="60">'
 FOOT_A = ["sedacky", "rohove-sedacky", "postele", "matrace", "satni-skrine", "jidelni-stoly", "kancelarske-zidle"]
 FOOT_B = ["koberce", "lustry", "zaclony-a-zavesy", "povleceni", "zrcadla"]
-NAV = ["obyvaci-pokoj", "loznice", "jidelna-a-kuchyne", "pracovna", "detsky-pokoj", "predsin", "koupelna", "zahrada", "svitidla", "textil", "dekorace"]
+# header: the 11 biggest departments + "Vše" (12 = two rows of 6 on a phone); the other departments are in the footer
+NAV = ["obyvaci-pokoj", "loznice", "jidelna-a-kuchyne", "kuchyne-a-stolovani", "detsky-pokoj", "predsin", "koupelna", "zahrada", "svitidla", "textil", "dekorace"]
+FOOT_DEPTS = ["pracovna", "vanoce-a-svatky", "domacnost", "podlahy-a-kovani", "spotrebice"]
 
 
 def kc(n):
@@ -181,7 +183,8 @@ class Site:
             content = content.replace("<!--crumbs-->", cr, 1)
         ok = self.nav_ok
         nav = "".join(f'<li><a href="/{k}/"><img src="/img/ic/{X.ICON[k]}.webp" alt="" width="36" height="36" loading="lazy">{E(X.ROOMS[k][0])}</a></li>'
-                      for k in NAV if ok is None or k in ok)
+                      for k in NAV if ok is None or k in ok) + '<li><a href="/kategorie/"><img src="/img/ic/knihovna.webp" alt="" width="36" height="36" loading="lazy">Vše</a></li>'
+        more = "".join(f'<li><a href="/{k}/">{E(X.ROOMS[k][0])}</a></li>' for k in FOOT_DEPTS if ok is None or k in ok)
         og = og_img or f"{self.base}/img/ui/og.png"
         n_shops = self.stats["shops"]
         return f"""<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -197,6 +200,7 @@ class Site:
 <main id="main">{content}</main>
 <footer><div class="wrap cols"><div class="fabout"><a class="logo" href="/">{LOGO_LIGHT}</a><p>Vian srovnává ceny nábytku a bytových doplňků z {n_shops} českých e‑shopů. Nic neprodáváme: nakoupíte přímo v obchodě za stejnou cenu. Když nakoupíte přes náš odkaz, obchod nám může zaplatit provizi. Z ní web žije a pořadí nabídek neovlivňuje.</p></div>
 <div><h3>Nábytek</h3><ul>{self.flinks(FOOT_A)}<li><a href="/kategorie/">Všechny kategorie</a></li></ul></div>
+<div><h3>Další oddělení</h3><ul>{more}<li><a href="/obchody/">Obchody A–Z</a></li></ul></div>
 <div><h3>Bydlení</h3><ul>{self.flinks(FOOT_B)}<li><a href="/slevy/">Slevy na nábytek</a></li>{"".join(f'<li><a href="{u}">{E(t)}</a></li>' for u, t in self.footer_links)}</ul></div>
 <div><h3>Vian</h3><ul><li><a href="/jak-srovnavame/">Jak srovnáváme</a></li>{'<li><a href="/poradna/">Poradna</a></li>' if self.has_guides else ""}<li><a href="/obchody/">Obchody</a></li><li><a href="/znacky/">Značky</a></li><li><a href="/kontakt/">Kontakt</a></li><li><a href="/ochrana-osobnich-udaju/">Ochrana osobních údajů</a></li><li><a href="#" id="consent-open">Nastavení cookies</a></li></ul></div></div>
 <div class="wrap fine"><p>Ceny, rozměry a dostupnost přebíráme od obchodů a mohou se změnit; platí údaj v e‑shopu v okamžiku nákupu. Poslední aktualizace {self.stats["updated"]}.</p>
