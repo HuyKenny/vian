@@ -70,41 +70,113 @@ def todays_prices(path):
     return over
 
 
+CLEAN_SHARE, CLEAN_MIN = 0.85, 5      # a shop category is "clean" when >= 85 % of its titled products are one kind of thing
+STATS = {}                            # filled by load_offers: how categories were decided (for the build report)
+
+
+def load_catmap():
+    """Manual exceptions only (data/catmap.json): {"shops": {"<shop>": {"<path prefix>": "<category>" | "skip"}}}.
+    Everything else is decided from the data on every run, so a new product in a known shop category needs no work."""
+    p = APP / "data/catmap.json"
+    return json.loads(p.read_text()).get("shops", {}) if p.exists() else {}
+
+
+def override(rules, path):
+    best = None
+    for prefix, cat in rules.items():
+        if path.startswith(prefix) and (best is None or len(prefix) > len(best[0])):
+            best = (prefix, cat)
+    return best[1] if best else None
+
+
+def read_shop(s, full):
+    p = (RAW if full else WEEKLY) / f"{s['id']}.jsonl.gz"
+    if not p.exists():
+        return []
+    over = {} if full else todays_prices(RAW / f"{s['id']}.jsonl.gz")
+    recs = []
+    with gzip.open(p, "rt", encoding="utf-8") as f:
+        for line in f:
+            r = json.loads(line)
+            o = over.get(r["id"])
+            if o:
+                r["p"], r["was"], r["go"] = o[0], o[1], o[2]
+                r["url"] = o[3] or r.get("url")
+            recs.append(r)
+    return recs
+
+
 def load_offers(shops):
+    """Two passes per shop: 1) what every title says, and per shop category how uniform the titles are; 2) the final
+    category from title + clean shop category (taxonomy.decide), with manual exceptions from data/catmap.json."""
     out, dropped = [], Counter()
     full = full_mode()
+    catmap = load_catmap()
+    source = Counter()
+    report = []
     for s in shops:
-        p = (RAW if full else WEEKLY) / f"{s['id']}.jsonl.gz"
-        if not p.exists():
+        recs = read_shop(s, full)
+        if not recs:
             continue
-        over = {} if full else todays_prices(RAW / f"{s['id']}.jsonl.gz")
-        with gzip.open(p, "rt", encoding="utf-8") as f:
-            for line in f:
-                r = json.loads(line)
-                o = over.get(r["id"])
-                if o:
-                    r["p"], r["was"], r["go"] = o[0], o[1], o[2]
-                    r["url"] = o[3] or r.get("url")
-                cat = X.classify(r, kids=s.get("kids", False))
-                if not cat:
-                    dropped[s["id"]] += 1
-                    continue
-                price = float(r["p"] or 0)
-                if price <= 0 or not r.get("go") or price < X.PRICE_FLOOR.get(cat, 0):
-                    dropped[s["id"] + ":cheap"] += 1 if price > 0 else 0
-                    continue
-                name, params = X.split_variant(r["t"])
-                desc = X.clean(re.sub(r"<[^>]+>", " ", r.get("d") or ""))
-                colors, mats, styles, feats = X.attrs(r["t"], r.get("col"), desc)
-                out.append({
-                    "shop": s["id"], "oid": r["id"], "title": X.clean(r["t"]), "name": name, "params": params, "desc": desc,
-                    "brand": X.brand_of(r) or s.get("brand", ""), "ean": norm_ean(r.get("ean")),
-                    "img": "" if s.get("no_images") else https(r.get("img")),
-                    "imgs": [] if s.get("no_images") else [https(u) for u in r.get("imgs") or [] if u][:4],
-                    "price": round(price), "was": round(float(r.get("was") or 0)), "url": r.get("url") or "", "go": r["go"],
-                    "cat": cat, "path": r.get("cat") or "", "dims": X.dims(r["t"], desc, cat),
-                    "colors": colors, "mats": mats, "styles": styles, "feats": feats,
-                })
+        verdicts = [X.title_class(r) for r in recs]
+        per_path = defaultdict(Counter)
+        for r, (slug, strong) in zip(recs, verdicts):
+            if slug and slug != X.VETOED:
+                per_path[r.get("cat") or ""][slug] += 1
+        clean = {}
+        for path, c in per_path.items():
+            n = sum(c.values())
+            top, tv = c.most_common(1)[0]
+            if path and n >= CLEAN_MIN and tv / n >= CLEAN_SHARE:
+                clean[path] = top
+        rules = catmap.get(s["id"], {})
+        conflicts = defaultdict(Counter)
+        examples = {}
+        for r, verdict in zip(recs, verdicts):
+            path = r.get("cat") or ""
+            man = override(rules, path) if rules else None
+            if man == "skip":
+                dropped[s["id"] + ":skip"] += 1
+                continue
+            if man:
+                cat, src = (None, "veto") if verdict[0] == X.VETOED else (man, "manual")
+            else:
+                cat, src = X.decide(r, verdict, clean.get(path), kids=s.get("kids", False))
+            if src == "title>path":
+                conflicts[path][verdict[0]] += 1
+                examples.setdefault((path, verdict[0]), r["t"][:80])
+            source[src] += 1
+            if not cat:
+                dropped[s["id"]] += 1
+                continue
+            price = float(r["p"] or 0)
+            if price <= 0 or not r.get("go") or price < X.PRICE_FLOOR.get(cat, 0):
+                dropped[s["id"] + ":cheap"] += 1 if price > 0 else 0
+                continue
+            name, params = X.split_variant(r["t"])
+            desc = X.clean(re.sub(r"<[^>]+>", " ", r.get("d") or ""))
+            colors, mats, styles, feats = X.attrs(r["t"], r.get("col"), desc)
+            out.append({
+                "shop": s["id"], "oid": r["id"], "title": X.clean(r["t"]), "name": name, "params": params, "desc": desc,
+                "brand": X.brand_of(r) or s.get("brand", ""), "ean": norm_ean(r.get("ean")), "mpn": X.clean(r.get("mpn") or "")[:40],
+                "img": "" if s.get("no_images") else https(r.get("img")),
+                "imgs": [] if s.get("no_images") else [https(u) for u in r.get("imgs") or [] if u][:4],
+                "price": round(price), "was": round(float(r.get("was") or 0)), "url": r.get("url") or "", "go": r["go"],
+                "cat": cat, "path": r.get("cat") or "", "dims": X.dims(r["t"], desc, cat),
+                "colors": colors, "mats": mats, "styles": styles, "feats": feats,
+            })
+        for path, c in per_path.items():
+            n = sum(c.values())
+            top, tv = c.most_common(1)[0]
+            k = conflicts.get(path, Counter())
+            ex = "; ".join(f"{t}: {examples[(path, t)]}" for t, _ in k.most_common(2))
+            report.append((s["id"], path, n, clean.get(path, "-"), round(tv / n, 2), top, sum(k.values()), ex))
+    report.sort(key=lambda x: -x[2])
+    STATE.mkdir(parents=True, exist_ok=True)
+    (STATE / "catmap-report.tsv").write_text("shop\tshop category\ttitled products\tclean -> our category\ttop share\ttop by titles\ttitle beat the shop\texamples\n"
+                                             + "\n".join("\t".join(str(x) for x in row) for row in report))
+    STATS.clear()
+    STATS.update({"decided_by": dict(source), "clean_shop_categories": sum(1 for r in report if r[3] != "-"), "shop_categories": len(report)})
     return out, dropped
 
 
@@ -144,6 +216,22 @@ def variant_label(o):
     return " · ".join(bits) or o["title"][len(o["name"]):].strip(" ,-–")[:60] or "základní provedení"
 
 
+MAX_CODE_GROUP = 12
+RX_CODE_TOKEN = re.compile(r"[a-z0-9][a-z0-9.\-/]{2,}[a-z0-9]")
+RX_NOT_CODE = re.compile(r"^(\d+([.,]\d+)?(x\d+([.,]\d+)?){1,2}|\d{1,3}(cm|mm|ks|kg|l|w|lm)?|\d+(cm|mm|kg|ks|w|lm|k)|(19|20)\d\d|h\d(h\d)?|e\d\d|gu\d\d|ip\d\d|\d+v\d+)$")
+
+
+def product_codes(text):
+    """Manufacturer product codes in a title or MPN: tokens with at least one digit, 4-14 characters, that are not sizes,
+    years, units, firmness grades or bulb sockets ("K292", "XR703", "3197853", "41784000")."""
+    out = set()
+    for tok in RX_CODE_TOKEN.findall(X.fold(text)):
+        tok = re.sub(r"[.\-/]", "", tok)
+        if 4 <= len(tok) <= 14 and re.search(r"\d", tok) and not RX_NOT_CODE.match(tok):
+            out.add(tok)
+    return out
+
+
 def cluster(offers, shop_rank):
     # 1) same item across shops (EAN)
     dsu = DSU()
@@ -178,6 +266,32 @@ def cluster(offers, shop_rank):
             mdsu.union(mfirst[key], r)
         else:
             mfirst[key] = r
+    # 3) the same model in DIFFERENT shops without a shared EAN: brand + the manufacturer's product code in the title or
+    # MPN ("Halmar K292" at eŽidle = "HALMAR Jídelní židle K292" at Kancelářské židle). A code shared by many products
+    # (firmness "H3/H4", "2v1", socket "E27") is not a model code: only codes of <= MAX_CODE_GROUP items count, and the
+    # prices of one code must not differ more than 2x (a 299 Kč cushion and a 12 000 Kč sofa never share a model).
+    by_code = defaultdict(list)
+    for r in roots:
+        o = items[r][0]
+        bt = X.fold(o["brand"]).split()
+        if not bt:
+            continue
+        for c in product_codes(o["title"] + " " + o.get("mpn", "")):
+            by_code[(bt[0], c)].append(r)
+    linked = 0
+    for (brand, code), rs in by_code.items():
+        if not 1 < len(rs) <= MAX_CODE_GROUP:
+            continue
+        if len({items[r][0]["shop"] for r in rs}) < 2:
+            continue                   # inside one shop the name rule above decides (codes there are often colour codes)
+        ps = [items[r][0]["price"] for r in rs]
+        if max(ps) > 2 * min(ps):
+            continue
+        for r in rs[1:]:
+            if mdsu.find(r) != mdsu.find(rs[0]):
+                mdsu.union(rs[0], r)
+                linked += 1
+    STATS["code_links"] = linked
     models = defaultdict(list)
     for r in roots:
         models[mdsu.find(r)].append(items[r])

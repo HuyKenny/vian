@@ -1,0 +1,7 @@
+{
+ "_doc": "Manual exceptions to the automatic categorisation (taxonomy.decide + per-shop statistics in catalog.load_offers). Key = start of the shop's own category path, value = our category slug or \"skip\" (drop everything in it). Only add a line when the build summary shows a shop category landing in the wrong place.",
+ "shops": {
+  "scandishop": {"Druhá šance poškozenému nábytku": "skip"},
+  "xxxlutz": {"Zahradní nábytek > Zahrádkaření": "kvetinace"}
+ }
+}

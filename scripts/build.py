@@ -339,7 +339,7 @@ def main():
               "indexable_products": sum(1 for p in products if p["page"] and p["index"]), "gone_pages": len(gone), "categories": len(by_cat),
               "landings": len(landings), "brands": len(brand_pages), "changed": len(out.changed), "shops": present,
               "per_shop": dict(Counter(o["shop"] for p in products for o in p["offers"])), "per_cat": dict(Counter(p["cat"] for p in products).most_common()),
-              "with_width": sum(1 for p in products if p["wmin"]), "dropped": dict(dropped)}
+              "with_width": sum(1 for p in products if p["wmin"]), "dropped": dict(dropped), "categorisation": dict(C.STATS)}
     json.dump(report, open(APP / "data/state/build-report.json", "w"), indent=1, ensure_ascii=False)
     log(json.dumps({k: v for k, v in report.items() if k not in ("per_cat",)}, ensure_ascii=False))
     log(f"built {out.files} files in {time.time() - t0:.0f}s")

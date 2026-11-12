@@ -183,7 +183,7 @@ TITLE_RULES = [
     ("potahy-na-nabytek", R(r"^(\w+ ){0,2}potah(?!\w* (na )?matrac)|potah\w* na (sedac|zidl|kresl|pohov|gauc|rohov|tabur)|napinac\w* potah|navlek\w* na (sedac|zidl|kresl|pohov)|prehoz\w* na (sedac|gauc|pohov)")),
     ("polstare-na-zahradni-nabytek", R(r"(polstar|polstr|podsedak|sedak)\w* (na|pro|k) (zahradn|zidl|lehatk|lavic|houpac|kresl|palet)|podsedak|sedak na zidl|polstr na lehatk")),
     ("prikryvky-a-polstare", R(r"prikryvk|\bperin|(zdravotn|anatomick|ortopedick|ergonomick)\w* polstar|polstar\b.{0,50}\b(40 ?x ?(60|70|80)|50 ?x ?(60|70)|70 ?x ?90)|\bpillow|polstar\w* (na spani|anatomick|ortoped|z pametov|pametov)|spaci polstar|polstar \d0 ?x ?\d0(?! ?cm.*dekor)|chranic\w* polstar")),
-    ("dekorativni-polstare", R(r"dekorac\w* polstar|polstar\w* (dekorac|s vyplni|45 ?x ?45|40 ?x ?40|50 ?x ?50|30 ?x ?50)|povlak\w* na polstar|^(\w+ ){0,2}polstar|polstark")),
+    ("dekorativni-polstare", R(r"dekorac\w* polstar|polstar\w* (dekorac|s vyplni|45 ?x ?45|40 ?x ?40|50 ?x ?50|30 ?x ?50)|povlak\w* na polstar|^(\w+ ){0,2}polstar(?!ov)|polstark")),
     ("deky-a-prehozy", R(r"\bdek[ay]\b|\bdeku\b|\bdeck|\bpled|prehoz|beranek deka")),
     ("rucniky-a-osusky", R(r"rucnik|osusk|zupan|osuska")),
     ("ubrusy-a-prostirani", R(r"\bubrus|behoun na stul|stolni behoun|prostirani|ubrousk")),
@@ -315,34 +315,82 @@ KIDS_MAP = {"postele": "detske-postele", "satni-skrine": "detske-skrine-a-ulozne
             "jidelni-stoly": "detske-stolky-a-zidle", "psaci-stoly": "detske-stolky-a-zidle"}
 
 
-def classify(rec, kids=False):
-    """Czech product titles name the thing first ("Šatní skříň Abi s posuvnými dveřmi", "Postel s roštem a žebříkem",
-    "Povlečení na postel"): the rule whose match starts EARLIEST in the title wins; on a tie the order of TITLE_RULES
-    decides (specific before generic). Weak rules count only when no strong rule matched. The veto list works the same
-    way: a veto word decides only when it comes before the furniture word (or the furniture word is a weak one)."""
-    t = fold(clean(rec.get("t")))
+# nouns that name one category on their own, whatever words surround them: a single-word match of these is as good as a phrase
+UNAMBIGUOUS = {"matrace", "botniky", "vitriny", "komody", "taburety-a-sedaci-vaky", "koberce", "zrcadla", "lustry", "vazy", "kvetinace",
+               "hodiny", "zaclony-a-zavesy", "povleceni", "rucniky-a-osusky", "vesaky", "rosty", "lehatka", "slunecniky-a-zasteny",
+               "vanocni-dekorace", "ramy-na-fotky", "svicky-a-svicny", "deky-a-prehozy", "prikryvky-a-polstare", "behouny-a-predlozky"}
+VETOED = "__veto__"
+
+
+def title_class(rec):
+    """What the TITLE says: (category, strong) or (VETOED, True) or (None, False).
+
+    Czech product titles name the thing first ("Šatní skříň Abi s posuvnými dveřmi", "Postel s roštem a žebříkem",
+    "Povlečení na postel"): the rule whose match starts EARLIEST in the title wins; on a tie the longer match, then the
+    order of TITLE_RULES. Weak rules count only when no other rule matched. The veto list works the same way: a veto word
+    decides only when it comes before the furniture word (or the furniture word is a weak one).
+    strong = the match is a phrase ("dětská postel", "noční stolek", "rohová sedací souprava") or an unambiguous noun
+    (matrace, botník); a lone generic noun ("skříň", "pohovka", "polštář…", "obraz") is not strong."""
+    t = fold(clean(rec.get("t"))).replace("-", " ")
     p = fold(rec.get("cat") or "")
     if VETO_PATH.search(p):
-        return None
+        return VETOED, True
     best = None
     for i, (slug, rx) in enumerate(TITLE_RULES):
         m = rx.search(t)
         if m:
-            key = (slug in WEAK, m.start(), i)
+            key = (slug in WEAK, m.start(), -(m.end() - m.start()), i)
             if best is None or key < best[0]:
-                best = (key, slug)
+                best = (key, slug, m.group(0))
     v = VETO_TITLE.search(t)
     if v and (best is None or best[0][0] or v.start() < best[0][1]):
-        return None
-    if best:
-        slug = best[1]
-        if kids or re.search(r"detsk|studentsk", p):     # a kids' shop / kids' section: its "postel" is a children's bed
-            slug = KIDS_MAP.get(slug, slug)
-        return slug
+        return VETOED, True
+    if not best:
+        return None, False
+    slug, text = best[1], best[2].strip()
+    strong = slug not in WEAK and (" " in text or slug in UNAMBIGUOUS)
+    return slug, strong
+
+
+def path_class(rec):
+    p = fold(rec.get("cat") or "")
     for slug, rx in PATH_RULES:
         if rx.search(p):
             return slug
     return None
+
+
+def kids_fix(slug, rec, kids=False):
+    if slug and (kids or re.search(r"detsk|studentsk", fold(rec.get("cat") or ""))):   # a kids' shop / kids' section: its "postel" is a children's bed
+        return KIDS_MAP.get(slug, slug)
+    return slug
+
+
+def classify(rec, kids=False):
+    """Title only (with the shop path as the last resort). The catalogue uses decide() with per-shop path statistics."""
+    slug, strong = title_class(rec)
+    if slug == VETOED:
+        return None
+    return kids_fix(slug or path_class(rec), rec, kids)
+
+
+def decide(rec, title, clean_path_cat, kids=False):
+    """Final category from the title verdict and the shop's own category when that category is CLEAN (nearly all of its
+    products are one kind of thing, measured on this run's data). A clean shop category beats a lone generic noun in the
+    title ("POLŠTÁŘOVÁ postel" in Postele, "Skříň pod umyvadlo" in Koupelnové skříňky, a fototapeta in Dekorace na zeď)
+    and classifies titles that say nothing; a specific phrase in the title beats the shop category ("dětská postel" in
+    Postele, "noční stolek" in Odkládací stolky). Returns (category, source)."""
+    slug, strong = title
+    if slug == VETOED:
+        return None, "veto"
+    if clean_path_cat:
+        if slug and strong and slug != clean_path_cat:
+            return kids_fix(slug, rec, kids), "title>path"
+        return kids_fix(clean_path_cat, rec, kids), "path"
+    if slug:
+        return kids_fix(slug, rec, kids), "title"
+    fb = path_class(rec)
+    return (kids_fix(fb, rec, kids), "path-rule") if fb else (None, "none")
 
 
 # ------------------------------------------------------------------ attributes
