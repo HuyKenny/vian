@@ -232,7 +232,9 @@ def plan(products, reserved=()):
     for p in products:
         by_cat[p["cat"]].append(p)
     recs = load_records() + generated_records(products, by_cat)
+    recs = [r for r in recs if r.get("group") != "kw2"] + [r for r in recs if r.get("group") == "kw2"]      # phrase pages last: they only add what the families do not cover
     seen_paths, groups, out, dropped = set(reserved), defaultdict(list), [], defaultdict(int)
+    all_sets = []        # product-id sets of every accepted page: records with "dedupe_all" must differ from all of them
     for r in recs:
         path = "/" + r["slug"].strip("/") + "/"
         if path in seen_paths:
@@ -260,6 +262,10 @@ def plan(products, reserved=()):
         if any(jaccard(ids, o) > 0.9 for o in groups[g]):
             dropped["duplicate of a sibling"] += 1
             continue
+        if r.get("dedupe_all") and any(0.85 <= len(ids) / max(1, len(o)) <= 1 / 0.85 and jaccard(ids, o) > 0.85 for o in all_sets):
+            dropped["same products as an existing page"] += 1
+            continue
+        all_sets.append(ids)
         groups[g].append(ids)
         seen_paths.add(path)
         prices = sorted(p["price"] for p in items)
