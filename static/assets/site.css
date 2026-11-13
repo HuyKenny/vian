@@ -148,6 +148,7 @@ button,input,select{font:inherit;color:inherit}
 .fb{position:relative}
 .fb__pop{position:absolute;top:calc(100% + 8px);left:0;width:300px;max-width:86vw;background:var(--card);border:1.5px solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);padding:4px 16px 14px;z-index:40}
 .fb[data-g=colors] .fb__pop,.fb[data-g=dims] .fb__pop{width:340px}
+.fb.fb--r .fb__pop{left:auto;right:0}
 .fb__ok{width:100%;margin-top:10px}
 .filters fieldset{border:0;margin:0;padding:10px 0 0;min-width:0}
 .filters legend{font:600 1rem var(--ff-h);padding:0;margin-bottom:8px;float:left;width:100%}

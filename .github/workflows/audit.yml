@@ -70,6 +70,8 @@ jobs:
       - name: Summary
         if: always()
         run: |
+          set +e   # a missing report or an empty Lighthouse score must not fail the audit
+          cp data/state/build-report.json data/state/catmap-report.tsv data/raw/fetch-report.json /tmp/audit/ 2>/dev/null
           { echo '### Fetch'; echo '```'; cat data/raw/fetch-report.json 2>/dev/null; echo '```'
             echo '### Build'; echo '```'; cat data/state/build-report.json 2>/dev/null; echo '```'
             echo '### Shop categories: not clean or the title beat the shop'; echo '```'
@@ -78,7 +80,8 @@ jobs:
           import json,glob
           print("### Lighthouse (local, real headers)\n\n| page | mode | perf | a11y | best | seo | LCP s | CLS | TBT ms | FCP s | KB |\n|---|---|---|---|---|---|---|---|---|---|---|")
           for f in sorted(glob.glob('/tmp/audit/lh-*.json')):
-              d=json.load(open(f)); c=d['categories']; a=d['audits']
+              d=json.load(open(f)); a=d['audits']
+              c={k:{'score':(v.get('score') or 0)} for k,v in d['categories'].items()}
               g=lambda k:a[k]['numericValue']
               print(f"| {d['requestedUrl'].replace('http://localhost:8765','')} | {f.split('lh-')[1].split('-')[0]} | {round(c['performance']['score']*100)} | {round(c['accessibility']['score']*100)} | {round(c['best-practices']['score']*100)} | {round(c['seo']['score']*100)} | {g('largest-contentful-paint')/1000:.1f} | {g('cumulative-layout-shift'):.3f} | {g('total-blocking-time'):.0f} | {g('first-contentful-paint')/1000:.1f} | {g('total-byte-weight')/1024:.0f} |")
           print("\n### Failing audits (score < 0.9)\n")

@@ -235,7 +235,16 @@
     form.addEventListener("focusin", warm);
     var pills = $$(".fb", form);
     var closePills = function (except) { pills.forEach(function (p) { if (p !== except) p.open = false; }); };
-    pills.forEach(function (p) { p.addEventListener("toggle", function () { if (p.open && !form.classList.contains("all")) closePills(p); }); });
+    pills.forEach(function (p) {
+      p.addEventListener("toggle", function () {
+        if (!p.open || form.classList.contains("all")) return;
+        closePills(p);
+        /* a pill near the right edge opens its popover leftwards, so it never leaves the screen */
+        p.classList.remove("fb--r");
+        var pop = $(".fb__pop", p);
+        if (pop && pop.getBoundingClientRect().right > document.documentElement.clientWidth - 12) p.classList.add("fb--r");
+      });
+    });
     $$(".fb__ok", form).forEach(function (b) { b.addEventListener("click", function () { closePills(); }); });
     document.addEventListener("click", function (e) { if (!form.classList.contains("all") && !e.target.closest(".fb")) closePills(); });
     /* "Všechny filtry": the same form as a drawer, every group open */
