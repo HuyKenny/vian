@@ -1,0 +1,23 @@
+{
+ "key": "cat:kavovary",
+ "intro": "Srovnání kávovarů a mlýnků na kávu podle typu přípravy a údržby. Pomůže vybrat přístroj, který odpovídá tomu, jak kávu pijete.",
+ "body": "<h2>Typ kávovaru podle přípravy</h2><ul><li><strong>Plnoautomatické kávovary</strong> samy umelou zrna a připraví espresso či kávu. Mají větší údržbu, zahrnující čištění spařovací jednotky a odvápnění.</li><li><strong>Pákové kávovary</strong> dávají kontrolu nad extrakcí a pěnou, vyžadují ale mlýnek a trochu praxe. Tlak čerpadla má dosahovat okolo 9 barů.</li><li><strong>Kapslové</strong> jsou rychlé a nenáročné, ale vázané na jeden systém kapslí.</li><li><strong>Překapávače</strong> připravují větší množství filtrované kávy, hodí se pro víc osob.</li><li><strong>Moka konvičky</strong> se hodí na sporák a jsou levné na údržbu.</li></ul><h2>Mlýnek</h2><p>Čerstvě mletá káva chutná výrazněji. <strong>Kónické žernovy</strong> melou rovnoměrněji než nožové, které se podobají sekáčku a tvoří nestejné částice. Důležité je jemné nastavení hrubosti, zvláště pro espresso. Ruční mlýnek je kompaktní a tichý, elektrický je rychlejší.</p><h2>Údržba a voda</h2><p>Vodní kámen je hlavní příčinou poruch. Podle tvrdosti vody odvápňujte pravidelně a používejte filtr, pokud ho výrobce doporučuje. Nádobu na zrna ani sítko nenechávejte zanášet oleji. Zkontrolujte kapacitu nádržky na vodu a nádobky na sedlinu, aby se nevyprazdňovaly příliš často.</p><h2>Rozměry a umístění</h2><p>Změřte místo na lince včetně výšky, aby pod horní skříňkou šlo nádržku vyndat. Kávovar potřebuje volný prostor kolem sebe a přístup k zásuvce. Pokud kávu doplňujete pečením, najdete další výbavu v <a href=\"/kuchynske-nacini/\">kuchyňském náčiní</a>.</p><h2>Šálek, mléko a každodenní provoz</h2><p>Pokud pijete kávu s mlékem, hledejte kávovar s parní tryskou nebo automatickým pěničem mléka. Parní tryska vyžaduje cvik, automatický pěnič je pohodlnější, ale vyžaduje důkladné čištění mléčných cest po každém použití. Zkontrolujte výšku výtoku, aby se pod něj vešla vaše nejvyšší sklenice nebo cestovní hrnek, běžně 12–15 cm. Hlasitost mlýnku je u plnoautomatů výrazná, takže se hodí zvážit rozdíly mezi modely. Při výběru zrnkové kávy sledujte datum pražení a zrna uchovávejte v uzavřené nádobě mimo světlo a teplo.</p><h2>Voda a chuť</h2><p>Káva z velké části tvoří voda, proto kvalita vody ovlivní chuť i životnost přístroje. Příliš tvrdá voda zanáší topné těleso, příliš měkká může extrakci zkreslit. Filtrovaná voda s rozumnou tvrdostí je dobrým kompromisem. Vodu měňte denně a nádržku pravidelně vymývejte, aby se v ní netvořil film.</p><h2>Spotřeba a rozměry příslušenství</h2><p>Plnoautomaty mají obvykle příkon okolo 1 200–1 500 W a nahřívají se několik desítek sekund. Prověřte, zda má přístroj automatické vypnutí, které ušetří elektřinu. Šířka běžných kávovarů bývá 20–30 cm, hloubka 35–45 cm, ale s nádržkou a odpadem mohou potřebovat víc. Rozměry porovnejte s lištou nad linkou, abyste mohli doplňovat vodu a zrna.</p>",
+ "faq": [
+  [
+   "Jaký kávovar vybrat pro začátek?",
+   "Pokud chcete jednoduchou přípravu, zvolte plnoautomatický nebo kapslový. Pákový má smysl, pokud vás baví nastavovat extrakci."
+  ],
+  [
+   "Je lepší nožový, nebo žernovový mlýnek?",
+   "Žernovový, zejména kónický, mele rovnoměrněji. Nožový dává nestejnou velikost částic a hodí se spíš na hrubší mletí."
+  ],
+  [
+   "Jak často odvápňovat kávovar?",
+   "Podle tvrdosti vody a pokynů výrobce, obvykle jednou za několik týdnů až měsíců. Tvrdá voda vyžaduje častější odvápnění."
+  ],
+  [
+   "Kolik tlaku má mít espresso kávovar?",
+   "Pro espresso se obvykle uvádí tlak čerpadla okolo 9 barů při extrakci. Vyšší hodnota na obalu sama o sobě kvalitu nezaručuje."
+  ]
+ ]
+}

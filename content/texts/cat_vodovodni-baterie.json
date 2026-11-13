@@ -1,0 +1,23 @@
+{
+ "key": "cat:vodovodni-baterie",
+ "intro": "Srovnání umyvadlových, vanových a sprchových baterií podle typu, rozteče a materiálu. Pomůže vybrat baterii, která sedne na stávající rozvody.",
+ "body": "<h2>Typ baterie</h2><p>Umyvadlové baterie se montují na umyvadlo nebo na zeď, vanové a sprchové většinou na stěnu s roztečí připojení 150 mm. Stojánková baterie potřebuje otvor v desce, nástěnná vyžaduje rozvod ve zdi. Před koupí zjistěte, jaké máte rozvody a zda se vejdete do stávajících otvorů.</p><h2>Rozteč a připojení</h2><ul><li><strong>Nástěnné baterie</strong>: rozteč 150 mm je standard, excentry umožňují drobnou korekci.</li><li><strong>Stojánkové</strong>: jeden otvor v umyvadle nebo desce, typicky průměr 35 mm.</li><li><strong>Připojení</strong>: většinou G 1/2\"; hadičky a rohové ventily kupujte podle konkrétního modelu.</li></ul><h2>Ovládání</h2><p>Pákové baterie s jednou rukojetí jsou nejběžnější a snadno se nastavují. Dvouhrdlé nabízejí přesnější směs, ale vyžadují více pohybů. Termostatické baterie drží zvolenou teplotu, vhodné do sprchy pro rodiny s dětmi. Bezdotykové se hodí do veřejných prostor.</p><h2>Materiál a povrch</h2><p>Tělo bývá z mosazi; povrch chromovaný, černý matný, nerezový nebo kartáčovaný. Chrom se čistí jednoduše, matné povrchy vyžadují jemné prostředky bez abraziv. Vodní kámen se usazuje hlavně v tvrdé vodě, takže je dobré pravidelně čistit perlátor octovým roztokem.</p><h2>Perlátor a úspora vody</h2><p>Perlátor míchá vodu se vzduchem a snižuje spotřebu. Ověřte, zda je snadno vyměnitelný. U sprchových hlavic hledejte škrtič průtoku.</p><h2>Typické chyby</h2><ul><li>Koupě nástěnné baterie bez ověření rozteče.</li><li>Vyšší stojánková baterie, kterou nelze pod skříňku nebo okno namontovat.</li><li>Zanedbání filtrace při tvrdé vodě.</li></ul><p>K baterii patří také <a href=\"/koupelnove-doplnky/\">koupelnové doplňky</a> a <a href=\"/koupelnove-skrinky/\">koupelnové skříňky</a>.</p>",
+ "faq": [
+  [
+   "Jaká je standardní rozteč nástěnné baterie?",
+   "Nejčastěji 150 mm. Excentry umožňují mírnou odchylku."
+  ],
+  [
+   "Čím se liší páková od termostatické?",
+   "Páková míchá vodu podle polohy páky, termostatická drží nastavenou teplotu. Termostat se hodí do sprchy."
+  ],
+  [
+   "Jak odstranit vodní kámen z baterie?",
+   "Perlátor odšroubujte a namočte do octového roztoku. Povrch otřete jemným hadříkem bez abraziv."
+  ],
+  [
+   "Jaké připojení mívají baterie?",
+   "Obvykle G 1/2\". Přesné údaje najdete u konkrétního modelu."
+  ]
+ ]
+}

@@ -1,0 +1,23 @@
+{
+ "key": "cat:tapety",
+ "intro": "Srovnání tapet a fototapet podle typu materiálu, rozměrů role a lepení. Pomůže vybrat tapetu, která sedne na stěnu a zvládne se nalepit.",
+ "body": "<h2>Materiál tapety</h2><ul><li><strong>Papírová</strong>: levná, prodyšná, málo odolná vůči vlhkosti a otěru.</li><li><strong>Vliesová</strong>: nejrozšířenější, pevná, lepí se na stěnu a lze ji obvykle sundat vcelku.</li><li><strong>Vinylová</strong>: omyvatelná, vhodná do kuchyně a chodby.</li><li><strong>Textilní a přírodní</strong>: dekorativní, vyžadují opatrnou údržbu.</li></ul><h2>Rozměry role</h2><p>Standardní role měří šířku 53 cm a délku 10,05 m, širší vliesové mají 106 cm. Počítejte počet pásů: výšku stěny vydělte délkou role a zohledněte rapport (opakování vzoru), který zvyšuje odpad. Rezerva se doporučuje alespoň jedna role navíc, protože šarže barev se mohou lišit.</p><h2>Fototapety</h2><p>Fototapeta se prodává v dílech nebo pásech o daném rozměru. Změřte šířku a výšku stěny a vyberte velikost, která ji pokryje, případně nechte okraje oříznout. Pro ložnici a obývací pokoj je vhodný motiv, který se neopakuje rušivě, a v kuchyni omyvatelný povrch.</p><h2>Příprava stěny</h2><p>Stěna musí být suchá, čistá a rovná. Nerovnosti a praskliny je potřeba zatmelit, savý podklad natřít penetrací. Tmavé stěny s tenkou tapetou prosvítají. Před lepením si ověřte, zda lepidlo nanášíte na stěnu, nebo na tapetu; vliesové se obvykle lepí nanesením lepidla na zeď.</p><h2>Údržba</h2><p>Omyvatelné vinylové tapety stírejte vlhkým hadrem, papírové jen suchým. Škrábance a vlhkost bývají nejčastější příčinou poškození.</p><h2>Typické chyby</h2><ul><li>Špatný výpočet počtu rolí a vzoru.</li><li>Nedoplněná rezerva z jedné šarže.</li><li>Tapeta s papírovým povrchem do koupelny.</li></ul><p>K barvě stěn se hodí <a href=\"/zaclony-a-zavesy/\">záclony a závěsy</a>, <a href=\"/obrazy/\">obrazy</a> a <a href=\"/koberce/\">koberce</a>.</p>",
+ "faq": [
+  [
+   "Jak spočítat počet rolí?",
+   "Výšku stěny vydělte délkou role a zohledněte rapport vzoru. Přidejte alespoň jednu roli rezervy."
+  ],
+  [
+   "Jakou tapetu do kuchyně?",
+   "Omyvatelnou vinylovou nebo vliesovou s vinylovým povrchem. Papírová tapeta vlhkost nesnáší."
+  ],
+  [
+   "Čím se liší vliesová od papírové?",
+   "Vliesová je pevnější a snadno se lepí na stěnu. Papírová je levnější, ale křehčí."
+  ],
+  [
+   "Jak vybrat fototapetu?",
+   "Změřte šířku a výšku stěny a vyberte rozměr, který ji pokryje. Okraje lze případně oříznout."
+  ]
+ ]
+}

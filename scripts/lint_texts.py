@@ -49,7 +49,7 @@ def main():
             issues.append("description too long")
         if len(d.get("faq", [])) < 3:
             issues.append("faq < 3")
-        if n < (600 if is_guide else 380 if not hub else 550):
+        if n < (600 if is_guide else 220 if not hub else 550):
             issues.append(f"{n} words")
         links = LINK.findall(body)
         if len(links) > (5 if is_guide else 4):

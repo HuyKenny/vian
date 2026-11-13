@@ -1,0 +1,23 @@
+{
+ "key": "landing:kancelarsky-nabytek",
+ "intro": "Přehled kancelářského nábytku od židlí a stolů po úložné prvky. Pomůže zařídit pracovní místo, které je pohodlné a dobře využije prostor.",
+ "body": "<h2>Z čeho se pracovní místo skládá</h2><p>Základ tvoří psací stůl, židle a úložný prostor. <a href=\"/psaci-stoly/\">Psací stůl</a> mívá výšku kolem 72–76 cm, hloubku alespoň 60 cm, ale pro dva monitory se vyplatí 70–80 cm. Šířka 120–160 cm stačí pro práci s počítačem, na papíry a periferie ji zvětšete. Pod stolem musí zůstat místo pro nohy, tedy aspoň 60 cm na šířku a 50 cm na hloubku.</p><h2>Sezení</h2><p>Židle je nejdůležitější část. <a href=\"/kancelarske-zidle/\">Kancelářské židle</a> mají mít nastavitelnou výšku sedáku, opěrku s bederní oporou a ideálně i nastavitelné područky. Při práci mají být chodidla celá na podlaze, kolena zhruba v pravém úhlu a předloktí podepřená ve výšce desky. Pro dlouhé sezení se hodí synchronní mechanismus a prodyšná opěrka. Hravější <a href=\"/herni-kresla/\">herní křesla</a> kladou důraz na tvar sedáku a výšku opěrky.</p><h2>Úložný prostor</h2><p>Dokumenty a kancelářské potřeby patří do skříní, kontejnerů pod stolem a regálů. <a href=\"/knihovny-a-regaly/\">Knihovny a regály</a> dobře využijí výšku místnosti; hloubka 30–40 cm unese šanony A4. Zásuvkový kontejner na kolečkách se schová pod desku a bere málo místa. Při výběru ověřte nosnost polic, protože šanony jsou těžké.</p><h2>Rozmístění a světlo</h2><p>Stůl se staví kolmo k oknu, aby se světlo neodráželo v monitoru. Horní okraj obrazovky má být zhruba ve výšce očí a vzdálenost od očí zhruba 50–70 cm. Kabely se vedou kanály nebo průchodkami v desce, což usnadní úklid.</p><h2>Typické chyby</h2><ul><li>Stůl bez místa pro nohy a židli, která se nedá zasunout.</li><li>Židle vybraná podle vzhledu, bez nastavení.</li><li>Nedostatek úložného prostoru a hromady papírů na desce.</li><li>Zapomenuté osvětlení pracovní plochy.</li></ul><h2>Domácí kancelář, nebo firma</h2><p>V domácí kanceláři se vyplatí ladění s ostatním zařízením. V provozu s více pracovišti se hodí jednotná řada stolů a kontejnerů, které jdou řadit vedle sebe. Zvažte také nastavitelnou výšku stolu pro střídání sezení a stání.</p>",
+ "faq": [
+  [
+   "Jaká má být výška psacího stolu?",
+   "Standardně 72–76 cm. U nastavitelných stolů se výška upraví podle výšky postavy."
+  ],
+  [
+   "Jak hluboký stůl vybrat?",
+   "Alespoň 60 cm, pro dva monitory 70–80 cm. Zajistí vzdálenost očí od obrazovky."
+  ],
+  [
+   "Co zkontrolovat u kancelářské židle?",
+   "Nastavitelnou výšku sedáku, bederní oporu, kolečka podle podlahy a nosnost."
+  ],
+  [
+   "Kam postavit stůl vůči oknu?",
+   "Kolmo k oknu, aby se světlo neodráželo v monitoru ani nesvítilo přímo do očí."
+  ]
+ ]
+}

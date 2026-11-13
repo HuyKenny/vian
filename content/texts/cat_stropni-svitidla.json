@@ -1,0 +1,23 @@
+{
+ "key": "cat:stropni-svitidla",
+ "intro": "Stropní svítidla a plafony pro obývák, ložnici, kuchyň i koupelnu. Vybírejte podle velikosti místnosti, výšky stropu, patice a stupně krytí.",
+ "body": "<h2>Velikost podle místnosti</h2><p>Stropní svítidlo má pokrýt celý pokoj, ne jen střed. Jednoduché pravidlo říká, že na každý metr čtvereční podlahy je potřeba orientačně 200–300 lumenů v obytných místnostech, v kuchyni a pracovně spíše víc. Místnost o ploše 15 m² tedy potřebuje zhruba 3000–4500 lm celkového světla, rozděleného mezi více zdrojů. U světel s fixně zabudovaným LED panelem se podívejte na uvedený světelný tok, ne na příkon ve wattech.</p><h2>Výška stropu</h2><ul><li><strong>Nízký strop do 2,5 m:</strong> plochý přisazený plafon nebo stropní panel. Lustr by visel příliš nízko.</li><li><strong>Strop 2,6 m a víc:</strong> závěsná svítidla nebo lustr. Spodní okraj by měl být nejméně 2,1 m nad podlahou.</li></ul><h2>Barva a kvalita světla</h2><p>Teplá bílá kolem 2700–3000 K se hodí do ložnice a obýváku. Neutrální bílá kolem 4000 K do kuchyně, pracovny a předsíně. Index podání barev CRI 80 je běžné minimum, pro kuchyň a koupelnu je lepší 90. Chcete-li světlo stmívat, zkontrolujte, že je svítidlo označené jako stmívatelné, a že funguje se stávajícím stmívačem.</p><h2>Patice a výměnné zdroje</h2><p>Svítidlo s paticí E27 nebo E14 snese výměnu žárovky, což prodlužuje jeho životnost. Integrovaný LED panel je tenčí a levnější na provoz, po vyhoření se ale často vyměňuje celé svítidlo. Před nákupem si ověřte, kolik žárovek a jakého typu je potřeba a zda jsou součástí balení.</p><h2>Koupelna a vlhké prostory</h2><p>Do koupelny vybírejte svítidlo s krytím minimálně IP44. Nad sprchovým koutem nebo vanou se používá IP65, protože tam hrozí přímé stříkání vody. Kovové rámy v koupelně musí mít ochranu proti korozi.</p><h2>Plafon, nebo lustr</h2><p>Plafon rozptyluje světlo rovnoměrně a snadno se čistí. Lustr je dekorativnější a potřebuje víc místa i pravidelné utírání prachu. Máte-li vysoký strop a jídelní stůl pod ním, podívejte se na <a href=\"/lustry/\">lustry</a>. Pro doplňkové světlo u gauče nebo čtecího křesla se hodí <a href=\"/stojaci-lampy/\">stojací lampy</a> a <a href=\"/stolni-lampy/\">stolní lampy</a>.</p><h2>Montáž</h2><p>Zkontrolujte, jestli je v balení upevňovací materiál a jestli vám vyhovuje průměr svítidla vůči rozteči otvorů pro kabel. Zapojení na rozvod má provést osoba s elektrotechnickou kvalifikací.</p><h2>Typické chyby při nákupu</h2><p>Častou chybou je svítidlo příliš malé pro místnost, které svítí slabě a vytváří tmavé kouty. Další chybou je silná žárovka v uzavřeném krytu, který se přehřívá, a nezohlednění vzdálenosti od stropu: ploché svítidlo osvětlí strop, závěsné prostor pod sebou. U svítidel s více zdroji počítejte s tím, že žárovky nesvítí všechny najednou a že jejich výměna musí být snadná.</p>",
+ "faq": [
+  [
+   "Jak velké stropní svítidlo vybrat?",
+   "Podle plochy místnosti a světelného toku v lumenech. V obytných místnostech počítejte orientačně 200–300 lm na m² celkem ze všech zdrojů."
+  ],
+  [
+   "Jaká teplota světla do ložnice?",
+   "Teplá bílá 2700–3000 K. Do kuchyně a pracovny se hodí neutrální kolem 4000 K."
+  ],
+  [
+   "Jaké krytí IP do koupelny?",
+   "Minimálně IP44, nad sprchou nebo vanou raději IP65."
+  ],
+  [
+   "Jaký plafon na nízký strop?",
+   "Plochý přisazený plafon nebo LED panel. Závěsný lustr se hodí až od výšky stropu kolem 2,6 m."
+  ]
+ ]
+}

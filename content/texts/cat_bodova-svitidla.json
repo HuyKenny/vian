@@ -1,0 +1,23 @@
+{
+ "key": "cat:bodova-svitidla",
+ "intro": "Bodová a vestavná svítidla do podhledů i na lišty. Srovnání pomůže zvolit rozměr výřezu, patici, svítivost a krytí podle místnosti.",
+ "body": "<h2>Vestavná, nebo přisazená</h2><p>Vestavná svítidla se zapouštějí do sádrokartonového podhledu a vyžadují otvor, obvykle o průměru 68–90 mm. Přisazená se připevňují na povrch a hodí se tam, kde podhled není. Lištová svítidla na elektrické liště lze posouvat a otáčet podle potřeby. Než vyberete, zjistěte hloubku podhledu, protože běžné svítidlo potřebuje 5–10 cm volného prostoru nad sádrokartonem.</p><h2>Patice a světelný zdroj</h2><ul><li><strong>GU10</strong> je síťová patice na 230 V, žárovku lze snadno vyměnit.</li><li><strong>GU5.3 (MR16)</strong> pracuje na 12 V a vyžaduje transformátor.</li><li><strong>Integrované LED</strong> nelze vyměnit, po skončení životnosti se mění celé svítidlo.</li></ul><p>Barva světla se uvádí v kelvinech: 2700–3000 K je teplá bílá do obýváku a ložnice, 4000 K neutrální do kuchyně a pracovny.</p><h2>Rozmístění</h2><p>Svítidla v řadě po 1–1,5 m dávají rovnoměrné světlo. V místnosti s výškou stropu 2,5 m držte rozestup zhruba 80–120 cm a od stěny aspoň 40 cm, jinak vzniknou vějíře světla na zdi. Pro obecné osvětlení místnosti o ploše 15 m² obvykle nestačí jen bodovky, přidejte lustr nebo stojací lampu, aby světlo nebylo příliš ostré.</p><h2>Krytí do koupelny</h2><p>Ve vlhkých prostorech se hledá označení IP. Pro zónu mimo sprchu a vanu stačí IP44, nad sprchou se požaduje IP65. Zdroj proti vlhkosti dobře utěsněte, jinak se v krytu sráží pára.</p><h2>Typické chyby</h2><p>Častá chyba je málo světla, protože se počítá jen s počtem svítidel, ne s lumeny. Pro obývák se uvádí orientačně 100–200 lm na m². Druhá chyba je příliš malý otvor v podhledu, vyberte svítidlo podle výřezu předem. K bodovkám se hodí doplnit <a href=\"/lustry/\">lustr</a>, aby v místnosti nebylo jen bodové světlo, a <a href=\"/stolni-lampy/\">stolní lampy</a> na čtení.</p><h2>Stmívání a ovládání</h2><p>Stmívatelná svítidla vyžadují kompatibilní stmívač a žárovky, které stmívání podporují. Neshoda se projeví blikáním nebo bzučením. U transformátoru pro 12 V se u LED zdrojů ověřuje minimální zatížení. Pro lepší pohodlí se bodovky dělí do více okruhů, aby šlo svítit jen nad pracovní plochou nebo jen u stěny.</p><h2>Požární bezpečnost podhledu</h2><p>Vestavná svítidla se zahřívají, proto se dodržují odstupy od izolace a dřevěných nosníků podle návodu. Svítidla pro nehořlavé prostředí mají označení pro montáž do izolovaných stropů. Pokud je nad podhledem tepelná izolace, hledejte kryt, který ji udrží v odstupu. Světlo z bodovek směrovaných na stěnu zvýrazní obraz nebo regál a dodá pokoji hloubku.</p><p>Vyklápěcí svítidla umožní namířit světlo, pevná svítí jen kolmo dolů a hodí se do chodby nebo kuchyně.</p>",
+ "faq": [
+  [
+   "Jak velký otvor do podhledu?",
+   "Nejčastěji 68–90 mm podle modelu. Rozměr výřezu je v parametrech svítidla, před vrtáním ho zkontrolujte."
+  ],
+  [
+   "Kolik bodovek do místnosti?",
+   "Při rozestupu 80–120 cm vychází přibližně jedno svítidlo na 1–1,5 m² plochy. Počet upřesněte podle svítivosti v lumenech."
+  ],
+  [
+   "Jaké krytí do koupelny?",
+   "Mimo sprchu IP44, nad sprchou IP65. Údaj IP je v parametrech svítidla."
+  ],
+  [
+   "Teplá, nebo studená bílá?",
+   "Do obýváku 2700–3000 K, do kuchyně a pracovny kolem 4000 K."
+  ]
+ ]
+}
