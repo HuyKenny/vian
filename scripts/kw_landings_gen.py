@@ -28,7 +28,7 @@ SKIP_SLUGS = {"nabytek", "bytove-doplnky", "dekorace", "svitidla", "lampy"}
 
 
 def stem(w):
-    return w[: max(4, len(w) - 2)] if len(w) > 4 else w
+    return w[: max(5, len(w) - 2)] if len(w) > 5 else w
 
 
 def slugify(s):

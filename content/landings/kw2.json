@@ -164,7 +164,7 @@
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 17740,
+  "evidence": 18350,
   "intent": "type",
   "title": "Skříňka pod umyvadlo – srovnání cen"
  },
@@ -183,7 +183,7 @@
     "tapety"
    ],
    "all": [
-    "\\bmobi\\w*"
+    "\\bmobil\\w*"
    ]
   },
   "min": 8,
@@ -255,7 +255,7 @@
     "fritezy"
    ],
    "all": [
-    "\\btefa\\w*"
+    "\\btefal\\w*"
    ]
   },
   "min": 8,
@@ -453,7 +453,7 @@
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 6600,
+  "evidence": 7520,
   "intent": "type",
   "title": "Skříňka do koupelny – srovnání cen"
  },
@@ -472,7 +472,7 @@
     "stropni-svitidla"
    ],
    "all": [
-    "\\bsvet\\w*",
+    "\\bsvetl\\w*",
     "\\bkoupel\\w*"
    ]
   },
@@ -546,7 +546,7 @@
    ],
    "all": [
     "\\bsamolepi\\w*",
-    "\\btape\\w*"
+    "\\btapet\\w*"
    ]
   },
   "min": 8,
@@ -570,7 +570,7 @@
     "lucerny"
    ],
    "all": [
-    "\\bmusi\\w*",
+    "\\bmusic\\w*",
     "\\bbar\\w*"
    ]
   },
@@ -595,7 +595,7 @@
     "umyvadla"
    ],
    "all": [
-    "\\bdesk\\w*"
+    "\\bdesku\\w*"
    ]
   },
   "min": 8,
@@ -838,7 +838,7 @@
     "vinylove-podlahy"
    ],
    "all": [
-    "\\bclic\\w*"
+    "\\bclick\\w*"
    ]
   },
   "min": 8,
@@ -862,7 +862,7 @@
     "sauny"
    ],
    "all": [
-    "\\bvlta\\w*"
+    "\\bvltav\\w*"
    ]
   },
   "min": 8,
@@ -940,7 +940,7 @@
     "rozkladaci"
    ],
    "all": [
-    "\\bspan\\w*"
+    "\\bspani\\w*"
    ]
   },
   "min": 8,
@@ -993,7 +993,7 @@
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 2370,
+  "evidence": 2970,
   "intent": "occasion",
   "title": "Vánoční tapety – srovnání cen"
  },
@@ -1060,7 +1060,7 @@
     "vysavace"
    ],
    "all": [
-    "\\bdyso\\w*"
+    "\\bdyson\\w*"
    ]
   },
   "min": 8,
@@ -1178,7 +1178,7 @@
     "vysavace"
    ],
    "all": [
-    "\\bsack\\w*"
+    "\\bsacky\\w*"
    ]
   },
   "min": 8,
@@ -1186,30 +1186,6 @@
   "evidence": 2690,
   "intent": "type",
   "title": "Sáčky do vysavače – srovnání cen"
- },
- {
-  "slug": "stojan-na-vino",
-  "h1": "Stojan na víno",
-  "parent": "/stojany-na-vino/",
-  "cat": "stojany-na-vino",
-  "hubs": [
-   "/stojany-na-vino/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "stojany-na-vino"
-   ],
-   "all": [
-    "\\bstoj\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 3300,
-  "intent": "type",
-  "title": "Stojan na víno – srovnání cen"
  },
  {
   "slug": "komoda-dub-sonoma",
@@ -1229,7 +1205,7 @@
     "dub"
    ],
    "all": [
-    "\\bsono\\w*"
+    "\\bsonom\\w*"
    ]
   },
   "min": 8,
@@ -1253,7 +1229,7 @@
     "sauny"
    ],
    "all": [
-    "\\bcepi\\w*"
+    "\\bcepic\\w*"
    ]
   },
   "min": 8,
@@ -1277,7 +1253,7 @@
     "vesaky"
    ],
    "all": [
-    "\\bbund\\w*"
+    "\\bbundy\\w*"
    ]
   },
   "min": 8,
@@ -1326,8 +1302,8 @@
     "povleceni"
    ],
    "all": [
-    "\\bharr\\w*",
-    "\\bpott\\w*"
+    "\\bharry\\w*",
+    "\\bpotte\\w*"
    ]
   },
   "min": 8,
@@ -1378,7 +1354,7 @@
     "hneda"
    ],
    "all": [
-    "\\bsaec\\w*"
+    "\\bsaeco\\w*"
    ]
   },
   "min": 8,
@@ -1402,8 +1378,8 @@
     "betlemy"
    ],
    "all": [
-    "\\bpujd\\w*",
-    "\\bspol\\w*"
+    "\\bpujde\\w*",
+    "\\bspolu\\w*"
    ]
   },
   "min": 8,
@@ -1427,7 +1403,7 @@
     "vanocni-dekorace"
    ],
    "all": [
-    "\\bumel\\w*",
+    "\\bumele\\w*",
     "\\bstrom\\w*"
    ]
   },
@@ -1476,7 +1452,7 @@
     "umyvadla"
    ],
    "all": [
-    "\\bvysk\\w*"
+    "\\bvyska\\w*"
    ]
   },
   "min": 8,
@@ -1500,7 +1476,7 @@
     "deky-a-prehozy"
    ],
    "all": [
-    "\\bhrac\\w*",
+    "\\bhraci\\w*",
     "\\bdeka\\w*",
     "\\bmimin\\w*"
    ]
@@ -1526,8 +1502,8 @@
     "pro-miminka"
    ],
    "all": [
-    "\\bspac\\w*",
-    "\\bpyte\\w*"
+    "\\bspaci\\w*",
+    "\\bpytel\\w*"
    ]
   },
   "min": 8,
@@ -1819,7 +1795,7 @@
     "povleceni"
    ],
    "all": [
-    "\\bstit\\w*"
+    "\\bstitc\\w*"
    ]
   },
   "min": 8,
@@ -1844,7 +1820,7 @@
    ],
    "all": [
     "\\bvanoc\\w*",
-    "\\bmobi\\w*"
+    "\\bmobil\\w*"
    ]
   },
   "min": 8,
@@ -1940,7 +1916,7 @@
     "vinylove-podlahy"
    ],
    "all": [
-    "\\bviny\\w*"
+    "\\bvinyl\\w*"
    ]
   },
   "min": 8,
@@ -1989,7 +1965,7 @@
    ],
    "all": [
     "\\bstul\\w*",
-    "\\bzidl\\w*"
+    "\\bzidle\\w*"
    ]
   },
   "min": 8,
@@ -2038,7 +2014,7 @@
     "povleceni"
    ],
    "all": [
-    "\\blozn\\w*"
+    "\\blozni\\w*"
    ]
   },
   "min": 8,
@@ -2062,12 +2038,12 @@
     "zavlazovani"
    ],
    "all": [
-    "\\bsyst\\w*"
+    "\\bsyste\\w*"
    ]
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 2110,
+  "evidence": 2700,
   "intent": "type",
   "title": "Zavlažovací systém – srovnání cen"
  },
@@ -2086,7 +2062,7 @@
     "lehatka"
    ],
    "all": [
-    "\\btera\\w*"
+    "\\bteras\\w*"
    ]
   },
   "min": 8,
@@ -2472,7 +2448,7 @@
     "potahy-na-nabytek"
    ],
    "all": [
-    "\\bkres\\w*"
+    "\\bkresl\\w*"
    ]
   },
   "min": 8,
@@ -2496,7 +2472,7 @@
     "lehatka"
    ],
    "all": [
-    "\\bbaze\\w*"
+    "\\bbazen\\w*"
    ]
   },
   "min": 8,
@@ -2542,7 +2518,7 @@
     "kancelarske-zidle"
    ],
    "all": [
-    "\\bkres\\w*"
+    "\\bkresl\\w*"
    ]
   },
   "min": 8,
@@ -2734,7 +2710,7 @@
     "detske-stolky-a-zidle"
    ],
    "all": [
-    "\\bkres\\w*"
+    "\\bkresl\\w*"
    ]
   },
   "min": 8,
@@ -2758,7 +2734,7 @@
     "lucerny"
    ],
    "all": [
-    "\\bprah\\w*"
+    "\\bpraha\\w*"
    ]
   },
   "min": 8,
@@ -2830,7 +2806,7 @@
     "vany"
    ],
    "all": [
-    "\\bdvir\\w*"
+    "\\bdvirk\\w*"
    ]
   },
   "min": 8,
@@ -3075,7 +3051,7 @@
     "matrace"
    ],
    "all": [
-    "\\bdorm\\w*"
+    "\\bdorme\\w*"
    ]
   },
   "min": 8,
@@ -3099,12 +3075,12 @@
     "koberce"
    ],
    "all": [
-    "\\bcist\\w*"
+    "\\bcisti\\w*"
    ]
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 3510,
+  "evidence": 3900,
   "intent": "type",
   "title": "Čistič koberců – srovnání cen"
  },
@@ -3147,7 +3123,7 @@
     "pro-miminka"
    ],
    "all": [
-    "\\bkniz\\w*"
+    "\\bknizk\\w*"
    ]
   },
   "min": 8,
@@ -3171,7 +3147,7 @@
     "kuchynske-linky"
    ],
    "all": [
-    "\\bvysk\\w*"
+    "\\bvyska\\w*"
    ]
   },
   "min": 8,
@@ -3220,7 +3196,7 @@
     "povleceni"
    ],
    "all": [
-    "\\bdarr\\w*"
+    "\\bdarre\\w*"
    ]
   },
   "min": 8,
@@ -3316,7 +3292,7 @@
     "sedacky"
    ],
    "all": [
-    "\\bphas\\w*"
+    "\\bphase\\w*"
    ]
   },
   "min": 8,
@@ -3340,7 +3316,7 @@
     "lucerny"
    ],
    "all": [
-    "\\bpasa\\w*"
+    "\\bpasaz\\w*"
    ]
   },
   "min": 8,
@@ -3364,7 +3340,7 @@
     "zarovky"
    ],
    "all": [
-    "\\btrou\\w*"
+    "\\btroub\\w*"
    ]
   },
   "min": 8,
@@ -3394,7 +3370,7 @@
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 2090,
+  "evidence": 1600,
   "intent": "type",
   "title": "Dekorace na hrob – srovnání cen"
  },
@@ -3413,7 +3389,7 @@
     "matrace"
    ],
    "all": [
-    "\\bdets\\w*"
+    "\\bdetsk\\w*"
    ]
   },
   "min": 8,
@@ -3461,7 +3437,7 @@
     "prosteradla"
    ],
    "all": [
-    "\\bfrot\\w*"
+    "\\bfrote\\w*"
    ]
   },
   "min": 8,
@@ -3485,8 +3461,8 @@
     "betlemy"
    ],
    "all": [
-    "\\bpujd\\w*",
-    "\\bspol\\w*",
+    "\\bpujde\\w*",
+    "\\bspolu\\w*",
     "\\btext\\w*"
    ]
   },
@@ -3559,7 +3535,7 @@
     "zrcadla"
    ],
    "all": [
-    "\\bvelk\\w*"
+    "\\bvelke\\w*"
    ]
   },
   "min": 8,
@@ -3754,7 +3730,7 @@
     "kvetinace"
    ],
    "all": [
-    "\\bvelk\\w*"
+    "\\bvelke\\w*"
    ]
   },
   "min": 8,
@@ -3803,7 +3779,7 @@
    ],
    "all": [
     "\\bbetono\\w*",
-    "\\bster\\w*",
+    "\\bsterk\\w*",
     "\\bkoupel\\w*"
    ]
   },
@@ -3905,7 +3881,7 @@
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 600,
+  "evidence": 1190,
   "intent": "occasion",
   "title": "Vánoční stromek v květináči – srovnání cen"
  },
@@ -3949,7 +3925,7 @@
     "povleceni"
    ],
    "all": [
-    "\\bbrot\\w*"
+    "\\bbrote\\w*"
    ]
   },
   "min": 8,
@@ -4096,7 +4072,7 @@
     "lavice"
    ],
    "all": [
-    "\\broho\\w*"
+    "\\brohov\\w*"
    ]
   },
   "min": 8,
@@ -4169,7 +4145,7 @@
     "stropni-svitidla"
    ],
    "all": [
-    "\\bsvet\\w*",
+    "\\bsvetl\\w*",
     "\\bkoupel\\w*",
     "\\bnad\\w*"
    ]
@@ -4217,7 +4193,7 @@
     "pro-miminka"
    ],
    "all": [
-    "\\bplav\\w*"
+    "\\bplavk\\w*"
    ]
   },
   "min": 8,
@@ -4241,7 +4217,6 @@
     "postele"
    ],
    "all": [
-    "\\bpost\\w*",
     "\\bmatra\\w*"
    ]
   },
@@ -4266,7 +4241,7 @@
     "vanocni-ozdoby"
    ],
    "all": [
-    "\\bjmen\\w*"
+    "\\bjmene\\w*"
    ]
   },
   "min": 8,
@@ -4315,7 +4290,7 @@
     "vanocni-ozdoby"
    ],
    "all": [
-    "\\bpapi\\w*"
+    "\\bpapir\\w*"
    ]
   },
   "min": 8,
@@ -4388,7 +4363,7 @@
     "koberce"
    ],
    "all": [
-    "\\btren\\w*"
+    "\\btrend\\w*"
    ]
   },
   "min": 8,
@@ -4509,7 +4484,7 @@
     "hneda"
    ],
    "all": [
-    "\\bkaps\\w*"
+    "\\bkapsl\\w*"
    ]
   },
   "min": 8,
@@ -4639,31 +4614,6 @@
   "title": "Eco matrace – srovnání cen"
  },
  {
-  "slug": "vanocni-strom-v-kvetinaci",
-  "h1": "Vanocni strom v kvetinaci",
-  "parent": "/umele-stromky/",
-  "cat": "umele-stromky",
-  "hubs": [
-   "/umele-stromky/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "umele-stromky"
-   ],
-   "all": [
-    "\\bstro\\w*",
-    "\\bkvetina\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 590,
-  "intent": "occasion",
-  "title": "Vanocni strom v kvetinaci – srovnání cen"
- },
- {
   "slug": "loznice-inspirace",
   "h1": "Ložnice inspirace",
   "parent": "/postele/",
@@ -4727,7 +4677,7 @@
     "vanocni-dekorace"
    ],
    "all": [
-    "\\bdrev\\w*"
+    "\\bdreva\\w*"
    ]
   },
   "min": 8,
@@ -4895,7 +4845,7 @@
     "fritezy"
    ],
    "all": [
-    "\\bloso\\w*"
+    "\\blosos\\w*"
    ]
   },
   "min": 8,
@@ -4943,7 +4893,7 @@
     "povleceni"
    ],
    "all": [
-    "\\bgold\\w*"
+    "\\bgolde\\w*"
    ]
   },
   "min": 8,
@@ -5063,7 +5013,7 @@
     "pro-miminka"
    ],
    "all": [
-    "\\bover\\w*"
+    "\\bovera\\w*"
    ]
   },
   "min": 8,
@@ -5135,7 +5085,7 @@
     "sosky-a-doplnky"
    ],
    "all": [
-    "\\bjarn\\w*",
+    "\\bjarni\\w*",
     "\\bdekora\\w*"
    ]
   },
@@ -5209,7 +5159,7 @@
     "tv-stolky"
    ],
    "all": [
-    "\\bkomo\\w*",
+    "\\bkomod\\w*",
     "\\bpod\\w*"
    ]
   },
@@ -5234,7 +5184,7 @@
     "lucerny"
    ],
    "all": [
-    "\\bpala\\w*"
+    "\\bpalac\\w*"
    ]
   },
   "min": 8,
@@ -5330,7 +5280,7 @@
     "koberce"
    ],
    "all": [
-    "\\bgumo\\w*",
+    "\\bgumov\\w*",
     "\\bauta\\w*"
    ]
   },
@@ -5380,7 +5330,7 @@
    ],
    "all": [
     "\\bpresypa\\w*",
-    "\\bsaun\\w*"
+    "\\bsauny\\w*"
    ]
   },
   "min": 8,
@@ -5404,7 +5354,7 @@
     "komody"
    ],
    "all": [
-    "\\bvyso\\w*"
+    "\\bvysok\\w*"
    ]
   },
   "min": 8,
@@ -5428,8 +5378,8 @@
     "tapety"
    ],
    "all": [
-    "\\bmobi\\w*",
-    "\\bzdar\\w*"
+    "\\bmobil\\w*",
+    "\\bzdarm\\w*"
    ]
   },
   "min": 8,
@@ -5453,12 +5403,12 @@
     "povleceni"
    ],
    "all": [
-    "\\bpost\\w*"
+    "\\bposte\\w*"
    ]
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 1100,
+  "evidence": 1680,
   "intent": "type",
   "title": "Povlečení na postel – srovnání cen"
  },
@@ -5549,7 +5499,7 @@
     "panve"
    ],
    "all": [
-    "\\bfabi\\w*"
+    "\\bfabin\\w*"
    ]
   },
   "min": 8,
@@ -5573,7 +5523,7 @@
     "vysavace"
    ],
    "all": [
-    "\\bbaze\\w*"
+    "\\bbazen\\w*"
    ]
   },
   "min": 8,
@@ -5621,7 +5571,7 @@
     "pro-miminka"
    ],
    "all": [
-    "\\bhniz\\w*"
+    "\\bhnizd\\w*"
    ]
   },
   "min": 8,
@@ -5693,8 +5643,7 @@
     "botniky"
    ],
    "all": [
-    "\\bbotn\\w*",
-    "\\blavi\\w*"
+    "\\blavic\\w*"
    ]
   },
   "min": 8,
@@ -5718,7 +5667,7 @@
     "koupelnove-skrinky"
    ],
    "all": [
-    "\\bdesk\\w*",
+    "\\bdeska\\w*",
     "\\bpod\\w*",
     "\\bumyvad\\w*"
    ]
@@ -5793,7 +5742,7 @@
     "tv-stolky"
    ],
    "all": [
-    "\\bkomo\\w*",
+    "\\bkomod\\w*",
     "\\bpod\\w*",
     "\\btelevi\\w*"
    ]
@@ -5819,8 +5768,8 @@
     "betlemy"
    ],
    "all": [
-    "\\bpujd\\w*",
-    "\\bspol\\w*",
+    "\\bpujde\\w*",
+    "\\bspolu\\w*",
     "\\bnoty\\w*"
    ]
   },
@@ -5869,7 +5818,7 @@
     "fritezy"
    ],
    "all": [
-    "\\bcoso\\w*"
+    "\\bcosor\\w*"
    ]
   },
   "min": 8,
@@ -5939,7 +5888,7 @@
     "vanocni-dekorace"
    ],
    "all": [
-    "\\bdver\\w*"
+    "\\bdvere\\w*"
    ]
   },
   "min": 8,
@@ -5971,30 +5920,6 @@
   "evidence": 630,
   "intent": "type",
   "title": "Vybaveni do sauny – srovnání cen"
- },
- {
-  "slug": "stojan-na-destniky",
-  "h1": "Stojan na deštníky",
-  "parent": "/stojany-na-destniky/",
-  "cat": "stojany-na-destniky",
-  "hubs": [
-   "/stojany-na-destniky/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "stojany-na-destniky"
-   ],
-   "all": [
-    "\\bstoj\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 1190,
-  "intent": "type",
-  "title": "Stojan na deštníky – srovnání cen"
  },
  {
   "slug": "povleceni-do-postylky",
@@ -6035,7 +5960,7 @@
     "tapety"
    ],
    "all": [
-    "\\bploc\\w*"
+    "\\bploch\\w*"
    ]
   },
   "min": 8,
@@ -6062,7 +5987,7 @@
     "hneda"
    ],
    "all": [
-    "\\bkrup\\w*"
+    "\\bkrups\\w*"
    ]
   },
   "min": 8,
@@ -6158,12 +6083,12 @@
     "garnyze"
    ],
    "all": [
-    "\\bstro\\w*"
+    "\\bstrop\\w*"
    ]
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 1850,
+  "evidence": 2330,
   "intent": "type",
   "title": "Garnýže do stropu – srovnání cen"
  },
@@ -6182,7 +6107,7 @@
     "stropni-svitidla"
    ],
    "all": [
-    "\\bsvet\\w*",
+    "\\bsvetl\\w*",
     "\\blozni\\w*"
    ]
   },
@@ -6353,7 +6278,7 @@
     "povleceni"
    ],
    "all": [
-    "\\bzimn\\w*"
+    "\\bzimni\\w*"
    ]
   },
   "min": 8,
@@ -6401,12 +6326,12 @@
     "led-pasky"
    ],
    "all": [
-    "\\blist\\w*"
+    "\\blisty\\w*"
    ]
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 2460,
+  "evidence": 1000,
   "intent": "feature",
   "title": "Lišty na led pásky – srovnání cen"
  },
@@ -6498,7 +6423,7 @@
     "prosteradla"
    ],
    "all": [
-    "\\bjers\\w*"
+    "\\bjerse\\w*"
    ]
   },
   "min": 8,
@@ -6526,7 +6451,7 @@
    ],
    "all": [
     "\\bkazdoden\\w*",
-    "\\bspan\\w*"
+    "\\bspani\\w*"
    ]
   },
   "min": 8,
@@ -6623,7 +6548,7 @@
     "vysavace"
    ],
    "all": [
-    "\\btyco\\w*"
+    "\\btycov\\w*"
    ]
   },
   "min": 8,
@@ -6647,7 +6572,7 @@
     "kuchynske-linky"
    ],
    "all": [
-    "\\bsvet\\w*"
+    "\\bsvetl\\w*"
    ]
   },
   "min": 8,
@@ -6671,9 +6596,9 @@
     "stropni-svitidla"
    ],
    "all": [
-    "\\bsvet\\w*",
+    "\\bsvetl\\w*",
     "\\bkuchyns\\w*",
-    "\\blink\\w*"
+    "\\blinky\\w*"
    ]
   },
   "min": 8,
@@ -6888,12 +6813,12 @@
     "postele"
    ],
    "all": [
-    "\\bstol\\w*"
+    "\\bstole\\w*"
    ]
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 2910,
+  "evidence": 2300,
   "intent": "type",
   "title": "Stolek k posteli – srovnání cen"
  },
@@ -6912,7 +6837,7 @@
     "pribory"
    ],
    "all": [
-    "\\btone\\w*"
+    "\\btoner\\w*"
    ]
   },
   "min": 8,
@@ -6984,7 +6909,7 @@
     "fritezy"
    ],
    "all": [
-    "\\btesl\\w*"
+    "\\btesla\\w*"
    ]
   },
   "min": 8,
@@ -7042,30 +6967,6 @@
   "title": "Sedačka do auta – srovnání cen"
  },
  {
-  "slug": "vanoce-tapeta",
-  "h1": "Vánoce tapeta",
-  "parent": "/tapety/",
-  "cat": "tapety",
-  "hubs": [
-   "/tapety/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "tapety"
-   ],
-   "all": [
-    "\\bvano\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 600,
-  "intent": "occasion",
-  "title": "Vánoce tapeta – srovnání cen"
- },
- {
   "slug": "vysavace-karcher",
   "h1": "Vysavače karcher",
   "parent": "/vysavace/",
@@ -7104,7 +7005,7 @@
     "samolepky-na-zed"
    ],
    "all": [
-    "\\bdets\\w*"
+    "\\bdetsk\\w*"
    ]
   },
   "min": 8,
@@ -7128,7 +7029,7 @@
     "lucerny"
    ],
    "all": [
-    "\\bsvic\\w*"
+    "\\bsvick\\w*"
    ]
   },
   "min": 8,
@@ -7177,7 +7078,7 @@
    ],
    "all": [
     "\\bpodsed\\w*",
-    "\\blavi\\w*"
+    "\\blavic\\w*"
    ]
   },
   "min": 8,
@@ -7283,6 +7184,30 @@
   "title": "Fritéza na olej – srovnání cen"
  },
  {
+  "slug": "prebalovaci-pult-na-komodu",
+  "h1": "Přebalovací pult na komodu",
+  "parent": "/prebalovaci-pulty/",
+  "cat": "prebalovaci-pulty",
+  "hubs": [
+   "/prebalovaci-pulty/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "prebalovaci-pulty"
+   ],
+   "all": [
+    "\\bpult\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 1000,
+  "intent": "type",
+  "title": "Přebalovací pult na komodu – srovnání cen"
+ },
+ {
   "slug": "lucerna-cafe-bar",
   "h1": "Lucerna cafe bar",
   "parent": "/lucerny/",
@@ -7346,7 +7271,7 @@
     "tapety"
    ],
    "all": [
-    "\\bdets\\w*"
+    "\\bdetsk\\w*"
    ]
   },
   "min": 8,
@@ -7354,30 +7279,6 @@
   "evidence": 890,
   "intent": "room",
   "title": "Dětské tapety – srovnání cen"
- },
- {
-  "slug": "lucern",
-  "h1": "Lucern",
-  "parent": "/lucerny/",
-  "cat": "lucerny",
-  "hubs": [
-   "/lucerny/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "lucerny"
-   ],
-   "all": [
-    "\\bluce\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 2200,
-  "intent": "type",
-  "title": "Lucern – srovnání cen"
  },
  {
   "slug": "lampicky-na-nocni-stolky",
@@ -7394,7 +7295,8 @@
     "stolni-lampy"
    ],
    "all": [
-    "\\blampic\\w*"
+    "\\blampic\\w*",
+    "\\bstolk\\w*"
    ]
   },
   "min": 8,
@@ -7418,12 +7320,12 @@
     "satni-skrine"
    ],
    "all": [
-    "\\bvelk\\w*"
+    "\\bvelka\\w*"
    ]
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 1530,
+  "evidence": 980,
   "intent": "type",
   "title": "Velká šatní skříň – srovnání cen"
  },
@@ -7442,8 +7344,8 @@
     "detske-skrine-a-ulozne-boxy"
    ],
    "all": [
-    "\\btruh\\w*",
-    "\\bhrac\\w*"
+    "\\btruhl\\w*",
+    "\\bhrack\\w*"
    ]
   },
   "min": 8,
@@ -7563,7 +7465,7 @@
     "sauny"
    ],
    "all": [
-    "\\bdoma\\w*"
+    "\\bdomac\\w*"
    ]
   },
   "min": 8,
@@ -7587,7 +7489,7 @@
     "kvetinace"
    ],
    "all": [
-    "\\btera\\w*"
+    "\\bteras\\w*"
    ]
   },
   "min": 8,
@@ -7707,7 +7609,7 @@
     "panve"
    ],
    "all": [
-    "\\btefa\\w*"
+    "\\btefal\\w*"
    ]
   },
   "min": 8,
@@ -7731,7 +7633,7 @@
     "postele"
    ],
    "all": [
-    "\\bblec\\w*"
+    "\\bblech\\w*"
    ]
   },
   "min": 8,
@@ -7760,7 +7662,7 @@
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 4050,
+  "evidence": 4470,
   "intent": "type",
   "title": "Žárovka e27 – srovnání cen"
  },
@@ -7779,9 +7681,9 @@
     "betlemy"
    ],
    "all": [
-    "\\bpujd\\w*",
-    "\\bspol\\w*",
-    "\\bakor\\w*"
+    "\\bpujde\\w*",
+    "\\bspolu\\w*",
+    "\\bakord\\w*"
    ]
   },
   "min": 8,
@@ -7827,7 +7729,7 @@
     "vanocni-ozdoby"
    ],
    "all": [
-    "\\bcesk\\w*"
+    "\\bceske\\w*"
    ]
   },
   "min": 8,
@@ -7851,7 +7753,7 @@
     "kuchynske-nacini"
    ],
    "all": [
-    "\\bster\\w*",
+    "\\bsterk\\w*",
     "\\bkoupel\\w*"
    ]
   },
@@ -7900,7 +7802,7 @@
     "prosteradla"
    ],
    "all": [
-    "\\bsaun\\w*"
+    "\\bsauny\\w*"
    ]
   },
   "min": 8,
@@ -7924,7 +7826,7 @@
     "lavice"
    ],
    "all": [
-    "\\broho\\w*",
+    "\\brohov\\w*",
     "\\bkuchy\\w*"
    ]
   },
@@ -7973,7 +7875,7 @@
     "detske-skrine-a-ulozne-boxy"
    ],
    "all": [
-    "\\bkomo\\w*"
+    "\\bkomod\\w*"
    ]
   },
   "min": 8,
@@ -7998,9 +7900,8 @@
    ],
    "size": "140x200",
    "all": [
-    "\\bpost\\w*",
     "\\bmatra\\w*",
-    "\\brost\\w*"
+    "\\broste\\w*"
    ]
   },
   "min": 8,
@@ -8024,7 +7925,7 @@
     "vitriny"
    ],
    "all": [
-    "\\bmode\\w*"
+    "\\bmodel\\w*"
    ]
   },
   "min": 8,
@@ -8051,7 +7952,7 @@
     "bavlna"
    ],
    "all": [
-    "\\bsate\\w*"
+    "\\bsaten\\w*"
    ]
   },
   "min": 8,
@@ -8075,8 +7976,8 @@
     "fritezy"
    ],
    "all": [
-    "\\bpeci\\w*",
-    "\\bpapi\\w*"
+    "\\bpecic\\w*",
+    "\\bpapir\\w*"
    ]
   },
   "min": 8,
@@ -8186,6 +8087,30 @@
   "title": "Lucerna bar – srovnání cen"
  },
  {
+  "slug": "vesakova-stena",
+  "h1": "Věšáková stěna",
+  "parent": "/vesaky/",
+  "cat": "vesaky",
+  "hubs": [
+   "/vesaky/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "vesaky"
+   ],
+   "all": [
+    "\\bstena\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 930,
+  "intent": "type",
+  "title": "Věšáková stěna – srovnání cen"
+ },
+ {
   "slug": "prehoz-na-sedacku",
   "h1": "Přehoz na sedačku",
   "parent": "/potahy-na-nabytek/",
@@ -8200,7 +8125,7 @@
     "potahy-na-nabytek"
    ],
    "all": [
-    "\\bpreh\\w*"
+    "\\bpreho\\w*"
    ]
   },
   "min": 8,
@@ -8302,7 +8227,7 @@
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 1000,
+  "evidence": 1370,
   "intent": "type",
   "title": "Koberec do koupelny – srovnání cen"
  },
@@ -8321,7 +8246,7 @@
     "povleceni"
    ],
    "all": [
-    "\\bpota\\w*",
+    "\\bpotah\\w*",
     "\\bmatra\\w*"
    ]
   },
@@ -8443,7 +8368,7 @@
     "vesaky"
    ],
    "all": [
-    "\\bdver\\w*"
+    "\\bdvere\\w*"
    ]
   },
   "min": 8,
@@ -8515,7 +8440,7 @@
     "tv-stolky"
    ],
    "all": [
-    "\\bkomo\\w*"
+    "\\bkomod\\w*"
    ]
   },
   "min": 8,
@@ -8549,30 +8474,6 @@
   "title": "Kuchyňská lavice – srovnání cen"
  },
  {
-  "slug": "topper-na-matraci",
-  "h1": "Topper na matraci",
-  "parent": "/toppery-a-chranice-matraci/",
-  "cat": "toppery-a-chranice-matraci",
-  "hubs": [
-   "/toppery-a-chranice-matraci/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "toppery-a-chranice-matraci"
-   ],
-   "all": [
-    "\\btopp\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 790,
-  "intent": "type",
-  "title": "Topper na matraci – srovnání cen"
- },
- {
   "slug": "rucickove-hodiny",
   "h1": "Ručičkové hodiny",
   "parent": "/hodiny/",
@@ -8597,6 +8498,30 @@
   "title": "Ručičkové hodiny – srovnání cen"
  },
  {
+  "slug": "lampy-na-nocni-stolky",
+  "h1": "Lampy na noční stolky",
+  "parent": "/stolni-lampy/",
+  "cat": "stolni-lampy",
+  "hubs": [
+   "/stolni-lampy/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "stolni-lampy"
+   ],
+   "all": [
+    "\\bstolk\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 1200,
+  "intent": "type",
+  "title": "Lampy na noční stolky – srovnání cen"
+ },
+ {
   "slug": "kamna-do-sauny",
   "h1": "Kamna do sauny",
   "parent": "/krbova-kamna/",
@@ -8611,7 +8536,7 @@
     "krbova-kamna"
    ],
    "all": [
-    "\\bsaun\\w*"
+    "\\bsauny\\w*"
    ]
   },
   "min": 8,
@@ -8635,7 +8560,7 @@
     "pokojove-rostliny"
    ],
    "all": [
-    "\\bstin\\w*"
+    "\\bstinu\\w*"
    ]
   },
   "min": 8,
@@ -8683,7 +8608,7 @@
     "pro-miminka"
    ],
    "all": [
-    "\\bvyba\\w*"
+    "\\bvybav\\w*"
    ]
   },
   "min": 8,
@@ -8756,7 +8681,7 @@
    ],
    "all": [
     "\\bdetske\\w*",
-    "\\bpoko\\w*"
+    "\\bpokoj\\w*"
    ]
   },
   "min": 8,
@@ -8781,7 +8706,7 @@
    ],
    "all": [
     "\\bdetske\\w*",
-    "\\bpoko\\w*"
+    "\\bpokoj\\w*"
    ]
   },
   "min": 8,
@@ -8805,7 +8730,7 @@
     "kresla"
    ],
    "all": [
-    "\\bbalk\\w*"
+    "\\bbalko\\w*"
    ]
   },
   "min": 8,
@@ -8925,7 +8850,7 @@
     "fritezy"
    ],
    "all": [
-    "\\bsenc\\w*"
+    "\\bsenco\\w*"
    ]
   },
   "min": 8,
@@ -8949,7 +8874,7 @@
     "pro-miminka"
    ],
    "all": [
-    "\\bdare\\w*"
+    "\\bdarek\\w*"
    ]
   },
   "min": 8,
@@ -9046,7 +8971,7 @@
     "vinylove-podlahy"
    ],
    "all": [
-    "\\blepe\\w*"
+    "\\blepen\\w*"
    ]
   },
   "min": 8,
@@ -9070,7 +8995,7 @@
     "povleceni"
    ],
    "all": [
-    "\\bkluk\\w*"
+    "\\bkluky\\w*"
    ]
   },
   "min": 8,
@@ -9190,7 +9115,7 @@
     "vesaky"
    ],
    "all": [
-    "\\bchod\\w*"
+    "\\bchodb\\w*"
    ]
   },
   "min": 8,
@@ -9341,7 +9266,7 @@
     "vanocni-ozdoby"
    ],
    "all": [
-    "\\brucn\\w*",
+    "\\brucne\\w*",
     "\\bvyrabe\\w*"
    ]
   },
@@ -9390,7 +9315,7 @@
     "uprava-vzduchu"
    ],
    "all": [
-    "\\btich\\w*",
+    "\\btichy\\w*",
     "\\bventilat\\w*",
     "\\blozni\\w*"
    ]
@@ -9422,7 +9347,7 @@
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 720,
+  "evidence": 1960,
   "intent": "type",
   "title": "Prostěradlo na vysokou matraci – srovnání cen"
  },
@@ -9489,7 +9414,7 @@
     "zrcadla"
    ],
    "all": [
-    "\\bsvet\\w*",
+    "\\bsvetl\\w*",
     "\\bkoupel\\w*",
     "\\bnad\\w*"
    ]
@@ -9561,7 +9486,7 @@
     "vesaky"
    ],
    "all": [
-    "\\bprad\\w*"
+    "\\bpradl\\w*"
    ]
   },
   "min": 8,
@@ -9610,7 +9535,7 @@
     "fritezy"
    ],
    "all": [
-    "\\brizk\\w*"
+    "\\brizky\\w*"
    ]
   },
   "min": 8,
@@ -9642,6 +9567,30 @@
   "evidence": 1100,
   "intent": "type",
   "title": "Talaria komodo – srovnání cen"
+ },
+ {
+  "slug": "lista-na-led-pasky",
+  "h1": "Lišta na led pásky",
+  "parent": "/led-pasky/",
+  "cat": "led-pasky",
+  "hubs": [
+   "/led-pasky/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "led-pasky"
+   ],
+   "all": [
+    "\\blista\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 1460,
+  "intent": "feature",
+  "title": "Lišta na led pásky – srovnání cen"
  },
  {
   "slug": "capacky-pro-miminko",
@@ -9765,6 +9714,30 @@
   "title": "Barevné koberce – srovnání cen"
  },
  {
+  "slug": "stinidlo-na-lampu",
+  "h1": "Stínidlo na lampu",
+  "parent": "/stinidla/",
+  "cat": "stinidla",
+  "hubs": [
+   "/stinidla/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "stinidla"
+   ],
+   "all": [
+    "\\blampu\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 810,
+  "intent": "type",
+  "title": "Stínidlo na lampu – srovnání cen"
+ },
+ {
   "slug": "zidlicka-pro-miminka",
   "h1": "Zidlicka pro miminka",
   "parent": "/jidelni-zidle/",
@@ -9806,7 +9779,7 @@
    "all": [
     "\\bsedac\\w*",
     "\\bkolo\\w*",
-    "\\bpred\\w*"
+    "\\bpredn\\w*"
    ]
   },
   "min": 8,
@@ -9830,7 +9803,7 @@
     "zarovky"
    ],
    "all": [
-    "\\bchyt\\w*"
+    "\\bchytr\\w*"
    ]
   },
   "min": 8,
@@ -9927,7 +9900,7 @@
     "postele"
    ],
    "all": [
-    "\\bsvet\\w*",
+    "\\bsvetl\\w*",
     "\\blozni\\w*"
    ]
   },
@@ -10027,7 +10000,7 @@
     "detske-skrine-a-ulozne-boxy"
    ],
    "all": [
-    "\\bsatn\\w*"
+    "\\bsatni\\w*"
    ]
   },
   "min": 8,
@@ -10124,9 +10097,9 @@
     "hodiny"
    ],
    "all": [
-    "\\bpoma\\w*",
-    "\\bpece\\w*",
-    "\\bkach\\w*"
+    "\\bpomal\\w*",
+    "\\bpecen\\w*",
+    "\\bkachn\\w*"
    ]
   },
   "min": 8,
@@ -10150,6 +10123,7 @@
     "sprchove-kouty"
    ],
    "all": [
+    "\\bkout\\w*",
     "\\bbez\\w*",
     "\\bvanic\\w*"
    ]
@@ -10199,7 +10173,7 @@
     "komody"
    ],
    "all": [
-    "\\broho\\w*"
+    "\\brohov\\w*"
    ]
   },
   "min": 8,
@@ -10223,7 +10197,7 @@
     "svicky-a-svicny"
    ],
    "all": [
-    "\\bcajo\\w*"
+    "\\bcajov\\w*"
    ]
   },
   "min": 8,
@@ -10247,7 +10221,7 @@
     "sauny"
    ],
    "all": [
-    "\\bdrev\\w*"
+    "\\bdrevo\\w*"
    ]
   },
   "min": 8,
@@ -10271,7 +10245,7 @@
     "pribory"
    ],
    "all": [
-    "\\bdets\\w*"
+    "\\bdetsk\\w*"
    ]
   },
   "min": 8,
@@ -10320,7 +10294,7 @@
     "kvetinace"
    ],
    "all": [
-    "\\blili\\w*"
+    "\\blilie\\w*"
    ]
   },
   "min": 8,
@@ -10368,7 +10342,7 @@
     "vany"
    ],
    "all": [
-    "\\bvysk\\w*"
+    "\\bvyska\\w*"
    ]
   },
   "min": 8,
@@ -10440,38 +10414,14 @@
     "tapety"
    ],
    "all": [
-    "\\bipho\\w*"
+    "\\biphon\\w*"
    ]
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 1680,
+  "evidence": 2210,
   "intent": "type",
   "title": "Tapety na iphone – srovnání cen"
- },
- {
-  "slug": "zahradni-sedacka",
-  "h1": "Zahradní sedačka",
-  "parent": "/zahradni-sestavy/",
-  "cat": "zahradni-sestavy",
-  "hubs": [
-   "/zahradni-sestavy/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "zahradni-sestavy"
-   ],
-   "all": [
-    "\\bsedac\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 1280,
-  "intent": "room+color",
-  "title": "Zahradní sedačka – srovnání cen"
  },
  {
   "slug": "polstarek-pro-miminka",
@@ -10585,7 +10535,7 @@
     "komody"
    ],
    "all": [
-    "\\bdrag\\w*"
+    "\\bdrago\\w*"
    ]
   },
   "min": 8,
@@ -10658,7 +10608,7 @@
     "umyvadla"
    ],
    "all": [
-    "\\bvysk\\w*",
+    "\\bvyska\\w*",
     "\\bkoupel\\w*"
    ]
   },
@@ -10733,7 +10683,7 @@
    ],
    "all": [
     "\\bbez\\w*",
-    "\\bvrta\\w*"
+    "\\bvrtan\\w*"
    ]
   },
   "min": 8,
@@ -10782,7 +10732,7 @@
     "tapety"
    ],
    "all": [
-    "\\bdver\\w*"
+    "\\bdvere\\w*"
    ]
   },
   "min": 8,
@@ -10830,8 +10780,8 @@
     "krbova-kamna"
    ],
    "all": [
-    "\\bsaun\\w*",
-    "\\bdrev\\w*"
+    "\\bsauny\\w*",
+    "\\bdrevo\\w*"
    ]
   },
   "min": 8,
@@ -10855,7 +10805,7 @@
     "sauny"
    ],
    "all": [
-    "\\bfins\\w*"
+    "\\bfinsk\\w*"
    ]
   },
   "min": 8,
@@ -10879,7 +10829,7 @@
     "vesaky"
    ],
    "all": [
-    "\\bbund\\w*",
+    "\\bbundy\\w*",
     "\\bzed\\w*"
    ]
   },
@@ -10930,7 +10880,7 @@
    "all": [
     "\\bkoupel\\w*",
     "\\bbez\\w*",
-    "\\bvrta\\w*"
+    "\\bvrtan\\w*"
    ]
   },
   "min": 8,
@@ -10938,31 +10888,6 @@
   "evidence": 1630,
   "intent": "type",
   "title": "Polička do koupelny bez vrtání – srovnání cen"
- },
- {
-  "slug": "prosteradla-na-vysoke-matrace",
-  "h1": "Prostěradla na vysoké matrace",
-  "parent": "/prosteradla/",
-  "cat": "prosteradla",
-  "hubs": [
-   "/prosteradla/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "prosteradla"
-   ],
-   "all": [
-    "\\bvyso\\w*",
-    "\\bmatra\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 1240,
-  "intent": "type",
-  "title": "Prostěradla na vysoké matrace – srovnání cen"
  },
  {
   "slug": "jidelni-zidlicka-pro-miminka",
@@ -11027,7 +10952,7 @@
     "matrace"
    ],
    "all": [
-    "\\bspan\\w*"
+    "\\bspane\\w*"
    ]
   },
   "min": 8,
@@ -11126,7 +11051,7 @@
     "topne-zebriky"
    ],
    "all": [
-    "\\bzebr\\w*",
+    "\\btopny\\w*",
     "\\bkoupel\\w*"
    ]
   },
@@ -11297,7 +11222,7 @@
     "tapety"
    ],
    "all": [
-    "\\btabl\\w*"
+    "\\btable\\w*"
    ]
   },
   "min": 8,
@@ -11394,7 +11319,7 @@
     "fritezy"
    ],
    "all": [
-    "\\bkvet\\w*"
+    "\\bkveta\\w*"
    ]
   },
   "min": 8,
@@ -11562,7 +11487,7 @@
     "vanocni-dekorace"
    ],
    "all": [
-    "\\bumel\\w*",
+    "\\bumele\\w*",
     "\\bstrom\\w*",
     "\\bjako\\w*"
    ]
@@ -11612,7 +11537,7 @@
     "fritezy"
    ],
    "all": [
-    "\\brize\\w*"
+    "\\brizek\\w*"
    ]
   },
   "min": 8,
@@ -11733,7 +11658,7 @@
     "digestore"
    ],
    "all": [
-    "\\bfilt\\w*"
+    "\\bfiltr\\w*"
    ]
   },
   "min": 8,
@@ -11786,7 +11711,7 @@
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 660,
+  "evidence": 2060,
   "intent": "type",
   "title": "Cepicky pro miminka – srovnání cen"
  },
@@ -11972,7 +11897,7 @@
     "tapety"
    ],
    "all": [
-    "\\bpodz\\w*"
+    "\\bpodzi\\w*"
    ]
   },
   "min": 8,
@@ -12021,7 +11946,7 @@
    ],
    "all": [
     "\\bkuchyns\\w*",
-    "\\blink\\w*"
+    "\\blinky\\w*"
    ]
   },
   "min": 8,
@@ -12069,7 +11994,7 @@
     "vany"
    ],
    "all": [
-    "\\bspun\\w*"
+    "\\bspunt\\w*"
    ]
   },
   "min": 8,
@@ -12117,7 +12042,7 @@
     "pro-miminka"
    ],
    "all": [
-    "\\bkosi\\w*"
+    "\\bkosik\\w*"
    ]
   },
   "min": 8,
@@ -12166,7 +12091,7 @@
     "hneda"
    ],
    "all": [
-    "\\bnivo\\w*"
+    "\\bnivon\\w*"
    ]
   },
   "min": 8,
@@ -12190,7 +12115,7 @@
     "susaky-na-pradlo"
    ],
    "all": [
-    "\\bvile\\w*"
+    "\\bviled\\w*"
    ]
   },
   "min": 8,
@@ -12214,7 +12139,7 @@
     "kresla"
    ],
    "all": [
-    "\\bcten\\w*"
+    "\\bcteni\\w*"
    ]
   },
   "min": 8,
@@ -12238,7 +12163,7 @@
     "lavice"
    ],
    "all": [
-    "\\bskol\\w*"
+    "\\bskoln\\w*"
    ]
   },
   "min": 8,
@@ -12385,7 +12310,7 @@
     "vysavace"
    ],
    "all": [
-    "\\btyco\\w*",
+    "\\btycov\\w*",
     "\\browen\\w*"
    ]
   },
@@ -12410,7 +12335,7 @@
     "tapety"
    ],
    "all": [
-    "\\bmobi\\w*",
+    "\\bmobil\\w*",
     "\\baesthet\\w*"
    ]
   },
@@ -12506,7 +12431,7 @@
    ],
    "all": [
     "\\bprebalovac\\w*",
-    "\\bpult\\w*"
+    "\\bpulte\\w*"
    ]
   },
   "min": 8,
@@ -12530,7 +12455,7 @@
     "kuchynske-linky"
    ],
    "all": [
-    "\\broho\\w*"
+    "\\brohov\\w*"
    ]
   },
   "min": 8,
@@ -12755,7 +12680,7 @@
    ],
    "all": [
     "\\bpodloz\\w*",
-    "\\bkomo\\w*"
+    "\\bkomod\\w*"
    ]
   },
   "min": 8,
@@ -12779,7 +12704,7 @@
     "trampoliny"
    ],
    "all": [
-    "\\bdets\\w*"
+    "\\bdetsk\\w*"
    ]
   },
   "min": 8,
@@ -12899,12 +12824,13 @@
     "stolni-lampy"
    ],
    "all": [
+    "\\blampa\\w*",
     "\\blozni\\w*"
    ]
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 1490,
+  "evidence": 750,
   "intent": "room",
   "title": "Stolní lampa do ložnice – srovnání cen"
  },
@@ -13119,7 +13045,7 @@
     "fritezy"
    ],
    "all": [
-    "\\bvinn\\w*",
+    "\\bvinna\\w*",
     "\\bkloba\\w*"
    ]
   },
@@ -13144,7 +13070,7 @@
     "trezory"
    ],
    "all": [
-    "\\bpeni\\w*"
+    "\\bpeniz\\w*"
    ]
   },
   "min": 8,
@@ -13168,7 +13094,7 @@
     "povleceni"
    ],
    "all": [
-    "\\bcesk\\w*"
+    "\\bceske\\w*"
    ]
   },
   "min": 8,
@@ -13192,7 +13118,7 @@
     "matrace"
    ],
    "all": [
-    "\\bhost\\w*"
+    "\\bhosty\\w*"
    ]
   },
   "min": 8,
@@ -13216,7 +13142,7 @@
     "matrace"
    ],
    "all": [
-    "\\bprod\\w*"
+    "\\bprode\\w*"
    ]
   },
   "min": 8,
@@ -13264,7 +13190,7 @@
     "vanocni-dekorace"
    ],
    "all": [
-    "\\bpapi\\w*"
+    "\\bpapir\\w*"
    ]
   },
   "min": 8,
@@ -13288,6 +13214,7 @@
     "stolni-lampy"
    ],
    "all": [
+    "\\blampa\\w*",
     "\\bposte\\w*"
    ]
   },
@@ -13316,7 +13243,7 @@
    ],
    "all": [
     "\\bkazdoden\\w*",
-    "\\bspan\\w*",
+    "\\bspani\\w*",
     "\\bmatra\\w*"
    ]
   },
@@ -13342,7 +13269,7 @@
    ],
    "all": [
     "\\bandels\\w*",
-    "\\bcisl\\w*"
+    "\\bcisla\\w*"
    ]
   },
   "min": 8,
@@ -13395,7 +13322,7 @@
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 1220,
+  "evidence": 1750,
   "intent": "type",
   "title": "Tescoma pánve – srovnání cen"
  },
@@ -13419,7 +13346,7 @@
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 1220,
+  "evidence": 1610,
   "intent": "room",
   "title": "Postele do ložnice – srovnání cen"
  },
@@ -13464,9 +13391,8 @@
    ],
    "size": "160x200",
    "all": [
-    "\\bpost\\w*",
     "\\bmatra\\w*",
-    "\\brost\\w*"
+    "\\broste\\w*"
    ]
   },
   "min": 8,
@@ -13515,7 +13441,7 @@
    ],
    "all": [
     "\\bnejhez\\w*",
-    "\\bmobi\\w*"
+    "\\bmobil\\w*"
    ]
   },
   "min": 8,
@@ -13566,7 +13492,7 @@
    "all": [
     "\\bvysta\\w*",
     "\\bbetlems\\w*",
-    "\\bkapl\\w*"
+    "\\bkaple\\w*"
    ]
   },
   "min": 8,
@@ -13804,7 +13730,7 @@
     "postele"
    ],
    "all": [
-    "\\bblan\\w*"
+    "\\bblana\\w*"
    ]
   },
   "min": 8,
@@ -13901,7 +13827,7 @@
     "trezory"
    ],
    "all": [
-    "\\bdoma\\w*"
+    "\\bdomac\\w*"
    ]
   },
   "min": 8,
@@ -14046,7 +13972,7 @@
     "sauny"
    ],
    "all": [
-    "\\bstav\\w*"
+    "\\bstavb\\w*"
    ]
   },
   "min": 8,
@@ -14242,7 +14168,7 @@
     "koberce"
    ],
    "all": [
-    "\\btrav\\w*"
+    "\\btravn\\w*"
    ]
   },
   "min": 8,
@@ -14266,7 +14192,7 @@
     "vysavace"
    ],
    "all": [
-    "\\bsace\\w*"
+    "\\bsacek\\w*"
    ]
   },
   "min": 8,
@@ -14315,7 +14241,7 @@
    ],
    "all": [
     "\\bvenkov\\w*",
-    "\\bvelk\\w*"
+    "\\bvelke\\w*"
    ]
   },
   "min": 8,
@@ -14388,7 +14314,7 @@
     "vazy"
    ],
    "all": [
-    "\\bkole\\w*"
+    "\\bkolen\\w*"
    ]
   },
   "min": 8,
@@ -14585,9 +14511,8 @@
    ],
    "size": "180x200",
    "all": [
-    "\\bpost\\w*",
     "\\bmatra\\w*",
-    "\\brost\\w*"
+    "\\broste\\w*"
    ]
   },
   "min": 8,
@@ -14669,31 +14594,6 @@
   "title": "Malm komoda – srovnání cen"
  },
  {
-  "slug": "skrin-do-koupelny",
-  "h1": "Skrin do koupelny",
-  "parent": "/koupelnove-skrinky/",
-  "cat": "koupelnove-skrinky",
-  "hubs": [
-   "/koupelnove-skrinky/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "koupelnove-skrinky"
-   ],
-   "all": [
-    "\\bskri\\w*",
-    "\\bkoupel\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 920,
-  "intent": "type",
-  "title": "Skrin do koupelny – srovnání cen"
- },
- {
   "slug": "metrazove-koberce",
   "h1": "Metrážové koberce",
   "parent": "/koberce-metraz/",
@@ -14758,7 +14658,7 @@
    ],
    "all": [
     "\\bpodseda\\w*",
-    "\\blavi\\w*"
+    "\\blavic\\w*"
    ]
   },
   "min": 8,
@@ -14783,7 +14683,7 @@
    ],
    "all": [
     "\\baesthet\\w*",
-    "\\bmobi\\w*",
+    "\\bmobil\\w*",
     "\\bcute\\w*"
    ]
   },
@@ -14808,7 +14708,7 @@
     "vysavace"
    ],
    "all": [
-    "\\bpope\\w*"
+    "\\bpopel\\w*"
    ]
   },
   "min": 8,
@@ -14905,7 +14805,7 @@
    ],
    "all": [
     "\\bkuchynsk\\w*",
-    "\\blink\\w*"
+    "\\blinku\\w*"
    ]
   },
   "min": 8,
@@ -14953,7 +14853,7 @@
     "hodiny"
    ],
    "all": [
-    "\\bvelk\\w*"
+    "\\bvelke\\w*"
    ]
   },
   "min": 8,
@@ -15010,30 +14910,6 @@
   "evidence": 1180,
   "intent": "type",
   "title": "Gardena zavlažování – srovnání cen"
- },
- {
-  "slug": "zavlazovaci-systemy",
-  "h1": "Zavlažovací systémy",
-  "parent": "/zavlazovani/",
-  "cat": "zavlazovani",
-  "hubs": [
-   "/zavlazovani/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "zavlazovani"
-   ],
-   "all": [
-    "\\bsyste\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 590,
-  "intent": "type",
-  "title": "Zavlažovací systémy – srovnání cen"
  },
  {
   "slug": "vanocni-osvetleni-na-dum",
@@ -15199,7 +15075,7 @@
     "vysavace"
    ],
    "all": [
-    "\\bsack\\w*",
+    "\\bsacky\\w*",
     "\\bkarch\\w*"
    ]
   },
@@ -15272,7 +15148,7 @@
     "hodiny"
    ],
    "all": [
-    "\\bchyt\\w*"
+    "\\bchytr\\w*"
    ]
   },
   "min": 8,
@@ -15354,28 +15230,28 @@
   "title": "Koberce do předsíně – srovnání cen"
  },
  {
-  "slug": "stropni-garnyze",
-  "h1": "Stropní garnýže",
-  "parent": "/garnyze/",
-  "cat": "garnyze",
+  "slug": "stolky-k-posteli",
+  "h1": "Stolky k posteli",
+  "parent": "/postele/",
+  "cat": "postele",
   "hubs": [
-   "/garnyze/"
+   "/postele/"
   ],
   "group": "kw2",
   "dedupe_all": true,
   "rules": {
    "cat": [
-    "garnyze"
+    "postele"
    ],
    "all": [
-    "\\bstrop\\w*"
+    "\\bstolk\\w*"
    ]
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 480,
+  "evidence": 610,
   "intent": "type",
-  "title": "Stropní garnýže – srovnání cen"
+  "title": "Stolky k posteli – srovnání cen"
  },
  {
   "slug": "detska-sedacka",
@@ -15491,9 +15367,8 @@
    ],
    "size": "120x200",
    "all": [
-    "\\bpost\\w*",
     "\\bmatra\\w*",
-    "\\brost\\w*"
+    "\\broste\\w*"
    ]
   },
   "min": 8,
@@ -15545,9 +15420,8 @@
    ],
    "size": "90x200",
    "all": [
-    "\\bpost\\w*",
     "\\bmatra\\w*",
-    "\\brost\\w*"
+    "\\broste\\w*"
    ]
   },
   "min": 8,
@@ -15571,9 +15445,8 @@
     "postele"
    ],
    "all": [
-    "\\bpost\\w*",
     "\\bmatra\\w*",
-    "\\brost\\w*"
+    "\\broste\\w*"
    ]
   },
   "min": 8,
@@ -15598,7 +15471,7 @@
    ],
    "all": [
     "\\bdekora\\w*",
-    "\\bsten\\w*"
+    "\\bstenu\\w*"
    ]
   },
   "min": 8,
@@ -15706,28 +15579,28 @@
   "title": "Koš do koupelny – srovnání cen"
  },
  {
-  "slug": "cepice-pro-miminko",
-  "h1": "Čepice pro miminko",
-  "parent": "/pro-miminka/",
-  "cat": "pro-miminka",
+  "slug": "stolni-lampy-do-loznice",
+  "h1": "Stolní lampy do ložnice",
+  "parent": "/stolni-lampy/",
+  "cat": "stolni-lampy",
   "hubs": [
-   "/pro-miminka/"
+   "/stolni-lampy/"
   ],
   "group": "kw2",
   "dedupe_all": true,
   "rules": {
    "cat": [
-    "pro-miminka"
+    "stolni-lampy"
    ],
    "all": [
-    "\\bcepi\\w*"
+    "\\blozni\\w*"
    ]
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 1400,
-  "intent": "type",
-  "title": "Čepice pro miminko – srovnání cen"
+  "evidence": 740,
+  "intent": "room",
+  "title": "Stolní lampy do ložnice – srovnání cen"
  },
  {
   "slug": "bezdratove-vysavace",
@@ -15803,6 +15676,31 @@
   "title": "Vysavače eta – srovnání cen"
  },
  {
+  "slug": "dekorace-na-hroby",
+  "h1": "Dekorace na hroby",
+  "parent": "/sosky-a-doplnky/",
+  "cat": "sosky-a-doplnky",
+  "hubs": [
+   "/sosky-a-doplnky/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "sosky-a-doplnky"
+   ],
+   "all": [
+    "\\bdekora\\w*",
+    "\\bhroby\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 490,
+  "intent": "type",
+  "title": "Dekorace na hroby – srovnání cen"
+ },
+ {
   "slug": "hadice-k-vysavaci",
   "h1": "Hadice k vysavači",
   "parent": "/vysavace/",
@@ -15817,7 +15715,7 @@
     "vysavace"
    ],
    "all": [
-    "\\bhadi\\w*"
+    "\\bhadic\\w*"
    ]
   },
   "min": 8,
@@ -15841,7 +15739,7 @@
     "zrcadla"
    ],
    "all": [
-    "\\bskri\\w*"
+    "\\bskrin\\w*"
    ]
   },
   "min": 8,
@@ -16015,7 +15913,7 @@
     "koberce"
    ],
    "all": [
-    "\\bscho\\w*"
+    "\\bschod\\w*"
    ]
   },
   "min": 8,
@@ -16318,6 +16216,30 @@
   "title": "Koberce ostrava – srovnání cen"
  },
  {
+  "slug": "velke-satni-skrine",
+  "h1": "Velké šatní skříně",
+  "parent": "/satni-skrine/",
+  "cat": "satni-skrine",
+  "hubs": [
+   "/satni-skrine/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "satni-skrine"
+   ],
+   "all": [
+    "\\bvelke\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 550,
+  "intent": "type",
+  "title": "Velké šatní skříně – srovnání cen"
+ },
+ {
   "slug": "koberce-brno",
   "h1": "Koberce brno",
   "parent": "/koberce/",
@@ -16408,7 +16330,7 @@
     "sauny"
    ],
    "all": [
-    "\\bkame\\w*"
+    "\\bkamen\\w*"
    ]
   },
   "min": 8,
@@ -16432,7 +16354,7 @@
     "sedacky"
    ],
    "all": [
-    "\\bcist\\w*"
+    "\\bcisti\\w*"
    ]
   },
   "min": 8,
@@ -16514,30 +16436,6 @@
   "title": "Led žárovky do auta – srovnání cen"
  },
  {
-  "slug": "rosty-na-postel",
-  "h1": "Rošty na postel",
-  "parent": "/rosty/",
-  "cat": "rosty",
-  "hubs": [
-   "/rosty/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "rosty"
-   ],
-   "all": [
-    "\\bpost\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 480,
-  "intent": "type",
-  "title": "Rošty na postel – srovnání cen"
- },
- {
   "slug": "drevena-vanocni-dekorace",
   "h1": "Dřevěná vánoční dekorace",
   "parent": "/vanocni-dekorace/",
@@ -16576,12 +16474,12 @@
     "sauny"
    ],
    "all": [
-    "\\bkart\\w*"
+    "\\bkarta\\w*"
    ]
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 330,
+  "evidence": 570,
   "intent": "type",
   "title": "Kartáč do sauny – srovnání cen"
  },
@@ -16629,7 +16527,7 @@
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 610,
+  "evidence": 1210,
   "intent": "type",
   "title": "Košíky do koupelny – srovnání cen"
  },
@@ -16648,7 +16546,7 @@
     "vysavace"
    ],
    "all": [
-    "\\bbosc\\w*"
+    "\\bbosch\\w*"
    ]
   },
   "min": 8,
@@ -16672,7 +16570,7 @@
     "detske-koberce"
    ],
    "all": [
-    "\\bpeno\\w*",
+    "\\bpenov\\w*",
     "\\bpodloz\\w*",
     "\\bmimin\\w*"
    ]
@@ -16748,7 +16646,7 @@
    ],
    "all": [
     "\\bstrom\\w*",
-    "\\bumel\\w*"
+    "\\bumele\\w*"
    ]
   },
   "min": 8,
@@ -16772,8 +16670,8 @@
     "umyvadla"
    ],
    "all": [
-    "\\bvysk\\w*",
-    "\\bodpa\\w*"
+    "\\bvyska\\w*",
+    "\\bodpad\\w*"
    ]
   },
   "min": 8,
@@ -16797,7 +16695,7 @@
     "postele"
    ],
    "all": [
-    "\\blosi\\w*"
+    "\\blosin\\w*"
    ]
   },
   "min": 8,
@@ -16821,7 +16719,7 @@
     "pro-miminka"
    ],
    "all": [
-    "\\bdark\\w*"
+    "\\bdarky\\w*"
    ]
   },
   "min": 8,
@@ -16918,7 +16816,7 @@
     "sprchove-vanicky"
    ],
    "all": [
-    "\\bsprc\\w*"
+    "\\bsprch\\w*"
    ]
   },
   "min": 8,
@@ -17015,7 +16913,7 @@
    ],
    "all": [
     "\\bnataze\\w*",
-    "\\bkole\\w*"
+    "\\bkolen\\w*"
    ]
   },
   "min": 8,
@@ -17042,7 +16940,7 @@
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 870,
+  "evidence": 830,
   "intent": "size",
   "title": "Rošty do postele 90x200 – srovnání cen"
  },
@@ -17061,7 +16959,7 @@
     "matrace"
    ],
    "all": [
-    "\\bzare\\w*"
+    "\\bzaren\\w*"
    ]
   },
   "min": 8,
@@ -17110,7 +17008,7 @@
    ],
    "all": [
     "\\bbotniko\\w*",
-    "\\blavi\\w*"
+    "\\blavic\\w*"
    ]
   },
   "min": 8,
@@ -17333,7 +17231,7 @@
     "pokojove-rostliny"
    ],
    "all": [
-    "\\bvelk\\w*"
+    "\\bvelke\\w*"
    ]
   },
   "min": 8,
@@ -17381,7 +17279,7 @@
     "koberce"
    ],
    "all": [
-    "\\bpoko\\w*"
+    "\\bpokoj\\w*"
    ]
   },
   "min": 8,
@@ -17405,7 +17303,7 @@
     "sauny"
    ],
    "all": [
-    "\\bpans\\w*",
+    "\\bpansk\\w*",
     "\\bkilt\\w*"
    ]
   },
@@ -17731,7 +17629,7 @@
     "komody"
    ],
    "all": [
-    "\\bhemn\\w*"
+    "\\bhemne\\w*"
    ]
   },
   "min": 8,
@@ -17755,7 +17653,7 @@
     "komody"
    ],
    "all": [
-    "\\bhrac\\w*"
+    "\\bhrack\\w*"
    ]
   },
   "min": 8,
@@ -17803,7 +17701,7 @@
     "vany"
    ],
    "all": [
-    "\\brozm\\w*"
+    "\\brozme\\w*"
    ]
   },
   "min": 8,
@@ -17854,7 +17752,7 @@
    "all": [
     "\\bkos\\w*",
     "\\bkuchyns\\w*",
-    "\\blink\\w*"
+    "\\blinky\\w*"
    ]
   },
   "min": 8,
@@ -17878,8 +17776,8 @@
     "stropni-svitidla"
    ],
    "all": [
-    "\\bsvet\\w*",
-    "\\bsaun\\w*"
+    "\\bsvetl\\w*",
+    "\\bsauny\\w*"
    ]
   },
   "min": 8,
@@ -17930,7 +17828,7 @@
     "vanocni-ozdoby"
    ],
    "all": [
-    "\\bfotk\\w*"
+    "\\bfotko\\w*"
    ]
   },
   "min": 8,
@@ -18026,7 +17924,7 @@
     "tapety"
    ],
    "all": [
-    "\\bfoli\\w*"
+    "\\bfolie\\w*"
    ]
   },
   "min": 8,
@@ -18172,7 +18070,7 @@
     "vanocni-dekorace"
    ],
    "all": [
-    "\\bsise\\w*"
+    "\\bsisek\\w*"
    ]
   },
   "min": 8,
@@ -18294,7 +18192,7 @@
    ],
    "all": [
     "\\bbez\\w*",
-    "\\bodta\\w*"
+    "\\bodtah\\w*"
    ]
   },
   "min": 8,
@@ -18318,8 +18216,8 @@
     "krbova-kamna"
    ],
    "all": [
-    "\\bdrev\\w*",
-    "\\bsaun\\w*"
+    "\\bdrevo\\w*",
+    "\\bsauny\\w*"
    ]
   },
   "min": 8,
@@ -18343,7 +18241,7 @@
     "stropni-svitidla"
    ],
    "all": [
-    "\\bledk\\w*"
+    "\\bledky\\w*"
    ]
   },
   "min": 8,
@@ -18419,7 +18317,7 @@
     "povleceni"
    ],
    "all": [
-    "\\btchi\\w*"
+    "\\btchib\\w*"
    ]
   },
   "min": 8,
@@ -18443,7 +18341,7 @@
     "sauny"
    ],
    "all": [
-    "\\bstav\\w*",
+    "\\bstavb\\w*",
     "\\bsvepomo\\w*"
    ]
   },
@@ -18492,7 +18390,7 @@
     "vanocni-ozdoby"
    ],
    "all": [
-    "\\bstar\\w*"
+    "\\bstare\\w*"
    ]
   },
   "min": 8,
@@ -18564,7 +18462,7 @@
     "koberce"
    ],
    "all": [
-    "\\bprah\\w*"
+    "\\bpraha\\w*"
    ]
   },
   "min": 8,
@@ -18588,7 +18486,7 @@
     "sedacky"
    ],
    "all": [
-    "\\bhama\\w*",
+    "\\bhamax\\w*",
     "\\bkolo\\w*"
    ]
   },
@@ -18718,7 +18616,7 @@
   },
   "min": 8,
   "index_min": 14,
-  "evidence": 480,
+  "evidence": 860,
   "intent": "room",
   "title": "Koupelnové umyvadlo – srovnání cen"
  },
@@ -18747,6 +18645,31 @@
   "title": "Venkovní lucerna – srovnání cen"
  },
  {
+  "slug": "rost-do-postele-90x200",
+  "h1": "Rošt do postele 90x200",
+  "parent": "/rosty/",
+  "cat": "rosty",
+  "hubs": [
+   "/rosty/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "rosty"
+   ],
+   "size": "90x200",
+   "all": [
+    "\\brost\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 440,
+  "intent": "size",
+  "title": "Rošt do postele 90x200 – srovnání cen"
+ },
+ {
   "slug": "pakove-kavovary",
   "h1": "Pákové kávovary",
   "parent": "/kavovary/",
@@ -18764,7 +18687,7 @@
     "hneda"
    ],
    "all": [
-    "\\bpako\\w*"
+    "\\bpakov\\w*"
    ]
   },
   "min": 8,
@@ -18815,7 +18738,7 @@
     "dub"
    ],
    "all": [
-    "\\bsono\\w*"
+    "\\bsonom\\w*"
    ]
   },
   "min": 8,
@@ -18849,30 +18772,6 @@
   "title": "Okno do sauny – srovnání cen"
  },
  {
-  "slug": "kartace-do-sauny",
-  "h1": "Kartáče do sauny",
-  "parent": "/sauny/",
-  "cat": "sauny",
-  "hubs": [
-   "/sauny/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "sauny"
-   ],
-   "all": [
-    "\\bkarta\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 240,
-  "intent": "type",
-  "title": "Kartáče do sauny – srovnání cen"
- },
- {
   "slug": "z-betlema-se-ozyva",
   "h1": "Z betléma se ozývá",
   "parent": "/betlemy/",
@@ -18887,7 +18786,7 @@
     "betlemy"
    ],
    "all": [
-    "\\bozyv\\w*"
+    "\\bozyva\\w*"
    ]
   },
   "min": 8,
@@ -18946,57 +18845,6 @@
   "title": "Dekorace do dětského pokoje – srovnání cen"
  },
  {
-  "slug": "postel-do-loznice",
-  "h1": "Postel do ložnice",
-  "parent": "/postele/",
-  "cat": "postele",
-  "hubs": [
-   "/postele/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "postele"
-   ],
-   "all": [
-    "\\bpost\\w*",
-    "\\blozni\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 390,
-  "intent": "room",
-  "title": "Postel do ložnice – srovnání cen"
- },
- {
-  "slug": "skrin-pod-umyvadlo",
-  "h1": "Skrin pod umyvadlo",
-  "parent": "/koupelnove-skrinky/",
-  "cat": "koupelnove-skrinky",
-  "hubs": [
-   "/koupelnove-skrinky/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "koupelnove-skrinky"
-   ],
-   "all": [
-    "\\bskri\\w*",
-    "\\bpod\\w*",
-    "\\bumyvad\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 610,
-  "intent": "type",
-  "title": "Skrin pod umyvadlo – srovnání cen"
- },
- {
   "slug": "satni-skrine-vyprodej",
   "h1": "Šatní skříně výprodej",
   "parent": "/satni-skrine/",
@@ -19035,7 +18883,7 @@
     "satni-systemy"
    ],
    "all": [
-    "\\bskri\\w*"
+    "\\bskrin\\w*"
    ]
   },
   "min": 8,
@@ -19155,7 +19003,7 @@
     "sedacky"
    ],
    "all": [
-    "\\bthul\\w*",
+    "\\bthule\\w*",
     "\\bkolo\\w*"
    ]
   },
@@ -19252,7 +19100,7 @@
     "fritezy"
    ],
    "all": [
-    "\\bvive\\w*",
+    "\\bvives\\w*",
     "\\brecen\\w*"
    ]
   },
@@ -19279,7 +19127,7 @@
    "all": [
     "\\bpod\\w*",
     "\\bkonferenc\\w*",
-    "\\bstol\\w*"
+    "\\bstole\\w*"
    ]
   },
   "min": 8,
@@ -19353,7 +19201,7 @@
    ],
    "all": [
     "\\belektric\\w*",
-    "\\bsaun\\w*"
+    "\\bsauny\\w*"
    ]
   },
   "min": 8,
@@ -19380,7 +19228,7 @@
     "sklo"
    ],
    "all": [
-    "\\bdver\\w*"
+    "\\bdvere\\w*"
    ]
   },
   "min": 8,
@@ -19404,7 +19252,7 @@
     "koberce"
    ],
    "all": [
-    "\\bvani\\w*"
+    "\\bvanis\\w*"
    ]
   },
   "min": 8,
@@ -19428,7 +19276,7 @@
     "led-panely"
    ],
    "all": [
-    "\\bstro\\w*"
+    "\\bstrop\\w*"
    ]
   },
   "min": 8,
@@ -19478,7 +19326,7 @@
     "kvetinace"
    ],
    "all": [
-    "\\bbalk\\w*"
+    "\\bbalko\\w*"
    ]
   },
   "min": 8,
@@ -19598,7 +19446,7 @@
     "postele"
    ],
    "all": [
-    "\\broho\\w*"
+    "\\brohov\\w*"
    ]
   },
   "min": 8,
@@ -19646,7 +19494,7 @@
     "jidelni-stoly"
    ],
    "all": [
-    "\\bjarn\\w*",
+    "\\bjarni\\w*",
     "\\bdekora\\w*",
     "\\bstul\\w*"
    ]
@@ -19672,7 +19520,7 @@
     "rychlovarne-konvice"
    ],
    "all": [
-    "\\bnere\\w*"
+    "\\bnerez\\w*"
    ]
   },
   "min": 8,
@@ -19696,7 +19544,7 @@
     "vesaky"
    ],
    "all": [
-    "\\bkaba\\w*"
+    "\\bkabat\\w*"
    ]
   },
   "min": 8,
@@ -19840,7 +19688,7 @@
     "nocni-stolky"
    ],
    "all": [
-    "\\bdets\\w*"
+    "\\bdetsk\\w*"
    ]
   },
   "min": 8,
@@ -19890,8 +19738,8 @@
    ],
    "all": [
     "\\bsamolepi\\w*",
-    "\\btape\\w*",
-    "\\bdver\\w*"
+    "\\btapet\\w*",
+    "\\bdvere\\w*"
    ]
   },
   "min": 8,
@@ -19939,7 +19787,7 @@
     "lavice"
    ],
    "all": [
-    "\\bseda\\w*"
+    "\\bsedac\\w*"
    ]
   },
   "min": 8,
@@ -19947,30 +19795,6 @@
   "evidence": 510,
   "intent": "color",
   "title": "Sedací lavice – srovnání cen"
- },
- {
-  "slug": "cistice-na-koberce",
-  "h1": "Čističe na koberce",
-  "parent": "/koberce/",
-  "cat": "koberce",
-  "hubs": [
-   "/koberce/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "koberce"
-   ],
-   "all": [
-    "\\bcisti\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 390,
-  "intent": "type",
-  "title": "Čističe na koberce – srovnání cen"
  },
  {
   "slug": "roztoci-v-posteli",
@@ -20036,7 +19860,7 @@
    ],
    "size": "180x200",
    "all": [
-    "\\bfrot\\w*"
+    "\\bfrote\\w*"
    ]
   },
   "min": 8,
@@ -20108,7 +19932,7 @@
     "vanocni-ozdoby"
    ],
    "all": [
-    "\\bpapi\\w*",
+    "\\bpapir\\w*",
     "\\bdeti\\w*"
    ]
   },
@@ -20133,7 +19957,7 @@
     "rychlovarne-konvice"
    ],
    "all": [
-    "\\bsenc\\w*"
+    "\\bsenco\\w*"
    ]
   },
   "min": 8,
@@ -20181,7 +20005,7 @@
     "detske-jidelni-zidle"
    ],
    "all": [
-    "\\bzidl\\w*"
+    "\\bzidle\\w*"
    ]
   },
   "min": 8,
@@ -20208,7 +20032,7 @@
     "hneda"
    ],
    "all": [
-    "\\bfilt\\w*"
+    "\\bfiltr\\w*"
    ]
   },
   "min": 8,
@@ -20257,8 +20081,8 @@
    ],
    "all": [
     "\\bsilikono\\w*",
-    "\\bhorkovzdus\\w*",
-    "\\bfrite\\w*"
+    "\\bforma\\w*",
+    "\\bhorkovzdus\\w*"
    ]
   },
   "min": 8,
@@ -20282,7 +20106,7 @@
     "koberce"
    ],
    "all": [
-    "\\bkuso\\w*",
+    "\\bkusov\\w*",
     "\\bvyprod\\w*"
    ]
   },
@@ -20291,30 +20115,6 @@
   "evidence": 400,
   "intent": "occasion",
   "title": "Kusové koberce výprodej – srovnání cen"
- },
- {
-  "slug": "povleceni-na-postele",
-  "h1": "Povlečení na postele",
-  "parent": "/povleceni/",
-  "cat": "povleceni",
-  "hubs": [
-   "/povleceni/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "povleceni"
-   ],
-   "all": [
-    "\\bposte\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 580,
-  "intent": "type",
-  "title": "Povlečení na postele – srovnání cen"
  },
  {
   "slug": "hezke-tapety-na-mobil",
@@ -20331,8 +20131,8 @@
     "tapety"
    ],
    "all": [
-    "\\bhezk\\w*",
-    "\\bmobi\\w*"
+    "\\bhezke\\w*",
+    "\\bmobil\\w*"
    ]
   },
   "min": 8,
@@ -20356,7 +20156,7 @@
     "tapety"
    ],
    "all": [
-    "\\bstit\\w*"
+    "\\bstitc\\w*"
    ]
   },
   "min": 8,
@@ -20452,7 +20252,7 @@
     "matrace"
    ],
    "all": [
-    "\\bstan\\w*"
+    "\\bstanu\\w*"
    ]
   },
   "min": 8,
@@ -20525,7 +20325,7 @@
     "susaky-na-pradlo"
    ],
    "all": [
-    "\\bbalk\\w*"
+    "\\bbalko\\w*"
    ]
   },
   "min": 8,
@@ -20549,7 +20349,7 @@
     "fritezy"
    ],
    "all": [
-    "\\bpapi\\w*"
+    "\\bpapir\\w*"
    ]
   },
   "min": 8,
@@ -20573,7 +20373,7 @@
     "fritezy"
    ],
    "all": [
-    "\\bvejc\\w*"
+    "\\bvejce\\w*"
    ]
   },
   "min": 8,
@@ -20621,7 +20421,7 @@
     "kvetinace"
    ],
    "all": [
-    "\\bvyso\\w*"
+    "\\bvysok\\w*"
    ]
   },
   "min": 8,
@@ -20646,7 +20446,7 @@
    ],
    "all": [
     "\\bpassa\\w*",
-    "\\bprag\\w*"
+    "\\bpragu\\w*"
    ]
   },
   "min": 8,
@@ -20695,7 +20495,7 @@
    ],
    "all": [
     "\\bzahrad\\w*",
-    "\\bzidl\\w*"
+    "\\bzidle\\w*"
    ]
   },
   "min": 8,
@@ -20769,7 +20569,7 @@
     "kvetinace"
    ],
    "all": [
-    "\\bchyt\\w*"
+    "\\bchytr\\w*"
    ]
   },
   "min": 8,
@@ -20920,7 +20720,7 @@
     "vany"
    ],
    "all": [
-    "\\bzatk\\w*"
+    "\\bzatka\\w*"
    ]
   },
   "min": 8,
@@ -20944,7 +20744,7 @@
     "vysavace"
    ],
    "all": [
-    "\\bsack\\w*",
+    "\\bsacky\\w*",
     "\\beta\\w*"
    ]
   },
@@ -21010,31 +20810,6 @@
   "title": "Led osvětlení kuchyňské linky – srovnání cen"
  },
  {
-  "slug": "rosty-na-postel-90x200",
-  "h1": "Rosty na postel 90x200",
-  "parent": "/rosty/",
-  "cat": "rosty",
-  "hubs": [
-   "/rosty/"
-  ],
-  "group": "kw2",
-  "dedupe_all": true,
-  "rules": {
-   "cat": [
-    "rosty"
-   ],
-   "size": "90x200",
-   "all": [
-    "\\bpost\\w*"
-   ]
-  },
-  "min": 8,
-  "index_min": 14,
-  "evidence": 400,
-  "intent": "size",
-  "title": "Rosty na postel 90x200 – srovnání cen"
- },
- {
   "slug": "sedacky-jech",
   "h1": "Sedačky jech",
   "parent": "/sedacky/",
@@ -21074,7 +20849,7 @@
    ],
    "all": [
     "\\bsprchov\\w*",
-    "\\bkout\\w*"
+    "\\bkoute\\w*"
    ]
   },
   "min": 8,
@@ -21098,7 +20873,7 @@
     "vysavace"
    ],
    "all": [
-    "\\blist\\w*"
+    "\\blisti\\w*"
    ]
   },
   "min": 8,
@@ -21218,7 +20993,7 @@
     "zrcadla"
    ],
    "all": [
-    "\\bchod\\w*"
+    "\\bchodb\\w*"
    ]
   },
   "min": 8,
@@ -21266,7 +21041,6 @@
     "lucerny"
    ],
    "all": [
-    "\\bluce\\w*",
     "\\bdrevostav\\w*"
    ]
   },
@@ -21315,7 +21089,7 @@
     "fritezy"
    ],
    "all": [
-    "\\bseka\\w*"
+    "\\bsekan\\w*"
    ]
   },
   "min": 8,
@@ -21339,7 +21113,7 @@
     "kuchynske-linky"
    ],
    "all": [
-    "\\bprah\\w*"
+    "\\bpraha\\w*"
    ]
   },
   "min": 8,
@@ -21363,7 +21137,7 @@
     "kvetinace"
    ],
    "all": [
-    "\\bkytk\\w*"
+    "\\bkytka\\w*"
    ]
   },
   "min": 8,
@@ -21411,7 +21185,7 @@
     "patrove-postele"
    ],
    "all": [
-    "\\bdets\\w*"
+    "\\bdetsk\\w*"
    ]
   },
   "min": 8,
@@ -21703,7 +21477,7 @@
    ],
    "all": [
     "\\bdekora\\w*",
-    "\\bpoko\\w*"
+    "\\bpokoj\\w*"
    ]
   },
   "min": 8,
@@ -21751,7 +21525,7 @@
     "lucerny"
    ],
    "all": [
-    "\\bvelk\\w*",
+    "\\bvelky\\w*",
     "\\bsal\\w*"
    ]
   },
@@ -21776,7 +21550,7 @@
     "tapety"
    ],
    "all": [
-    "\\bholk\\w*"
+    "\\bholky\\w*"
    ]
   },
   "min": 8,
@@ -21849,7 +21623,7 @@
     "vanocni-dekorace"
    ],
    "all": [
-    "\\bvetv\\w*"
+    "\\bvetvi\\w*"
    ]
   },
   "min": 8,
@@ -21900,7 +21674,7 @@
     "sklo"
    ],
    "all": [
-    "\\bcesk\\w*"
+    "\\bceske\\w*"
    ]
   },
   "min": 8,
@@ -21956,5 +21730,229 @@
   "evidence": 420,
   "intent": "room",
   "title": "Luxusní obývací stěny – srovnání cen"
+ },
+ {
+  "slug": "smazeny-kvetak-v-horkovzdusne-friteze",
+  "h1": "Smažený květák v horkovzdušné fritéze",
+  "parent": "/fritezy/",
+  "cat": "fritezy",
+  "hubs": [
+   "/fritezy/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "fritezy"
+   ],
+   "all": [
+    "\\bsmaze\\w*",
+    "\\bkveta\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 530,
+  "intent": "type",
+  "title": "Smažený květák v horkovzdušné fritéze – srovnání cen"
+ },
+ {
+  "slug": "topinky-v-horkovzdusne-friteze",
+  "h1": "Topinky v horkovzdušné fritéze",
+  "parent": "/fritezy/",
+  "cat": "fritezy",
+  "hubs": [
+   "/fritezy/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "fritezy"
+   ],
+   "all": [
+    "\\btopin\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 530,
+  "intent": "type",
+  "title": "Topinky v horkovzdušné fritéze – srovnání cen"
+ },
+ {
+  "slug": "sinsay-povleceni",
+  "h1": "Sinsay povlečení",
+  "parent": "/povleceni/",
+  "cat": "povleceni",
+  "hubs": [
+   "/povleceni/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "povleceni"
+   ],
+   "all": [
+    "\\bsinsa\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 530,
+  "intent": "type",
+  "title": "Sinsay povlečení – srovnání cen"
+ },
+ {
+  "slug": "vavex-tapety",
+  "h1": "Vavex tapety",
+  "parent": "/tapety/",
+  "cat": "tapety",
+  "hubs": [
+   "/tapety/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "tapety"
+   ],
+   "all": [
+    "\\bvavex\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 530,
+  "intent": "type",
+  "title": "Vavex tapety – srovnání cen"
+ },
+ {
+  "slug": "sklenene-vanocni-ozdoby-jablonec-nad-nisou",
+  "h1": "Skleněné vánoční ozdoby jablonec nad nisou",
+  "parent": "/vanocni-ozdoby/",
+  "cat": "vanocni-ozdoby",
+  "hubs": [
+   "/vanocni-ozdoby/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "vanocni-ozdoby"
+   ],
+   "mats": [
+    "sklo"
+   ],
+   "all": [
+    "\\bjablon\\w*",
+    "\\bnad\\w*",
+    "\\bnisou\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 250,
+  "intent": "material+occasion",
+  "title": "Skleněné vánoční ozdoby jablonec nad nisou – srovnání cen"
+ },
+ {
+  "slug": "renovace-drevene-podlahy",
+  "h1": "Renovace dřevěné podlahy",
+  "parent": "/drevene-podlahy/",
+  "cat": "drevene-podlahy",
+  "hubs": [
+   "/drevene-podlahy/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "drevene-podlahy"
+   ],
+   "all": [
+    "\\brenova\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 330,
+  "intent": "material",
+  "title": "Renovace dřevěné podlahy – srovnání cen"
+ },
+ {
+  "slug": "renovace-kuchynske-linky",
+  "h1": "Renovace kuchyňské linky",
+  "parent": "/kuchynske-linky/",
+  "cat": "kuchynske-linky",
+  "hubs": [
+   "/kuchynske-linky/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "kuchynske-linky"
+   ],
+   "all": [
+    "\\brenova\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 480,
+  "intent": "room",
+  "title": "Renovace kuchyňské linky – srovnání cen"
+ },
+ {
+  "slug": "stojanovy-vesak",
+  "h1": "Stojanový věšák",
+  "parent": "/vesaky/",
+  "cat": "vesaky",
+  "hubs": [
+   "/vesaky/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "vesaky"
+   ],
+   "all": [
+    "\\bstojano\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 620,
+  "intent": "type",
+  "title": "Stojanový věšák – srovnání cen"
+ },
+ {
+  "slug": "mala-loznice-inspirace",
+  "h1": "Malá ložnice inspirace",
+  "parent": "/postele/",
+  "cat": "postele",
+  "hubs": [
+   "/postele/"
+  ],
+  "group": "kw2",
+  "dedupe_all": true,
+  "rules": {
+   "cat": [
+    "postele"
+   ],
+   "all": [
+    "\\bmala\\w*",
+    "\\blozni\\w*",
+    "\\binspira\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 14,
+  "evidence": 400,
+  "intent": "room+compare",
+  "title": "Malá ložnice inspirace – srovnání cen"
  }
 ]
