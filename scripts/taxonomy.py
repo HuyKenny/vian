@@ -242,6 +242,34 @@ CATS = {
     "detska-svitidla": ("Dětská svítidla", "detsky-pokoj", "Dětské lampy a noční světla", "lampa"),
     "detske-koberce": ("Dětské koberce", "detsky-pokoj", "Dětské a hrací koberce", "koberec"),
     "domecky-a-teepee": ("Domečky a teepee", "detsky-pokoj", "Dětské domečky, stany a teepee", "detsky-pokoj"),
+    "patrove-postele": ("Patrové postele", "detsky-pokoj", "Patrové a vyvýšené postele", "detsky-pokoj"),
+    "detske-postylky": ("Dětské postýlky", "detsky-pokoj", "Dětské postýlky a kolébky", "detsky-pokoj"),
+    "prebalovaci-pulty": ("Přebalovací pulty", "detsky-pokoj", "Přebalovací pulty a komody", "prebalovaci-pult"),
+    "detske-jidelni-zidle": ("Jídelní židličky", "detsky-pokoj", "Dětské jídelní a rostoucí židličky", "jidelni-zidle"),
+    "detske-psaci-stoly": ("Dětské psací stoly", "detsky-pokoj", "Dětské a rostoucí psací stoly", "pracovna"),
+    "detske-povleceni": ("Dětské povlečení", "detsky-pokoj", "Dětské povlečení", "povleceni"),
+    "nafukovaci-matrace": ("Nafukovací matrace", "loznice", "Nafukovací matrace a postele", "matrace"),
+    "cela-posteli": ("Čela postelí", "loznice", "Čela postelí", "postel"),
+    "sklapeci-postele": ("Sklápěcí postele", "loznice", "Sklápěcí a výklopné postele", "postel"),
+    "nemy-sluha": ("Němí sluhové", "loznice", "Němí sluhové a stojany na oblečení", "predsin"),
+    "vesaky-na-klice": ("Věšáky na klíče", "predsin", "Věšáky a skříňky na klíče", "predsin"),
+    "vesaky-na-rucniky": ("Věšáky na ručníky", "koupelna", "Věšáky a držáky na ručníky", "koupelna"),
+    "koupelnova-zrcadla": ("Zrcadla do koupelny", "koupelna", "Zrcadla do koupelny", "zrcadlo"),
+    "zahradni-lavice": ("Zahradní lavice", "zahrada", "Zahradní lavice", "zahrada"),
+    "zahradni-pohovky": ("Zahradní pohovky", "zahrada", "Zahradní pohovky a lehátka do sezení", "sofa"),
+    "pergoly-a-altany": ("Pergoly a altány", "zahrada", "Pergoly, altány a party stany", "zahradni-domek"),
+    "markyzy": ("Markýzy", "zahrada", "Markýzy", "zahrada"),
+    "krbova-kamna": ("Krbová kamna", "obyvaci-pokoj", "Krbová kamna a krbové vložky", "sofa"),
+    "herni-stoly": ("Herní stoly", "pracovna", "Herní stoly", "pracovna"),
+    "vyskove-nastavitelne-stoly": ("Výškově nastavitelné stoly", "pracovna", "Výškově nastavitelné stoly", "pracovna"),
+    "kuchynske-ostruvky": ("Kuchyňské ostrůvky", "jidelna-a-kuchyne", "Kuchyňské ostrůvky a vozíky", "komoda"),
+    "stolni-fotbaly": ("Stolní fotbaly", "obyvaci-pokoj", "Stolní fotbaly, kulečníky a herní stoly", "jidelni-stul"),
+    "vinoteky": ("Vinotéky", "spotrebice", "Vinotéky a chladničky na víno", "kredenc"),
+    "lednice": ("Lednice", "spotrebice", "Lednice a mrazáky", "kavovar"),
+    "pracky-a-susicky": ("Pračky a sušičky", "spotrebice", "Pračky a sušičky prádla", "susak"),
+    "mycky": ("Myčky nádobí", "spotrebice", "Myčky nádobí", "drez"),
+    "trouby-a-varne-desky": ("Trouby a varné desky", "spotrebice", "Trouby, varné desky a sporáky", "kuchyne-hrnec"),
+    "mikrovlnne-trouby": ("Mikrovlnné trouby", "spotrebice", "Mikrovlnné trouby", "kavovar"),
 }
 
 TREE = {**{k: (v[0], None, v[1], v[2], v[3]) for k, v in ROOMS.items()},
@@ -298,7 +326,12 @@ PRICE_FLOOR = {"rohove-sedacky": 4000, "sedacky": 2500, "pohovky": 2000, "kresla
                "sprchove-kouty": 1500, "sprchove-vanicky": 700, "wc-a-bidety": 400, "vodovodni-baterie": 300, "drezy": 500,
                "kuchynske-baterie": 300, "priborniky": 1500, "lenosky": 2000, "sauny": 5000, "trampoliny": 1000,
                "zahradni-domky": 2000, "bazeny-a-virivky": 300, "kavovary": 500, "vysavace": 500, "topne-zebriky": 800,
-               "biokrby": 400, "trezory": 500, "digestore": 1000}
+               "biokrby": 400, "trezory": 500, "digestore": 1000,
+               "patrove-postele": 2000, "detske-postylky": 800, "prebalovaci-pulty": 900, "detske-jidelni-zidle": 400, "detske-psaci-stoly": 900,
+               "nafukovaci-matrace": 200, "cela-posteli": 500, "sklapeci-postele": 5000, "nemy-sluha": 300, "koupelnova-zrcadla": 300,
+               "zahradni-lavice": 800, "zahradni-pohovky": 2000, "pergoly-a-altany": 1500, "markyzy": 1000, "krbova-kamna": 3000,
+               "herni-stoly": 1000, "vyskove-nastavitelne-stoly": 2500, "kuchynske-ostruvky": 1500, "stolni-fotbaly": 1000,
+               "vinoteky": 2000, "lednice": 2500, "pracky-a-susicky": 3000, "mycky": 3000, "trouby-a-varne-desky": 1500, "mikrovlnne-trouby": 700}
 
 # ------------------------------------------------------------------ veto: not furniture / décor
 VETO_TITLE = re.compile(
@@ -308,20 +341,49 @@ VETO_TITLE = re.compile(
     r"cerpadl|kotel|bojler|"
     r"herbicid|fungicid|insekticid|pesticid|\bjed na|\bchlor|algicid|\bph (plus|minus)|bazenov\w* chemi|"
     r"sekack|krovinorez|pletivo|plotov|"
-    r"zehlick(?!\w* prkn)|pracka|lednic|trouba|varn\w* desk|mycka|"
+    r"zehlick(?!\w* prkn)|"
     r"hrack|puzzle(?! podlozk)|kniha|plysa|panenk|stavebnic|kocar|autosedack|parfem(?! do bytu)|kosmetik|krem\b|sampon|"
     r"krmiv|pamlsk|obojek|voditk|pro psy|pro kocky|pelisek|pelech|skrabadl|"
     r"nahradn\w* dil|nahradn\w* (nuz|filtr|sacek|kartac)|kolecka (?!na nabytek)|koleck\w* (pro|k|na) zidl|plynov\w* pist|podruck|kluzak|\bbaterie (aa|aaa|cr|lr|\d|do|pro)|\bbaterk|\bakumulator\w* (aa|\d|clank)|\bpowerbank|nabijeck|kabel\b|prodluzov|"
     r"poukaz|oblecen|bunda|tricko|mikina|kalhoty|ponozk|"
     r"zebrik(?!\w* (radiator|na rucnik))|schudk|"
     r"autoz|autoprisl|reproduktor|televiz(?!n\w* (stol|skrin|dek|komod))|notebook|tiskarn)", I)
-VETO_PATH = re.compile(r"((?<!kuchynske )(?<!krbove )(?<!grilovaci )naradi|(?<!zahrada a )stavebnin(?!y [>|/,]\s*kovani)|technika|barvy|dlazb|obklad|(?<!sprchove )(?<!sprchov )(?<!na )dvere(?!.*(klik|kovani|rozet))|zarubn|"
+VETO_PATH = re.compile(r"((?<!kuchynske )(?<!krbove )(?<!grilovaci )naradi|(?<!zahrada a )stavebnin(?!y [>|/,]\s*kovani)|(?<!bila )(?<!kuchynska )(?<!vestavna )technika(?!\s*[>|/,]\s*ohrev a chlazeni)|barvy|dlazb|obklad|(?<!sprchove )(?<!sprchov )(?<!na )dvere(?!.*(klik|kovani|rozet))|zarubn|"
                        r"hracky|hracky pro deti|knihy|pro skolaky|nahradni dily|zahradni naradi|ochrana rostlin|bazenova chemie|auto\b|"
                        r"zabezpeceni|zelezarstvi|elektronika|darkove poukazy|(?<!na )(?<!pro )obleceni|moda a styl|kojeni|zebriky|chovatel|pro zvirata|pro psy|pro kocky|mazlic)", I)
 
 R = lambda s: re.compile(s, I)
 # (category, pattern on the folded title). First match wins.
 TITLE_RULES = [
+    # 13. 11. 2026 gap vs Favi/Biano: dedicated categories, ahead of the broader rules they used to fall into
+    ("patrove-postele", R(r"patrov\w* (postel|lozk)|vyvysen\w* postel|postel (s|se) (pracovnim )?stolem pod")),
+    ("detske-postylky", R(r"detsk\w* postyl\w*|\bpostylk|\bpostylka|kolebk|kolisk|\bpostyl\b")),
+    ("prebalovaci-pulty", R(r"prebalovac\w* (pult|komod|stul|stolek|nastavec|pultik|desk|skrin)")),
+    ("detske-jidelni-zidle", R(r"jideln\w* zidlick|zidlick\w* (ke|na|pro) krmeni|rostouc\w* zidl|detsk\w* jideln\w* zidl")),
+    ("detske-psaci-stoly", R(r"rostouc\w* (stul|stol|stolek|psac)|(detsk|studentsk)\w* (psac|pracovn)\w* (stul|stol)|psac\w* stul pro (deti|skolak)")),
+    ("detske-povleceni", R(r"detsk\w* povlec\w*|povlec\w* (do postylk|pro deti|s motivem|do detsk)|povlecen\w* (na|do) postylk")),
+    ("nafukovaci-matrace", R(r"nafukovac\w* (matrac|postel|lozk|lehatk)|samonafukovac|matrac\w* (pro navstev|na nafuk)")),
+    ("cela-posteli", R(r"\bcel[oa] (k |ke |na |pro )?postel|calounen\w* celo|nastenn\w* celo|celo (k|ke) (posteli|loz)")),
+    ("sklapeci-postele", R(r"(sklapec|vyklopn|vysuvn\w* nastenn)\w* postel|postel ve skrin|skrin s (vyklopn\w* )?postel|sklapeci lozk")),
+    ("nemy-sluha", R(r"nem\w* sluh\w*|stojan\w* na oblek")),
+    ("vesaky-na-klice", R(r"(vesak|vesacek|hacek|hacky|skrink|box|drzak|panel|tabulk)\w* na klic")),
+    ("vesaky-na-rucniky", R(r"(vesak|drzak|hacek|tyc|madlo|stojan|zebrik)\w* (na|pro) rucnik|rucnikov\w* (tyc|drzak|stojan|madlo)")),
+    ("koupelnova-zrcadla", R(r"koupelnov\w* zrcad|zrcad\w* (do|nad|pro) (koupeln|umyvad)|zrcadl\w* s (led|osvetlen|podsvicen|polick)|zrcadlov\w* skrin")),
+    ("zahradni-lavice", R(r"(zahradn|venkovn|parkov|balkonov|terasov)\w* lavic|lavic\w* (na zahrad|do zahrad|na terasu|ven\b)")),
+    ("zahradni-pohovky", R(r"(zahradn|venkovn|balkonov|terasov)\w* (pohovk|gauc|sofa\b|dvojsed|trojsed)|ratanov\w* pohovk")),
+    ("pergoly-a-altany", R(r"\bpergol|\baltan|\bgazebo|\bpartystan|party stan|nuzkov\w* stan|zahradn\w* (pavilon|stan)\b")),
+    ("markyzy", R(r"markyz")),
+    ("krbova-kamna", R(r"krbov\w* (kamn|vlozk)|\bkamna\b|kachlov\w* kamn|sporak na (drev|tuha)")),
+    ("herni-stoly", R(r"hern\w* (stul|stol\b|stolek)|gaming\w* (stul|desk)")),
+    ("vyskove-nastavitelne-stoly", R(r"vyskove (stavitel|nastavitel)\w* (psac\w* |pracovn\w* |kancelarsk\w* )?stul|elektrick\w* (vyskove )?(stavitel|nastavitel)\w* (psac\w* |pracovn\w* )?stul|stul (s|se) (elektrick|vyskov)\w* (nastaven|stavenim)|standing desk")),
+    ("kuchynske-ostruvky", R(r"kuchyn\w* ostruv\w*|\bostruvek")),
+    ("stolni-fotbaly", R(r"stoln\w* fotbal|\bfotbalek|kulecnik|biliard|stul na (ping|stoln\w* tenis)|pingpong\w* stul|stoln\w* tenis\w* stul|air hockey|stoln\w* hokej")),
+    ("vinoteky", R(r"vinotek|chladnick\w* (na )?vin|chladic\w* skrin\w* na vin")),
+    ("mikrovlnne-trouby", R(r"mikrovln")),
+    ("lednice", R(r"\blednic|chladnick|\bmrazak|\bmraznick|kombinovan\w* chlad")),
+    ("pracky-a-susicky", R(r"(?<!nad )(?<!pod )(?<!pro )(?<!na )(?<!k )\bprack|susick\w* (pradl|na pradl)|\bsusicka\b(?! (ovoce|potravin|hub|obuv|vlas|ruk|prst))|pracka se susick")),
+    ("mycky", R(r"\bmycka\b(?! (oken|na okn|podlah))|\bmycky nadobi|mycka nadobi|vestavn\w* mycka")),
+    ("trouby-a-varne-desky", R(r"(vestavn\w* |horkovzdusn\w* |elektrick\w* |parni )?\btroub[ay]\b|varn\w* desk|indukcn\w* desk|sklokeramick\w* desk|\bsporak\b|plynov\w* desk|kombinovan\w* sporak")),
     # v2 categories (12. 11. 2026)
     ("police", R(r"\bpolic[eiy]?\b|nastenn\w* polic|\bpolick|\bpolicka")),
     ("odkladaci-stolky", R(r"(odkladac|prirucn|kavov|sofa|boc)\w* (stolek|stolk|stol|stul)")),
@@ -526,6 +588,13 @@ TITLE_RULES = [
 
 # shop category path -> category, when the title alone said nothing (paths are folded too)
 PATH_RULES = [
+    # 13. 11. 2026 gap categories
+    ("patrove-postele", R(r"patrove postele")), ("detske-postylky", R(r"postylk|kolebk")), ("prebalovaci-pulty", R(r"prebalovaci pult|prebalovaci komod")),
+    ("detske-jidelni-zidle", R(r"jidelni zidlick|zidlicky na krmeni")), ("nafukovaci-matrace", R(r"nafukovaci (matrace|postele)")),
+    ("koupelnova-zrcadla", R(r"koupeln\w* [>|/,]\s*zrcadl|zrcadla do koupelny|koupelnova zrcadla")), ("pergoly-a-altany", R(r"pergol|altan")),
+    ("markyzy", R(r"markyz")), ("krbova-kamna", R(r"krbova kamna|kamna")), ("vinoteky", R(r"vinotek")),
+    ("lednice", R(r"lednic|chladnick|mrazak|mraznick")), ("pracky-a-susicky", R(r"pracky|susicky pradla|susicky\b")), ("mycky", R(r"mycky nadobi|\bmycky\b")),
+    ("mikrovlnne-trouby", R(r"mikrovln")), ("trouby-a-varne-desky", R(r"trouby|varne desky|sporaky")),
     ("police", R(r"police a policky|\bpolice\b")),
     ("odkladaci-stolky", R(r"odkladaci stol|prirucni stol")),
     ("konzolove-stolky", R(r"konzolov")),
@@ -671,7 +740,7 @@ FALLBACK = {len(TITLE_RULES) - 1}   # the bare "stolek" rule: only when no other
 
 
 KIDS_MAP = {"koberce": "detske-koberce", "stolni-lampy": "detska-svitidla", "lustry": "detska-svitidla", "stropni-svitidla": "detska-svitidla",
-            "povleceni": "detsky-textil", "deky-a-prehozy": "detsky-textil", "postele": "detske-postele", "satni-skrine": "detske-skrine-a-ulozne-boxy", "komody": "detske-skrine-a-ulozne-boxy",
+            "povleceni": "detske-povleceni", "deky-a-prehozy": "detsky-textil", "postele": "detske-postele", "satni-skrine": "detske-skrine-a-ulozne-boxy", "komody": "detske-skrine-a-ulozne-boxy",
             "knihovny-a-regaly": "detske-skrine-a-ulozne-boxy", "jidelni-zidle": "detske-stolky-a-zidle",
             "jidelni-stoly": "detske-stolky-a-zidle", "psaci-stoly": "detske-stolky-a-zidle"}
 
@@ -684,6 +753,8 @@ UNAMBIGUOUS = {"umyvadla", "vany", "drezy", "panve", "hrnce", "kavovary", "vysav
                "kliky-a-kovani", "nabytkove-uchytky", "vanocni-ozdoby", "adventni-dekorace", "velikonocni-dekorace",
                "pokojove-rostliny", "difuzery-a-vune", "termosky-a-lahve", "uklidove-pomucky", "hrnky-a-salky", "matrace", "botniky", "vitriny", "komody", "taburety-a-sedaci-vaky", "koberce", "zrcadla", "lustry", "vazy", "kvetinace",
                "hodiny", "zaclony-a-zavesy", "povleceni", "rucniky-a-osusky", "vesaky", "rosty", "lehatka", "slunecniky-a-zasteny",
+               "markyzy", "vinoteky", "lednice", "mycky", "pracky-a-susicky", "mikrovlnne-trouby", "krbova-kamna", "kuchynske-ostruvky",
+               "detske-postylky", "pergoly-a-altany", "stolni-fotbaly",
                "vanocni-dekorace", "ramy-na-fotky", "svicky-a-svicny", "deky-a-prehozy", "prikryvky-a-polstare", "behouny-a-predlozky"}
 VETOED = "__veto__"
 
@@ -1002,6 +1073,54 @@ SHAPE_NAME = {s: l for s, l, _ in SHAPES}
 SEAT_CATS = {"sedacky", "rohove-sedacky", "pohovky", "jidelni-sety", "zahradni-sestavy", "lavice"}
 RX_SEATS = re.compile(r"\b(\d{1,2})\s*-?\s*(mistn|mist\b|osob|sed\b|sedad)|\bpro (\d{1,2}) osob|\b(\d)\s*x\s*zidl|\b(\d)\s*zidl")
 SEAT_WORDS = [(2, r"\bdvoj(sed|mist)|\bdvoumist|\bdvoused"), (3, r"\btroj(sed|mist)|\btrimist|\btrojka\b"), (4, r"\bctyr(mist|sed)")]
+
+
+# Category-specific facets (13. 11. 2026, like Favi's filters): facet -> (label, categories, [(value, label, pattern)]).
+# A product can have several values; the filter shows only where enough products carry one (build.facets).
+FACETS = {
+    "corner": ("Strana rohu", {"rohove-sedacky", "lavice", "kuchynske-linky", "zahradni-sestavy", "zahradni-pohovky"}, [
+        ("leva", "levá", r"\blev[aeyý]\b|\blevou\b|levy roh|roh vlevo|levostrann|\blevym rohem"),
+        ("prava", "pravá", r"\bprav[aeyý]\b(?!\s*kuz)|\bpravou\b|pravy roh|roh vpravo|pravostrann|\bpravym rohem"),
+        ("univerzalni", "univerzální", r"univerzaln\w* (roh|provedeni|stran)|oboustrann|zamenitel\w* (roh|stran)")]),
+    "firm": ("Tvrdost", {"matrace", "toppery-a-chranice-matraci", "boxspringy"}, [
+        ("mekka", "měkká", r"\bmekk\w*|\bh ?[12]\b"),
+        ("stredni", "středně tvrdá", r"stredn\w* tvrd\w*|\bh ?3\b|\bmedium\b"),
+        ("tvrda", "tvrdá", r"(?<!stredne )(?<!stredni )\btvrd\w*|\bh ?[45]\b")]),
+    "mtype": ("Typ matrace", {"matrace", "detske-postylky", "boxspringy"}, [
+        ("penova", "pěnová", r"\bpen(ov)?\w*\b|\bpur\b|pametov|\bvisco|studen\w* pen"),
+        ("tastickova", "taštičková", r"tastick\w*|kapsov\w* pruz|pocket"),
+        ("pruzinova", "pružinová", r"(?<!tastickov)(?<!tastickove )pruzin\w*|bonell"),
+        ("latexova", "latexová", r"\blatex\w*"),
+        ("kokosova", "kokosová", r"\bkokos\w*")]),
+    # Favi-like types; a facet, not a FEATURE: every FEATURE gets landing pages (landings.FEAT_ADJ)
+    "func": ("Funkce", {"kresla", "jidelni-zidle", "barove-zidle", "kancelarske-zidle", "herni-kresla", "zahradni-zidle", "zahradni-lavice",
+                        "zahradni-stoly", "jidelni-stoly", "taburety-a-sedaci-vaky", "detske-jidelni-zidle", "lehatka", "zahradni-pohovky",
+                        "lednice", "mycky", "trouby-a-varne-desky", "mikrovlnne-trouby", "vinoteky", "pracky-a-susicky"}, [
+        ("houpaci", "houpací", r"\bhoupac\w*"),
+        ("otocne", "otočné", r"\botocn\w*"),
+        ("skladaci", "skládací", r"\bskladac\w*"),
+        ("stohovatelne", "stohovatelné", r"stohovateln\w*"),
+        ("s-podrukami", "s područkami", r"s podruck\w*|s podpaz\w*"),
+        ("vestavne", "vestavné", r"\bvestavn\w*"),
+        ("volne-stojici", "volně stojící", r"voln\w* stojic")]),
+    "energy": ("Energetická třída", {"lednice", "pracky-a-susicky", "mycky", "trouby-a-varne-desky", "vinoteky"}, [
+        (c, c.upper(), rf"(energetick\w* )?trid\w* {c}\b|\b{c}\s?\+*\s?(energ|trid)") for c in "abcdefg"]),
+}
+FACETS_RX = {k: (lab, cats, [(v, vl, re.compile(rx)) for v, vl, rx in vals]) for k, (lab, cats, vals) in FACETS.items()}
+FACET_VALUE = {k: {v: vl for v, vl, _ in vals} for k, (_, _, vals) in FACETS.items()}
+
+
+def facet_values(text, cat):
+    """{facet: [values]} for the category-specific facets of this product (folded title + shop words)."""
+    t = None
+    out = {}
+    for key, (_, cats, vals) in FACETS_RX.items():
+        if cat in cats:
+            t = t if t is not None else fold(text)
+            hit = [v for v, _, rx in vals if rx.search(t)]
+            if hit:
+                out[key] = hit[:3]
+    return out
 
 
 def shapes_of(text, cat):
