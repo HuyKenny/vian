@@ -464,3 +464,7 @@ footer .logo img{width:104px}
 @media(max-width:640px){.shoptiles{grid-template-columns:repeat(3,minmax(0,1fr))}.shoptiles a{height:62px;padding:8px}.shoptiles .slogo{max-height:30px}}
 @media(max-width:720px){.slogo{max-width:96px;height:auto}.slogo--big{max-width:150px}}
 .filters.all .fb legend{display:none!important}
+
+.nf{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#f6e7c1;border-bottom:2px solid var(--ink,#1e2420);padding:10px 16px;font-weight:600;font-size:.92rem}
+.nf button{border:0;background:none;font:800 1.3rem/1 inherit;cursor:pointer;color:inherit}
+.nf-sugg{margin-top:12px}.nf-sugg .chips{margin-bottom:0}

@@ -17,3 +17,4 @@ __pycache__/
 tmp/
 content/keywords-*.tsv
 static/img/blog/
+content/keywords/

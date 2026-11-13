@@ -1,4 +1,4 @@
-/* v2026-11-12b */
+/* v2026-11-13 */
 /* vian.cz — search, listing filters (incl. width in cm), "does it fit" calculator, gallery, consent + GA4 click events. No dependencies, no tracking without consent. */
 (function () {
   "use strict";
@@ -299,4 +299,60 @@
       else if (window.gtag) window.gtag("event", "click_shop", d);
     }
   });
+
+  /* ---------- 404: send a dead address to the nearest category / brand / topic (the server still answers 404) ---------- */
+  var STOP = { pro: 1, nabytek: 1, srovnani: 1, ceny: 1, levne: 1, cena: 1, akce: 1, eshop: 1, a: 1, na: 1, do: 1, od: 1, se: 1, s: 1, the: 1, ve: 1, v: 1, z: 1 };
+  function sameWord(a, b) {
+    var m = Math.min(a.length, b.length);
+    if (m < 4) return a === b;
+    var k = Math.max(4, m - 2);
+    return a.slice(0, k) === b.slice(0, k) && Math.abs(a.length - b.length) <= 3;
+  }
+  function nearest(idx, url) {
+    var ut = fold(url.replace(/strana-\d+/g, " ").replace(/^\/(produkt|znacky)\//, "/")).split(/[^a-z0-9]+/).filter(function (w) { return w.length > 1 && !/^\d+$/.test(w); });
+    var best = null, part = [];
+    idx.forEach(function (e, i) {
+      var ct = words(e[0]).filter(function (w) { return w.length > 2 && !STOP[w]; });
+      if (!ct.length) return;
+      var hit = 0, chars = 0, miss = 0;
+      ct.forEach(function (w) { if (ut.some(function (u) { return sameWord(w, u); })) { hit++; chars += w.length; } else miss += w.length; });
+      if (!hit) return;
+      var sc = chars - miss / 2;
+      if ((chars >= 5 || (chars >= 4 && !miss)) && (!best || sc > best.s)) best = { s: sc, e: e };
+      part.push({ s: sc, e: e, i: i });
+    });
+    part.sort(function (a, b) { return b.s - a.s || a.i - b.i; });
+    return { best: best && best.e, other: part.slice(0, 6).map(function (x) { return x.e; }) };
+  }
+  var e404 = $(".e404");
+  if (e404) {
+    getJSON("/data/r404.json").then(function (idx) {
+      var r = nearest(idx, location.pathname), looped = false;
+      try { looped = !!sessionStorage.getItem("vian-404"); } catch (e) { }
+      if (r.best && r.best[1] !== location.pathname && !looped) {
+        try { sessionStorage.setItem("vian-404", location.pathname); } catch (e) { }
+        location.replace(r.best[1]);
+        return;
+      }
+      try { sessionStorage.removeItem("vian-404"); } catch (e) { }
+      var list = r.other.length ? r.other : idx.slice(0, 8), box = $("#nf-sugg");
+      if (box && list.length) {
+        box.hidden = false;
+        box.innerHTML = '<p class="muted">Možná hledáte:</p><ul class="chips">' + list.map(function (e) { return '<li><a href="' + esc(e[1]) + '">' + esc(e[0]) + "</a></li>"; }).join("") + "</ul>";
+      }
+    }).catch(function () { });
+  } else {
+    var from = null;
+    try { from = sessionStorage.getItem("vian-404"); sessionStorage.removeItem("vian-404"); } catch (e) { }
+    if (from) {
+      var nb = document.createElement("div");
+      nb.className = "nf"; nb.setAttribute("role", "status");
+      var tx = document.createElement("span"); tx.textContent = "Adresu " + from.slice(0, 80) + " jsme nenašli, tady je nejbližší stránka.";
+      var cb = document.createElement("button"); cb.type = "button"; cb.setAttribute("aria-label", "Zavřít"); cb.textContent = "×";
+      cb.addEventListener("click", function () { nb.remove(); });
+      nb.appendChild(tx); nb.appendChild(cb);
+      var host = $("main") || document.body; host.insertBefore(nb, host.firstChild);
+    }
+  }
+
 })();
