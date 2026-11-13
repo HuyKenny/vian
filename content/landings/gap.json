@@ -1,0 +1,262 @@
+[
+ {
+  "slug": "nabytek-do-koupelny",
+  "h1": "Nábytek do koupelny",
+  "parent": "/koupelna/",
+  "hubs": [
+   "/koupelna/"
+  ],
+  "group": "gap",
+  "rules": {
+   "cat": [
+    "koupelnove-skrinky",
+    "koupelnova-zrcadla",
+    "vesaky-na-rucniky",
+    "kose-na-pradlo"
+   ]
+  },
+  "min": 8,
+  "index_min": 12,
+  "evidence": 2400,
+  "title": "Nábytek do koupelny – srovnání cen",
+  "dedupe_all": true
+ },
+ {
+  "slug": "svetla-do-koupelny",
+  "h1": "Svítidla do koupelny",
+  "parent": "/koupelna/",
+  "hubs": [
+   "/koupelna/",
+   "/svitidla/"
+  ],
+  "group": "gap",
+  "rules": {
+   "cat": [
+    "koupelnova-svitidla",
+    "nastenna-svitidla",
+    "bodova-svitidla",
+    "stropni-svitidla"
+   ],
+   "any": [
+    "koupel",
+    "\\bip ?44",
+    "\\bip ?65",
+    "vlhk"
+   ]
+  },
+  "min": 8,
+  "index_min": 12,
+  "evidence": 3100,
+  "title": "Svítidla do koupelny – srovnání cen",
+  "dedupe_all": true
+ },
+ {
+  "slug": "baterie-do-koupelny",
+  "h1": "Baterie do koupelny",
+  "parent": "/koupelna/",
+  "hubs": [
+   "/koupelna/"
+  ],
+  "group": "gap",
+  "rules": {
+   "cat": [
+    "vodovodni-baterie",
+    "sprchove-sety"
+   ],
+   "any": [
+    "umyvadlov",
+    "vanov",
+    "sprchov",
+    "koupelnov"
+   ]
+  },
+  "min": 8,
+  "index_min": 12,
+  "evidence": 3100,
+  "title": "Baterie do koupelny – srovnání cen",
+  "dedupe_all": true
+ },
+ {
+  "slug": "madla-do-koupelny",
+  "h1": "Madla do koupelny",
+  "parent": "/koupelna/",
+  "hubs": [
+   "/koupelna/"
+  ],
+  "group": "gap",
+  "rules": {
+   "cat": [
+    "koupelnove-doplnky"
+   ],
+   "any": [
+    "\\bmadl\\w*",
+    "\\bpridrzn\\w*"
+   ]
+  },
+  "min": 8,
+  "index_min": 12,
+  "evidence": 3200,
+  "title": "Madla do koupelny – srovnání cen",
+  "dedupe_all": true
+ },
+ {
+  "slug": "balkonovy-nabytek",
+  "h1": "Balkonový nábytek",
+  "parent": "/zahrada/",
+  "hubs": [
+   "/zahrada/"
+  ],
+  "group": "gap",
+  "rules": {
+   "cat": [
+    "zahradni-sestavy",
+    "zahradni-stoly",
+    "zahradni-zidle",
+    "zahradni-lavice",
+    "lehatka",
+    "zahradni-pohovky"
+   ],
+   "any": [
+    "balkon",
+    "bistro",
+    "skladac",
+    "sklopn",
+    "maly"
+   ]
+  },
+  "min": 8,
+  "index_min": 12,
+  "evidence": 3200,
+  "title": "Balkonový nábytek – srovnání cen",
+  "dedupe_all": true
+ },
+ {
+  "slug": "nabytek-na-terasu",
+  "h1": "Nábytek na terasu",
+  "parent": "/zahrada/",
+  "hubs": [
+   "/zahrada/"
+  ],
+  "group": "gap",
+  "rules": {
+   "cat": [
+    "zahradni-sestavy",
+    "zahradni-pohovky",
+    "zahradni-stoly",
+    "zahradni-zidle",
+    "lehatka",
+    "zahradni-lavice",
+    "houpacky-a-site"
+   ]
+  },
+  "min": 8,
+  "index_min": 12,
+  "evidence": 2200,
+  "title": "Nábytek na terasu – srovnání cen",
+  "dedupe_all": true
+ },
+ {
+  "slug": "kancelarsky-nabytek",
+  "h1": "Kancelářský nábytek",
+  "parent": "/pracovna/",
+  "hubs": [
+   "/pracovna/"
+  ],
+  "group": "gap",
+  "rules": {
+   "cat": [
+    "psaci-stoly",
+    "kancelarske-zidle",
+    "kancelarske-skrine",
+    "herni-kresla",
+    "herni-stoly",
+    "vyskove-nastavitelne-stoly"
+   ]
+  },
+  "min": 8,
+  "index_min": 12,
+  "evidence": 1200,
+  "title": "Kancelářský nábytek – srovnání cen",
+  "dedupe_all": true
+ },
+ {
+  "slug": "designovy-nabytek",
+  "h1": "Designový nábytek",
+  "parent": "/kategorie/",
+  "hubs": [],
+  "group": "gap",
+  "rules": {
+   "cat": [
+    "obyvaci-pokoj",
+    "loznice",
+    "jidelna-a-kuchyne",
+    "pracovna",
+    "detsky-pokoj",
+    "predsin"
+   ],
+   "any": [
+    "design",
+    "navrh",
+    "luxus",
+    "exkluziv"
+   ]
+  },
+  "min": 8,
+  "index_min": 12,
+  "evidence": 1600,
+  "title": "Designový nábytek – srovnání cen",
+  "dedupe_all": true
+ },
+ {
+  "slug": "nejlevnejsi-nabytek",
+  "h1": "Nejlevnější nábytek",
+  "parent": "/kategorie/",
+  "hubs": [],
+  "group": "gap",
+  "rules": {
+   "cat": [
+    "obyvaci-pokoj",
+    "loznice",
+    "jidelna-a-kuchyne",
+    "pracovna",
+    "detsky-pokoj",
+    "predsin"
+   ],
+   "price": [
+    null,
+    1500
+   ]
+  },
+  "min": 8,
+  "index_min": 12,
+  "evidence": 2710,
+  "title": "Nejlevnější nábytek – srovnání cen",
+  "dedupe_all": true
+ },
+ {
+  "slug": "levny-nabytek-do-bytu",
+  "h1": "Levný nábytek do bytu",
+  "parent": "/kategorie/",
+  "hubs": [],
+  "group": "gap",
+  "rules": {
+   "cat": [
+    "obyvaci-pokoj",
+    "loznice",
+    "jidelna-a-kuchyne",
+    "pracovna",
+    "detsky-pokoj",
+    "predsin"
+   ],
+   "price": [
+    null,
+    3000
+   ]
+  },
+  "min": 8,
+  "index_min": 12,
+  "evidence": 900,
+  "title": "Levný nábytek do bytu – srovnání cen",
+  "dedupe_all": true
+ }
+]
