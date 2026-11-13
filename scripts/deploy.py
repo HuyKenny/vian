@@ -15,6 +15,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 from collections import Counter
 from pathlib import Path
 
@@ -33,7 +34,7 @@ FORBIDDEN = ("main", "d1_databases", "kv_namespaces", "r2_buckets", "durable_obj
              "vectorize", "hyperdrive", "analytics_engine_datasets", "triggers", "cron", "workflows")
 
 
-def wrangler(cfg, name):
+def wrangler(cfg, name, cmd=("deploy",), capture=False):
     """Cost guard: this site must stay assets-only (no Worker script, no D1/KV/R2/AI binding, no cron) — static asset
     requests are free, anything with code or storage is billed on the shared Cloudflare account."""
     bad = [k for k in FORBIDDEN if k in cfg]
@@ -43,38 +44,36 @@ def wrangler(cfg, name):
         sys.exit(f"refusing to deploy {name}: unexpected assets options")
     path = APP / f".wrangler-{name}.json"
     path.write_text(json.dumps(cfg, indent=1))
-    r = subprocess.run(["npx", "--yes", WRANGLER, "deploy", "--config", str(path)], cwd=APP)
+    r = subprocess.run(["npx", "--yes", WRANGLER, *cmd, "--config", str(path)], cwd=APP, capture_output=capture, text=capture)
     path.unlink(missing_ok=True)
-    if r.returncode:
-        sys.exit(f"deploy of {name} failed")
+    if capture:
+        print(r.stdout[-3000:], r.stderr[-2000:], sep="\n")
+    return r
+
+
+def upload(cfg, name):
+    """Upload a new version WITHOUT serving it (the slow part: tens of thousands of files). Returns its version id, or
+    None when the Worker does not exist yet (first deploy of a new shard)."""
+    r = wrangler(cfg, name, ("versions", "upload", "--message", "vian build"), capture=True)
+    m = re.search(r"Worker Version ID:\s*([0-9a-f-]{36})", (r.stdout or "") + (r.stderr or ""))
+    if r.returncode or not m:
+        if "does not exist" in (r.stderr or "") + (r.stdout or "") or "10007" in (r.stderr or ""):
+            return None
+        sys.exit(f"version upload of {name} failed")
+    return m.group(1)
+
+
+def activate(cfg, name, version):
+    """Serve the uploaded version (seconds) and apply its routes."""
+    if wrangler(cfg, name, ("versions", "deploy", f"{version}@100%", "--yes", "--message", "vian build")).returncode:
+        sys.exit(f"activating {name} failed")
+    if wrangler(cfg, name, ("triggers", "deploy")).returncode:
+        sys.exit(f"routes of {name} failed")
 
 
 def base_cfg(name, directory):
     return {"name": name, "compatibility_date": "2026-10-01", "preview_urls": False, "observability": {"enabled": False},
             "assets": {"directory": str(directory), "html_handling": "auto-trailing-slash", "not_found_handling": "404-page"}}
-
-
-def keep_live_assets():
-    """Copy the hashed CSS/JS the live site uses now into dist/assets. The main Worker (which alone serves /assets/) and
-    the shard Workers go live minutes apart; without the old files, pages still served by the not-yet-updated side
-    reference a hash that no longer exists and render without styles (seen 12. 11. 2026)."""
-    out = DIST / "assets"
-    try:
-        html = subprocess.run(["curl", "-sfL", "--max-time", "20", "-A", "VianDeploy/1.0", f"https://{ZONE}/"],
-                              capture_output=True, text=True, timeout=30).stdout
-    except Exception as e:  # noqa: BLE001 - best effort, never block a deploy
-        print(f"keep_live_assets: {e}")
-        return
-    kept = 0
-    for name in sorted(set(re.findall(r'/assets/([\w.-]+\.(?:css|js))', html))):
-        if (out / name).exists():
-            continue
-        r = subprocess.run(["curl", "-sfL", "--max-time", "20", "-A", "VianDeploy/1.0", "-o", str(out / name), f"https://{ZONE}/assets/{name}"])
-        if r.returncode:
-            (out / name).unlink(missing_ok=True)
-        else:
-            kept += 1
-    print(f"keep_live_assets: kept {kept} live asset file(s)")
 
 
 def plan_shards(slugs_by_char, room):
@@ -103,7 +102,6 @@ def main():
         cfg["workers_dev"] = True
         wrangler(cfg, "vian-staging")
         return
-    keep_live_assets()
     shard_dirs = []
     if total > LIMIT:
         prod = DIST / "produkt"
@@ -127,16 +125,30 @@ def main():
     for name, d, chars in shard_dirs:
         if count(d) > LIMIT:
             sys.exit(f"shard {name} too big")
-    # main first: it carries the old and the new CSS/JS, so pages of both versions keep their styles while the shards follow
-    cfg = base_cfg("vian", DIST)
-    cfg["workers_dev"] = False
-    cfg["routes"] = [{"pattern": f"{ZONE}/*", "zone_name": ZONE}, {"pattern": f"www.{ZONE}/*", "zone_name": ZONE}]
-    wrangler(cfg, "vian")
+    # Two phases, so visitors never see a half-deployed site (13. 11. 2026: a deploy of 20+ minutes showed new listings
+    # linking to product pages the shards did not have yet, and the other order showed pages without their new CSS):
+    #   1. upload every Worker's new version without serving it (the slow part),
+    #   2. switch them all within seconds - main first, because it alone serves /assets/ and an /assets/ 404 is cached
+    #      for a year; it also still carries the previous CSS/JS (build state), so old pages keep their styles.
+    main_cfg = base_cfg("vian", DIST)
+    main_cfg["workers_dev"] = False
+    main_cfg["routes"] = [{"pattern": f"{ZONE}/*", "zone_name": ZONE}, {"pattern": f"www.{ZONE}/*", "zone_name": ZONE}]
+    workers = [("vian", main_cfg)]
     for name, d, chars in shard_dirs:
         cfg = base_cfg(name, d)
         cfg["workers_dev"] = False
         cfg["routes"] = [{"pattern": f"{ZONE}/produkt/{c}*", "zone_name": ZONE} for c in chars]
-        wrangler(cfg, name)
+        workers.append((name, cfg))
+    t0 = time.time()
+    versions = [(name, cfg, upload(cfg, name)) for name, cfg in workers]
+    print(f"phase 1: {len(versions)} versions uploaded in {time.time() - t0:.0f}s, nothing served yet")
+    t1 = time.time()
+    for name, cfg, version in versions:
+        if version:
+            activate(cfg, name, version)
+        elif wrangler(cfg, name).returncode:     # a brand-new shard Worker: its first deploy creates it
+            sys.exit(f"first deploy of {name} failed")
+    print(f"phase 2: all Workers switched in {time.time() - t1:.0f}s")
 
 
 if __name__ == "__main__":
