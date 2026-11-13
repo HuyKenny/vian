@@ -57,6 +57,7 @@ CATS = {
     "pohovky": ("Pohovky a gauče", "obyvaci-pokoj", "Pohovky a gauče", "sofa"),
     "lenosky": ("Lenošky", "obyvaci-pokoj", "Lenošky a šezlongy", "sofa"),
     "kresla": ("Křesla", "obyvaci-pokoj", "Křesla", "kreslo"),
+    "houpaci-kresla": ("Houpací a závěsná křesla", "obyvaci-pokoj", "Houpací, závěsná a relaxační křesla", "kreslo"),
     "taburety-a-sedaci-vaky": ("Taburety a sedací vaky", "obyvaci-pokoj", "Taburety, pufy a sedací vaky", "kreslo"),
     "konferencni-stolky": ("Konferenční stolky", "obyvaci-pokoj", "Konferenční stolky", "komoda"),
     "tv-stolky": ("TV stolky", "obyvaci-pokoj", "TV stolky a televizní skříňky", "komoda"),
@@ -102,7 +103,7 @@ CATS = {
     "zahradni-stoly": ("Zahradní stoly", "zahrada", "Zahradní stoly", "zahrada"),
     "zahradni-zidle": ("Zahradní židle a křesla", "zahrada", "Zahradní židle, křesla a lavice", "zahrada"),
     "lehatka": ("Lehátka", "zahrada", "Zahradní lehátka", "zahrada"),
-    "houpacky-a-site": ("Houpačky a houpací sítě", "zahrada", "Zahradní houpačky, houpací sítě a závěsná křesla", "zahrada"),
+    "houpacky-a-site": ("Houpačky a houpací sítě", "zahrada", "Zahradní houpačky a houpací sítě", "zahrada"),
     "slunecniky-a-zasteny": ("Slunečníky a zástěny", "zahrada", "Slunečníky, plachty a balkonové zástěny", "zahrada"),
     "polstare-na-zahradni-nabytek": ("Polstry na zahradní nábytek", "zahrada", "Polstry a sedáky na zahradní nábytek", "zahrada"),
     # svítidla
@@ -521,7 +522,8 @@ TITLE_RULES = [
     ("servirovaci-stolky", R(r"servirovac\w* (stol|vozik)|\bservirovak|barov\w* vozik")),
     ("kuchynske-linky", R(r"kuchyn\w* (link|sestav|skrin|blok|ostruvek|regal)|(horni|dolni|spodni)\w* (rohov\w* |policov\w* |drezov\w* )?skrink|skrink\w* (horni|dolni|spodni)|skrink\w* (na|pro) (vestavn|troub|mycku|lednic)|drezov\w* skrin|(horni|dolni|rohov\w*) kuchyn\w* skrin|kuchyne \d{3}|potravinov\w* skrin|\bspizirn")),
     # garden (before chairs/tables/sofas)
-    ("houpacky-a-site", R(r"houpac\w* (sit|kresl|lehatk)|zahradn\w* houpac|zavesn\w* (kresl|houpac)|\bhoupacka")),
+    ("houpaci-kresla", R(r"houpac\w* kresl|zavesn\w* kresl|kresl\w* (houpac|zavesn)|houpaci kreslo|\bhoupak\w* kresl")),
+    ("houpacky-a-site", R(r"houpac\w* (sit|lehatk)|zahradn\w* houpac|zavesn\w* houpac|\bhoupacka")),
     ("lehatka", R(r"lehatk|zahradn\w* (lehatk|lehatko)|\bsezlong\w* zahrad")),
     ("zahradni-sestavy", R(r"zahradn\w* (sestav|souprav|\bset\b|lounge|sedack|sedaci|nabytek)|ratanov\w* (sestav|souprav|set|nabytek)|balkonov\w* (set|sestav|souprav)|lounge (set|sestav)|venkovn\w* (sedac|sestav)")),
     ("zahradni-stoly", R(r"(zahradn|balkonov|venkovn|kempinkov)\w* (stul|stol\b|stolek|stolk)")),
