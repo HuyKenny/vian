@@ -140,6 +140,7 @@ jobs:
       - name: Summary
         if: always()
         run: |
+          set +e   # a report that a quick run skipped must not fail the run
           { echo '### Fetch'; echo '```'; cat data/raw/fetch-report.json 2>/dev/null; echo '```'
             echo '### Build'; echo '```'; cat data/state/build-report.json 2>/dev/null; echo '```'
             echo '### Shop categories: biggest ones that are NOT clean (title decides) or where the title beat the shop category'; echo '```'
