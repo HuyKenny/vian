@@ -16,6 +16,7 @@ import shutil
 import subprocess
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor
 from collections import Counter
 from pathlib import Path
 
@@ -64,11 +65,17 @@ def upload(cfg, name):
 
 
 def activate(cfg, name, version):
-    """Serve the uploaded version (seconds) and apply its routes."""
+    """Serve the uploaded version (about a second). Returns an error text or None (runs in threads: no sys.exit here)."""
     if wrangler(cfg, name, ("versions", "deploy", f"{version}@100%", "--yes", "--message", "vian build")).returncode:
-        sys.exit(f"activating {name} failed")
+        return f"activating {name} failed"
+    return None
+
+
+def routes(cfg, name):
+    """Apply the Worker's routes (vian.cz/produkt/<char>*); unchanged routes are a no-op."""
     if wrangler(cfg, name, ("triggers", "deploy")).returncode:
-        sys.exit(f"routes of {name} failed")
+        return f"routes of {name} failed"
+    return None
 
 
 def base_cfg(name, directory):
@@ -142,13 +149,22 @@ def main():
     t0 = time.time()
     versions = [(name, cfg, upload(cfg, name)) for name, cfg in workers]
     print(f"phase 1: {len(versions)} versions uploaded in {time.time() - t0:.0f}s, nothing served yet")
+    # phase 2: main alone first (~1 s; it serves /assets/), then every shard at the same moment, then the routes.
+    # Sequential switching took 28 s on 13. 11.; this way new listings and new product pages go live ~2 s apart.
     t1 = time.time()
-    for name, cfg, version in versions:
-        if version:
-            activate(cfg, name, version)
-        elif wrangler(cfg, name).returncode:     # a brand-new shard Worker: its first deploy creates it
-            sys.exit(f"first deploy of {name} failed")
-    print(f"phase 2: all Workers switched in {time.time() - t1:.0f}s")
+    (mname, mcfg, mver), shards = versions[0], versions[1:]
+    err = activate(mcfg, mname, mver) if mver else (None if not wrangler(mcfg, mname).returncode else "first deploy of vian failed")
+    if err:
+        sys.exit(err)
+    with ThreadPoolExecutor(max_workers=max(1, len(shards))) as pool:
+        errs = list(pool.map(lambda w: activate(w[1], w[0], w[2]) if w[2] else
+                             (None if not wrangler(w[1], w[0]).returncode else f"first deploy of {w[0]} failed"), shards))
+        print(f"phase 2: all Workers serve the new build {time.time() - t1:.1f}s after the first switch")
+        errs += list(pool.map(lambda w: routes(w[1], w[0]), versions))
+    errs = [e for e in errs if e]
+    if errs:
+        sys.exit("; ".join(errs))
+    print(f"phase 2 done in {time.time() - t1:.1f}s (routes included)")
 
 
 if __name__ == "__main__":

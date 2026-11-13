@@ -339,8 +339,17 @@
     return { best: best && best.e, other: part.slice(0, 6).map(function (x) { return x.e; }) };
   }
   var e404 = $(".e404");
+  /* A product page that 404s may simply be seconds old (the deploy switches listings and product pages ~2 s apart) or a
+     404 the browser still has cached: ask the server once more, bypassing every cache, before sending the visitor away. */
+  var recheck = function () {
+    if (!/^\/produkt\//.test(location.pathname) || /[?&]r=/.test(location.search)) return Promise.resolve(false);
+    return new Promise(function (ok) { setTimeout(ok, 1500); })
+      .then(function () { return fetch(location.pathname + "?r=" + Date.now(), { method: "HEAD", cache: "no-store" }); })
+      .then(function (res) { if (res.ok) { location.replace(location.pathname + "?r=" + Date.now()); return true; } return false; })
+      .catch(function () { return false; });
+  };
   if (e404) {
-    getJSON("/data/r404.json").then(function (idx) {
+    recheck().then(function (fixed) { return fixed ? Promise.reject("fixed") : getJSON("/data/r404.json"); }).then(function (idx) {
       var r = nearest(idx, location.pathname), looped = false;
       try { looped = !!sessionStorage.getItem("vian-404"); } catch (e) { }
       if (r.best && r.best[1] !== location.pathname && !looped) {
@@ -356,6 +365,7 @@
       }
     }).catch(function () { });
   } else {
+    if (/[?&]r=\d/.test(location.search)) { try { history.replaceState(null, "", location.pathname); } catch (e) { } }   /* after a recheck reload */
     var from = null;
     try { from = sessionStorage.getItem("vian-404"); sessionStorage.removeItem("vian-404"); } catch (e) { }
     if (from) {
