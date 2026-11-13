@@ -148,6 +148,12 @@ def facets(items, extra_cats=None, label="Upřesnit"):
          "styles": cnt("styles"), "feats": cnt("feats"), "width": widths >= max(6, len(items) * 0.3),
          "height": enough(has("h")), "depth": enough(has("d")), "sizes": sizes if len(sizes) > 1 else [],
          "shape": cnt("shape"), "seats": seats if len(seats) > 1 else []}
+    fx = {}
+    for key in X.FACETS:      # category facets (corner side, mattress firmness/type, energy class): shown when enough products say it
+        c = Counter(v for p in items for v in (p.get("fx") or {}).get(key, []))
+        if len(c) > 1 and enough(sum(1 for p in items if (p.get("fx") or {}).get(key))):
+            fx[key] = [(v, n) for v, n in c.most_common() if n >= 2]
+    f["fx"] = fx
     if extra_cats:
         f["cats"], f["cats_label"] = extra_cats, label
     return f
@@ -223,6 +229,7 @@ def main():
         p["nkey"] = X.slugify(p["name"])
         p["shape"] = X.shapes_of(p["name"] + " " + p.get("dry", ""), p["cat"])
         p["seats"] = X.seats_of(p["name"] + " " + p.get("dry", ""), p["cat"])
+        p["fx"] = X.facet_values(p["name"] + " " + p.get("dry", ""), p["cat"])
         p["page"] = not MAX_PRODUCTS or i < MAX_PRODUCTS
         p["index"] = len(p["offers"]) > 1 or len(p["desc"]) >= 120 or bool(p["variants"])
     name_count = Counter(p["nkey"] for p in products)

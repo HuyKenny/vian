@@ -294,11 +294,12 @@ class Site:
     def item_json(self, p, bidx):
         """Compact row for client-side filtering:
         [name, slug, img, price, shops, brand#, colors, mats, styles, wmin, wmax, discount, shopids, variants, tape, feats,
-         go (cheapest offer), its shop, height, depth, sizes, shapes, seats]"""
+         go (cheapest offer), its shop, height, depth, sizes, shapes, seats, category facets ["key:value"]]"""
         dm = p.get("dims") or {}
         return [p["name"], p["slug"], img_url(p["img"]), p["price"], len(p["offers"]), bidx.get(p["brand"], -1), p["colors"], p["mats"], p["styles"],
                 p["wmin"] or 0, p["wmax"] or 0, self.discount(p), [o["shop"] for o in p["offers"]], len(p.get("variants") or []), self.tape(p), p["feats"],
-                p["offers"][0]["go"], p["offers"][0]["shop"], dm.get("h") or 0, dm.get("d") or 0, p.get("sizes") or [], p.get("shape") or [], p.get("seats") or 0]
+                p["offers"][0]["go"], p["offers"][0]["shop"], dm.get("h") or 0, dm.get("d") or 0, p.get("sizes") or [], p.get("shape") or [], p.get("seats") or 0,
+                [f"{k}:{v}" for k, vs in (p.get("fx") or {}).items() for v in vs]]
 
     def grid(self, items, first_lazy=True, cls="grid"):
         return f'<ul class="{cls}">' + "".join(self.card(p, lazy=first_lazy or i > 3) for i, p in enumerate(items)) + "</ul>"
@@ -390,6 +391,8 @@ class Site:
             vals = facets.get(key)
             if vals:
                 pills.append(pill(key, legend, checks(key, [(v, names[v], n) for v, n in vals])))
+        for key, vals in (facets.get("fx") or {}).items():
+            pills.append(pill("fx-" + key, X.FACETS[key][0], checks("fx", [(f"{key}:{v}", X.FACET_VALUE[key][v], n) for v, n in vals])))
         seats = facets.get("seats")
         if seats:
             pills.append(pill("seats", "Počet míst", checks("seats", [(v, f"{v} a více" if v == 4 else f"{v} místa", n) for v, n in seats])))

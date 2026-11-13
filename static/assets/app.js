@@ -105,7 +105,7 @@
   /* ---------- listing filters ---------- */
   var SW = { bila: "#FFFFFF", cerna: "#1E1E1E", seda: "#9A9C9A", bezova: "#E3D3B8", hneda: "#7A5236", zelena: "#4F7A5A", modra: "#3F6E9E", ruzova: "#E7B3B8", cervena: "#B3322C", zluta: "#E9C24A", oranzova: "#D8743C", zlata: "#C7A043", stribrna: "#C9CCCF" };
   /* row: [0 name, 1 slug, 2 img, 3 price, 4 shops, 5 brand#, 6 colors, 7 mats, 8 styles, 9 wmin, 10 wmax, 11 discount, 12 shopids, 13 variants, 14 tape, 15 feats,
-           16 go (cheapest offer), 17 its shop, 18 height, 19 depth, 20 sizes, 21 shapes, 22 seats] */
+           16 go (cheapest offer), 17 its shop, 18 height, 19 depth, 20 sizes, 21 shapes, 22 seats, 23 category facets ["key:value"]] */
   function card(it, brands, shops) {
     var sale = it[11] >= 10 ? '<span class="flag">−' + it[11] + " %</span>" : "";
     var tape = it[14] ? '<span class="tape">' + esc(it[14]) + "</span>" : "";
@@ -127,7 +127,7 @@
   if (list && form) {
     var data = null, shown = 36, sortSel = $("#sort"), count = $("#count"), pager = $(".pager"), chipsBox = $("#factive"), shade = $(".fshade");
     var RANGES = [["p", "Cena", "Kč"], ["w", "Šířka", "cm"], ["h", "Výška", "cm"], ["d", "Hloubka", "cm"]];
-    var LISTS = ["brand", "shop", "colors", "mats", "styles", "feats", "size", "shape", "seats"];
+    var LISTS = ["brand", "shop", "colors", "mats", "styles", "feats", "size", "shape", "seats", "fx"];
     var num = function (n) { var el = form.elements[n]; return el ? (+el.value || 0) : 0; };
     var active = function () {
       var f = { multi: false, sale: false };
@@ -162,6 +162,11 @@
           if (!any(it[6], f.colors) || !any(it[7], f.mats) || !any(it[8], f.styles) || !any(it[15], f.feats)) return false;
           if (!any(it[20], f.size) || !any(it[21], f.shape)) return false;
           if (f.seats.length && f.seats.indexOf(String(it[22] || "")) < 0) return false;
+          if (f.fx.length) {      /* category facets: within one facet any value, across facets all of them */
+            var have = it[23] || [], keys = {};
+            f.fx.forEach(function (kv) { var k = kv.split(":")[0]; keys[k] = keys[k] || have.indexOf(kv) >= 0; });
+            for (var k in keys) if (!keys[k]) return false;
+          }
           return true;
         });
         var s = sortSel.value;
