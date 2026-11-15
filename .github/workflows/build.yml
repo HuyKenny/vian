@@ -15,7 +15,7 @@ on:
         type: boolean
         default: true
       quick:
-        description: "Quick fix: skip the visual, image and SEO checks (the nightly audit still runs them) - for CSS/JS/template/text fixes"
+        description: "Quick fix: no feed fetch (rebuild from saved feeds), skip the visual, image and SEO checks (the nightly audit still runs them) - for CSS/JS/template/text fixes"
         type: boolean
         default: false
       full:
@@ -62,7 +62,7 @@ jobs:
           STATE_KEY: ${{ secrets.STATE_KEY }}
           GH_TOKEN: ${{ github.token }}
       - name: Fetch feeds
-        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.fetch)
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.fetch && !inputs.quick)   # quick never fetches
         timeout-minutes: 160
         continue-on-error: true   # a stuck network falls back to the restored feeds
         # CJ alone (it answers 403 to parallel requests) next to 3 processes for the eHub / Dognet / AffiliatePort XML feeds.
