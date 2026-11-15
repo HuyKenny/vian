@@ -43,6 +43,10 @@ def main():
             except Exception as e:
                 bad += 1
                 print(f"photo {slug} {tag}: {e}")
+    guides = json.loads((APP / "content/guides/_index.json").read_text())
+    for g in guides:
+        if g["slug"] not in photos:
+            print(f"::warning::guide {g['slug']} has no feature photo in content/guides/photos.json")
     print(f"blog photos: {len(photos)} articles, {bad} failed")
     sys.exit(1 if bad > len(photos) // 4 else 0)
 
