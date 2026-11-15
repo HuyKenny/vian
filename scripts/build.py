@@ -29,6 +29,7 @@ import render as R  # noqa: E402
 import taxonomy as X  # noqa: E402
 import landings as LD  # noqa: E402
 import texts as TX  # noqa: E402
+import subcats as SC  # noqa: E402  (registers the subcategories in X.TREE / X.ICON)
 
 APP = Path(__file__).resolve().parent.parent
 DIST = APP / "dist"
@@ -107,7 +108,7 @@ def cap_categories(products, cap):
         return products, {}
     by_cat = defaultdict(list)
     for p in products:
-        by_cat[p["cat"]].append(p)
+        by_cat[p.get("sub") or p["cat"]].append(p)     # a subcategory has its own cap: big categories show more of the feed
     keep, capped = [], {}
     for k, ps in by_cat.items():
         if len(ps) <= cap:
@@ -191,12 +192,11 @@ def cat_name(k):
 
 
 def crumbs_for(k):
-    out = [HOME]
-    parent = X.TREE[k][1]
-    if parent:
-        out.append((cat_name(parent), f"/{parent}/"))
-    out.append((cat_name(k), f"/{k}/"))
-    return out
+    """Home > room > category (> subcategory)."""
+    chain = [k]
+    while X.TREE[chain[0]][1]:
+        chain.insert(0, X.TREE[chain[0]][1])
+    return [HOME] + [(cat_name(c), f"/{c}/") for c in chain]
 
 
 # ======================================================================= main
@@ -216,6 +216,9 @@ def main():
     products = C.cluster(offers, rank)
     bad = C.sanity(products)
     products = [p for p in products if p["offers"]]
+    for p in products:
+        p["sub"] = SC.sub_of(p)
+    log(f"subcategories: {sum(1 for p in products if p['sub'])} products refined into {len({p['sub'] for p in products if p['sub']})} subcategories (before the cap)")
     products, capped = cap_categories(products, CAT_CAP)
     log(f"category cap {CAT_CAP}: {sum(capped.values())} products left out in {len(capped)} categories")
     new_slugs = C.assign_slugs(products, state)
@@ -276,16 +279,23 @@ def main():
     by_cat, by_room, by_brand = defaultdict(list), defaultdict(list), defaultdict(list)
     for p in products:
         by_cat[p["cat"]].append(p)
+        if p.get("sub"):
+            by_cat[p["sub"]].append(p)        # the category keeps its products; the subcategory lists its own share
         by_room[X.TREE[p["cat"]][1]].append(p)
         if p["brand"]:
             by_brand[X.slugify(p["brand"])].append(p)
     S.cat_ok = {k for k in by_cat if len(by_cat[k]) >= MIN_CAT}
-    S.nav_ok = {X.CATS[k][1] for k in S.cat_ok}
+    S.nav_ok = {X.CATS[k][1] for k in S.cat_ok if k in X.CATS}
+    S.subs_of = defaultdict(list)             # public subcategories of each category, biggest first
+    for k in sorted((k for k in S.cat_ok if k in SC.SUBCATS), key=lambda k: -len(by_cat[k])):
+        S.subs_of[SC.SUB_PARENT[k]].append(k)
     brand_name = {b: Counter(p["brand"] for p in ps).most_common(1)[0][0] for b, ps in by_brand.items()}
     brand_pages = {b: ps for b, ps in by_brand.items() if len(ps) >= 6 and b and b not in X.TREE}
     S.ctx = {"by_cat": by_cat, "brands": brand_pages, "brand_name": brand_name}
 
-    reserved = ({f"/{k}/" for k in X.TREE} | {f"/znacky/{b}/" for b in brand_pages}
+    S.superseded = {SC.SUPERSEDES[k]: f"/{k}/" for k in SC.SUPERSEDES if k in S.cat_ok}   # old family landing -> its subcategory
+    reserved = ({f"/{k}/" for k in X.TREE if k not in SC.SUBCATS or k in S.cat_ok}   # a public subcategory takes over a phrase landing with its slug
+                | set(S.superseded) | {f"/znacky/{b}/" for b in brand_pages}
                 | {f"/obchody/{s['id']}/" for s in shops}
                 | {"/", "/kategorie/", "/znacky/", "/slevy/", "/obchody/", "/jak-srovnavame/", "/hledat/", "/poradna/", "/kontakt/", "/ochrana-osobnich-udaju/"})
     landings, ldropped = LD.plan(products, reserved)
@@ -327,6 +337,12 @@ def main():
             continue
         j = write_json(out, S, k, ps)
         paged(out, S, f"/{k}/", ps, lambda: category_page(S, k, ps, j), "listings", index=k in S.cat_ok)
+    for k in SC.SUBCATS:
+        if k not in S.cat_ok:
+            continue
+        ps = sorted(by_cat[k], key=pop_key)
+        j = write_json(out, S, k, ps)
+        paged(out, S, f"/{k}/", ps, lambda: category_page(S, k, ps, j), "listings", index=True)
 
     # ---------------- landings (facets, hubs, hand-written)
     for L in landings:
@@ -375,7 +391,7 @@ def main():
                                    'Zkuste ho vyhledat nahoře, nebo začněte <a class="lnk" href="/">na úvodní stránce</a>.</p>'
                                    '<p><a class="btn" href="/kategorie/">Všechny kategorie</a></p><div id="nf-sugg" class="nf-sugg" hidden></div></div><img src="/img/ic/kreslo.webp" alt="" width="192" height="192"></div>', noindex=True))
     write_search(out, products, by_room, by_cat, brand_pages, brand_name, landings)
-    out.write("_redirects", redirects_file(out.seen))
+    out.write("_redirects", redirects_file(out.seen, S.superseded))
 
     # ---------------- sitemaps, robots, headers
     sm = []
@@ -474,6 +490,8 @@ def offer_rows(S, offers, best_price, label=None):
 
 def product_page(S, p):
     k = p["cat"]
+    if p.get("sub") in S.cat_ok:
+        k = p["sub"]
     n = len(p["offers"])
     var = p.get("variants") or []
     best = p["offers"][0]
@@ -504,7 +522,7 @@ def product_page(S, p):
     meta.append(f'<a href="/{k}/">{E(cat_name(k))}</a>')
     for key, names, slugs in (("styles", X.STYLE_NAME, LD.STYLE_SLUG), ("mats", X.MATERIAL_NAME, LD.MAT_SLUG), ("colors", X.COLOR_NAME, LD.COLOR_SLUG)):
         for v in p[key][:2]:
-            path = f"/{k}/{slugs[v]}/"
+            path = f"/{p['cat']}/{slugs[v]}/"
             meta.append(f'<a href="{path}">{E(names[v])}</a>' if path in S.landings else f"<span>{E(names[v])}</span>")
 
     low = ""
@@ -645,12 +663,18 @@ def room_page(S, room, items, subs, jsn):
 
 
 def category_page(S, k, items, jsn):
-    name, room, h1 = X.CATS[k][0], X.CATS[k][1], X.CATS[k][2]
+    parent = SC.SUB_PARENT.get(k)
+    name, room, h1 = (SC.SUBCATS[k][0], X.CATS[parent][1], SC.SUBCATS[k][2]) if parent else (X.CATS[k][0], X.CATS[k][1], X.CATS[k][2])
     lo, med, hi = price_stats(items)
     n = len(items)
     title = f"{h1} – srovnání cen od {R.kc(lo)}" + SUFFIX
     desc = f"{h1}: {n} {R.plural(n, 'kus', 'kusy', 'kusů')} z {len({o['shop'] for p in items for o in p['offers']})} českých e‑shopů, ceny od {R.kc(lo)}. Filtr podle rozměrů, barvy a materiálu."
-    sibs = [(c, cat_name(c), len(S.ctx["by_cat"][c])) for c in X.CATS if X.CATS[c][1] == room and c != k and c in S.cat_ok]
+    if parent:      # a subcategory: the other subcategories of its category
+        sibs = [(c, cat_name(c), len(S.ctx["by_cat"][c])) for c in S.subs_of[parent] if c != k]
+    elif S.subs_of.get(k):      # a category with subcategories: those first (Favi-style), like a shop's category tree
+        sibs = [(c, cat_name(c), len(S.ctx["by_cat"][c])) for c in S.subs_of[k]]
+    else:
+        sibs = [(c, cat_name(c), len(S.ctx["by_cat"][c])) for c in X.CATS if X.CATS[c][1] == room and c != k and c in S.cat_ok]
     lead = f"{n} {R.plural(n, 'kus', 'kusy', 'kusů')} skladem, ceny od {R.kc(lo)} do {R.kc(hi)}. Polovina stojí méně než {R.kc(med)}."
     body, lds = listing_body(S, f"/{k}/", E(h1), lead, items, jsn, X.ICON[k], texts_key=f"cat:{k}", links=[], links_label="Upřesnit",
                              extra=S.tiles(sibs))
@@ -937,11 +961,17 @@ def home_page(S, products, by_room, by_cat, sale):
                     body, jsonld=ld, preload_img="/img/ui/hero-1200.webp", full=True)
 
 
-def redirects_file(seen):
-    """Old vian.cz URLs -> new pages. A target that does not exist in this build falls back to its parent / home."""
-    if not (APP / "data/redirects.txt").exists():
-        return ""
+def redirects_file(seen, superseded=None):
+    """Old vian.cz URLs -> new pages. A target that does not exist in this build falls back to its parent / home.
+    `superseded`: family landings replaced by a subcategory (and their pages 2-5) -> the subcategory."""
     rules, src_seen = [], set()
+    for src, to in (superseded or {}).items():
+        for page in [""] + [f"strana-{i}/" for i in range(2, 6)]:
+            if src + page not in seen:
+                rules.append(f"{src}{page} {to} 301")
+                src_seen.add(src + page)
+    if not (APP / "data/redirects.txt").exists():
+        return "# Generated by build.py.\n" + "\n".join(rules) + "\n" if rules else ""
     for l in (APP / "data/redirects.txt").read_text().splitlines():
         if not l.strip() or l.startswith("#"):
             continue
@@ -964,6 +994,7 @@ def write_search(out, products, by_room, by_cat, brands, brand_name, landings=()
     letters of each word, so one query loads one small file."""
     sug = [[X.ROOMS[r][0], f"/{r}/", "místnost"] for r in X.TOP if by_room.get(r)]
     sug += [[cat_name(k), f"/{k}/", "kategorie"] for k in X.CATS if by_cat.get(k)]
+    sug += [[cat_name(k), f"/{k}/", "kategorie"] for k in SC.SUBCATS if len(by_cat.get(k, [])) >= MIN_CAT]
     sug += [[L["h1"], L["path"], "výběr"] for L in landings if L["index"] and L["n"] >= 15][:1500]
     sug += [[brand_name[b], f"/znacky/{b}/", "značka"] for b in sorted(brands, key=lambda b: -len(brands[b]))]
     out.write("data/sug.json", json.dumps(sug, ensure_ascii=False, separators=(",", ":")))
