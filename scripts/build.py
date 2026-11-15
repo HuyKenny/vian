@@ -816,6 +816,12 @@ def categories_index(S, by_room, by_cat):
                     body, crumbs=[HOME, ("Kategorie", "/kategorie/")])
 
 
+FURNITURE_ROOMS = {"obyvaci-pokoj", "loznice", "jidelna-a-kuchyne", "pracovna", "detsky-pokoj", "predsin"}
+SHOP_WORD = {"koupelna": "koupelny", "svitidla": "svítidla", "textil": "bytový textil", "spotrebice": "spotřebiče", "zahrada": "zahrada",
+             "podlahy-a-kovani": "podlahy", "kuchyne-a-stolovani": "kuchyňské potřeby", "dekorace": "dekorace", "domacnost": "domácnost",
+             "vanoce-a-svatky": "dekorace"}
+
+
 def shop_page(S, s, items, jsn):
     """One shop: what it sells here (its categories), its products sorted like everywhere else, and where it is the
     cheapest of several shops."""
@@ -830,10 +836,16 @@ def shop_page(S, s, items, jsn):
                if multi else "")
     lead = (f"{n} {R.plural(n, 'kus', 'kusy', 'kusů')} z e‑shopu {E(s['domain'])} v {len(cats)} {R.plural(len(cats), 'kategorii', 'kategoriích', 'kategoriích')}, "
             f"ceny od {R.kc(lo)}.{cmp_txt}")
-    title = f"{name} – nabídka a srovnání cen" + SUFFIX
+    # brand searches are "<shop> nábytek" (baumax 80 000, "sconto nábytek" 13 000) or "<shop> koupelny" (siko 12 000): the shop's
+    # main department names the page, so the title answers the query (content gap round 3, 16. 11. 2026)
+    rooms = Counter(X.TREE[p["cat"]][1] for p in items)
+    furniture = sum(rooms[r] for r in FURNITURE_ROOMS) / max(1, len(items))
+    word = "nábytek" if furniture >= 0.25 or not rooms else SHOP_WORD.get(rooms.most_common(1)[0][0], "nábytek")
+    h1 = f"{name} {word}"
+    title = f"{h1} – nabídka a srovnání cen" + SUFFIX
     desc = f"{name}: {n} {R.plural(n, 'kus', 'kusy', 'kusů')} nábytku a doplňků, ceny od {R.kc(lo)}. Porovnejte s dalšími českými e‑shopy na jednom místě."
     head = f'<div class="shophead" style="--c:{s.get("color", "#888")}">{R.shop_logo(S.shop(sid), big=True)}</div>' if s.get("logo") else ""
-    body, lds = listing_body(S, f"/obchody/{sid}/", E(name), lead, items, jsn, None, texts_key=f"shop:{sid}", extra=head + tiles)
+    body, lds = listing_body(S, f"/obchody/{sid}/", E(h1), lead, items, jsn, None, texts_key=f"shop:{sid}", extra=head + tiles)
     return S.layout(f"/obchody/{sid}/", title, desc, body, crumbs=[HOME, ("Obchody", "/obchody/"), (name, f"/obchody/{sid}/")], jsonld=lds, full=True)
 
 
@@ -957,7 +969,7 @@ def home_page(S, products, by_room, by_cat, sale):
     ld = [{"@context": "https://schema.org", "@type": "WebSite", "name": "Vian", "url": BASE + "/",
            "potentialAction": {"@type": "SearchAction", "target": BASE + "/hledat/?q={q}", "query-input": "required name=q"}},
           {"@context": "https://schema.org", "@type": "Organization", "name": "Vian", "url": BASE + "/", "logo": BASE + "/favicon-512.png"}]
-    return S.layout("/", "Vian – srovnání cen nábytku z českých e‑shopů", f"Srovnání cen nábytku z {st['shops']} českých e‑shopů: sedačky, postele, matrace, skříně, stoly, svítidla a koberce. Filtr podle rozměrů v cm.",
+    return S.layout("/", "Nábytek – srovnání cen z českých e‑shopů | Vian", f"Srovnání cen nábytku z {st['shops']} českých e‑shopů: sedačky, postele, matrace, skříně, stoly, svítidla a koberce. Filtr podle rozměrů v cm.",
                     body, jsonld=ld, preload_img="/img/ui/hero-1200.webp", full=True)
 
 

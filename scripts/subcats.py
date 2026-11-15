@@ -212,6 +212,43 @@ SUBS = [
     ("ohniste", "Ohniště", "ohniste-a-ohrivace", "Zahradní ohniště", r"ohnist|kos\w* na ohen|fire ?pit|na ohen"),
     ("zahradni-hadice", "Zahradní hadice", "zavlazovani", "Zahradní hadice", r"hadic"),
     ("zavlazovaci-system", "Zavlažovací systémy", "zavlazovani", "Zavlažovací systémy a postřikovače", r"postrikov|\bzavlazovac|kapkov|rozstrikov"),
+    # ------------------------------------------------------------ content gap round 3 (16. 11. 2026, MM search volume in the comment)
+    ("adventni-kalendare", "Adventní kalendáře", "adventni-dekorace", "Adventní kalendáře", r"adventn\w* kalendar|kalendar\w* advent"),   # 34 000
+    ("termohrnky", "Termohrnky", "termosky-a-lahve", "Termohrnky a cestovní hrnky", r"termohrn|termo hrn|cestovn\w* hrn|hrnek do auta|termo kelim"),   # 11 000
+    ("termosky", "Termosky", "termosky-a-lahve", "Termosky", r"termosk|termolahev|termo lahev|jidelni termos|\btermos\b"),   # 6 600
+    ("lahve-na-piti", "Láhve na pití", "termosky-a-lahve", "Láhve na pití", r"lahev|lahve|lahv|bidon"),
+    ("mlynky-na-kavu", "Mlýnky na kávu", "kavovary", "Mlýnky na kávu", r"mlyn\w*"),   # 8 200
+    ("vyrobniky-ledu", "Výrobníky ledu", "drobne-kuchynske-spotrebice", "Výrobníky ledu", r"vyrobnik\w* ledu|ledovac|ice maker"),   # 8 000
+    ("zmrzlinovace", "Zmrzlinovače", "drobne-kuchynske-spotrebice", "Zmrzlinovače", r"zmrzlinovac|vyrobnik\w* zmrzlin"),   # 5 700
+    ("vyrobniky-sody", "Výrobníky sody", "drobne-kuchynske-spotrebice", "Výrobníky sody", r"vyrobnik\w* sody|sodastream|sifon\w* na sodu"),
+    ("vaflovace", "Vaflovače", "toustovace-a-grily", "Vaflovače", r"vaflov|na vafle"),   # 4 800
+    ("sendvicovace", "Sendvičovače", "toustovace-a-grily", "Sendvičovače", r"sendvic"),
+    ("mlynky-na-maso", "Mlýnky na maso", "mixery-a-roboty", "Mlýnky na maso", r"mlyn\w* na maso|masomlyn"),   # 4 700
+    ("pece-na-pizzu", "Pece na pizzu", "grily", "Pece na pizzu", r"pec\w* na pizz|pizza ?pec|pizz\w* (pec|kamen)|kamen\w* na pizz"),   # 4 200
+    ("sklenice-na-vino", "Sklenice na víno", "sklenice", "Sklenice na víno", r"na vin|vinov\w* sklen|sklenic\w* na (cerven|bil)|\bnapa\b|bordeaux|burgund"),   # 4 400
+    ("karafy", "Karafy", "sklenice", "Karafy a dekantéry", r"karaf|dekant"),   # 1 400
+    ("sklenice-na-pivo", "Sklenice na pivo", "sklenice", "Sklenice a půllitry na pivo", r"na pivo|pivn\w* sklen|\bkrigl|pullitr|tupl"),
+    ("sklenice-na-whisky", "Sklenice na whisky", "sklenice", "Sklenice na whisky a destiláty", r"whisk|na rum|na lihovin|panak|stamprl|na destilat"),
+    ("stojany-na-kvetiny", "Stojany na květiny", "kvetinace", "Stojany na květiny", r"stojan|etazer|na nozk\w* kvetin|podstav"),   # 7 200
+    ("sudy-na-destovou-vodu", "Sudy na dešťovou vodu", "zavlazovani", "Sudy a nádrže na dešťovou vodu", r"\bsud\b|\bsudy\b|nadrz|destov\w* vod"),   # 3 800
+    ("chlebniky", "Chlebníky", "skladovani-potravin", "Chlebníky", r"chlebnik|box\w* na (chleb|pecivo)"),   # 3 500
+    ("svacinove-boxy", "Svačinové boxy", "skladovani-potravin", "Svačinové boxy a obědáře", r"svacin|obedar|lunch ?box|bento|jidlonos"),   # 2 600
+    ("kuchynske-vahy", "Kuchyňské váhy", "kuchynske-nacini", "Kuchyňské váhy", r"\bvah[ay]\b|\bvaha|odmerk\w* digit"),   # 3 500
+    ("lisy-na-cesnek", "Lisy na česnek", "kuchynske-nacini", "Lisy na česnek", r"lis\w* na cesnek|cesnekov"),   # 2 100
+    ("vyvrtky", "Vývrtky", "kuchynske-nacini", "Vývrtky a otvíráky na víno", r"vyvrtk|otvirak\w* (na )?vin"),
+    ("kolotoce-nad-postylku", "Kolotoče nad postýlku", "detske-postylky", "Kolotoče nad postýlku", r"kolotoc|\bmobil\w* nad|nad postyl"),   # 3 400
+    ("krmitka-pro-ptaky", "Krmítka a budky pro ptáky", "zahradni-dekorace", "Krmítka a budky pro ptáky", r"krmitk|budk\w* (pro|na) ptak|ptac\w* budk|pitk\w* pro ptak|hmyz\w* hotel"),   # 3 200
+    ("ohradky-pro-deti", "Ohrádky a zábrany", "pro-miminka", "Dětské ohrádky a zábrany", r"ohradk|zabran"),   # 2 100
+    ("plastove-boxy", "Plastové boxy", "ulozne-boxy-a-kose", "Plastové úložné boxy", r"plastov\w* (box|krabic|bedn|ulozn|kontejner)|box\w* plastov|\bpp box"),   # 2 200
+    ("sperkovnice", "Šperkovnice", "ulozne-boxy-a-kose", "Šperkovnice a stojany na šperky", r"sperk"),   # 5 700 + 560
+    ("kosmeticke-zrcadlo", "Kosmetická zrcátka", "zrcadla", "Kosmetická zrcátka", r"kosmetick|zrcatk|make ?up|zvetsovac|lic\w* zrcad"),   # 2 400 + 1 600
+    ("lekarnicky", "Lékárničky", "koupelnove-skrinky", "Lékárničky", r"lekarnic"),   # 1 400
+    ("vylevky", "Výlevky", "umyvadla", "Výlevky", r"vylevk"),   # 980
+    ("podtacky", "Podtácky", "ubrusy-a-prostirani", "Podtácky", r"podtack|podlozk\w* pod (sklenic|hrnk|napoj)"),   # 850
+    ("svetelne-girlandy", "Světelné girlandy", "dekoracni-osvetleni", "Světelné girlandy a řetězy", r"girland|retez|svetel\w* (had|kabel)|\bled svetyl"),   # 4 100
+    ("rozkladaci-postele", "Rozkládací postele", "postele", "Rozkládací a skládací postele", r"rozklad|skladac\w* (postel|lozk)|pristylk|hostovsk|pro hosty"),   # 7 000
+    ("servirovaci-voziky", "Servírovací vozíky", "servirovaci-stolky", "Servírovací a kuchyňské vozíky", r"vozik|na kolecka|pojizdn"),   # 540 + 390
+    ("kartoteky", "Kartotéky", "kancelarske-skrine", "Kartotéky a kontejnery pod stůl", r"kartotek|kontejner|pojizdn\w* (skrin|box)|zasuvkov\w* (box|skrink)"),   # 630 + 390
 ]
 
 # older family landings (scripts/landings.py) that the subcategory replaces: once the subcategory is public, the landing is

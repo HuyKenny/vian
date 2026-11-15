@@ -78,7 +78,7 @@ CATS = {
     "jidelni-zidle": ("Jídelní židle", "jidelna-a-kuchyne", "Jídelní židle", "jidelna"),
     "barove-zidle": ("Barové židle", "jidelna-a-kuchyne", "Barové židle a stoličky", "jidelna"),
     "lavice": ("Lavice", "jidelna-a-kuchyne", "Jídelní lavice", "jidelna"),
-    "kuchynske-linky": ("Kuchyňské linky", "jidelna-a-kuchyne", "Kuchyňské linky a skříňky", "komoda"),
+    "kuchynske-linky": ("Kuchyně a kuchyňské linky", "jidelna-a-kuchyne", "Kuchyně a kuchyňské linky", "komoda"),   # "kuchyně" 16 000 + 6 600 hledání/měs.
     "servirovaci-stolky": ("Servírovací stolky", "jidelna-a-kuchyne", "Servírovací stolky a vozíky", "jidelna"),
     # pracovna
     "psaci-stoly": ("Psací stoly", "pracovna", "Psací a pracovní stoly", "pracovna"),
@@ -130,6 +130,7 @@ CATS = {
     "zrcadla": ("Zrcadla", "dekorace", "Zrcadla", "koupelna"),
     "obrazy": ("Obrazy a plakáty", "dekorace", "Obrazy a plakáty", "vaza"),
     "nastenne-dekorace": ("Nástěnné dekorace", "dekorace", "Nástěnné dekorace", "vaza"),
+    "akusticke-panely": ("Akustické a lamelové panely", "dekorace", "Akustické a lamelové panely na zeď", "obraz"),   # gap 16. 11.: 11 000/měs.
     "ramy-na-fotky": ("Rámy na fotky", "dekorace", "Rámy na fotky a obrazy", "vaza"),
     "hodiny": ("Hodiny", "dekorace", "Nástěnné a stolní hodiny", "vaza"),
     "vazy": ("Vázy", "dekorace", "Vázy", "vaza"),
@@ -183,6 +184,7 @@ CATS = {
     "drezy": ("Kuchyňské dřezy", "kuchyne-a-stolovani", "Kuchyňské dřezy", "jidelna"),
     "kuchynske-baterie": ("Kuchyňské baterie", "kuchyne-a-stolovani", "Dřezové a kuchyňské baterie", "jidelna"),
     "odpadkove-kose": ("Odpadkové koše", "kuchyne-a-stolovani", "Odpadkové koše a třídění odpadu", "komoda"),
+    "popelnice": ("Popelnice", "zahrada", "Popelnice a venkovní nádoby na odpad", "zahrada"),   # gap 16. 11.: 8 700/měs.
     "kuchynske-doplnky": ("Kuchyňské doplňky", "kuchyne-a-stolovani", "Kuchyňské doplňky a organizéry", "jidelna"),
     "kavovary": ("Kávovary", "spotrebice", "Kávovary a mlýnky na kávu", "jidelna"),
     "rychlovarne-konvice": ("Rychlovarné konvice", "spotrebice", "Rychlovarné konvice", "jidelna"),
@@ -243,7 +245,12 @@ CATS = {
     "detska-svitidla": ("Dětská svítidla", "detsky-pokoj", "Dětské lampy a noční světla", "lampa"),
     "detske-koberce": ("Dětské koberce", "detsky-pokoj", "Dětské a hrací koberce", "koberec"),
     "domecky-a-teepee": ("Domečky a teepee", "detsky-pokoj", "Dětské domečky, stany a teepee", "detsky-pokoj"),
-    "patrove-postele": ("Patrové postele", "detsky-pokoj", "Patrové a vyvýšené postele", "detsky-pokoj"),
+    "patrove-postele": ("Patrové postele", "detsky-pokoj", "Patrové postele a palandy", "detsky-pokoj"),
+    # content gap round 3 (16. 11. 2026, MM: Favi/Biano/Sconto/JYSK/XXXLutz/Bonami/Siko gap + search volume)
+    "ucici-veze": ("Učící věže", "detsky-pokoj", "Učící věže Montessori", "detsky-pokoj"),          # 3 100/měs.
+    "postovni-schranky": ("Poštovní schránky", "zahrada", "Poštovní schránky", "zahrada"),           # 9 300/měs.
+    "meteostanice": ("Meteostanice a teploměry", "domacnost", "Meteostanice a teploměry", "komoda"),  # 11 000 + 1 700/měs.
+    "site-proti-hmyzu": ("Sítě proti hmyzu", "domacnost", "Sítě proti hmyzu do oken a dveří", "komoda"),  # 4 500/měs.
     "detske-postylky": ("Dětské postýlky", "detsky-pokoj", "Dětské postýlky a kolébky", "detsky-pokoj"),
     "prebalovaci-pulty": ("Přebalovací pulty", "detsky-pokoj", "Přebalovací pulty a komody", "prebalovaci-pult"),
     "detske-jidelni-zidle": ("Jídelní židličky", "detsky-pokoj", "Dětské jídelní a rostoucí židličky", "jidelni-zidle"),
@@ -357,7 +364,13 @@ R = lambda s: re.compile(s, I)
 # (category, pattern on the folded title). First match wins.
 TITLE_RULES = [
     # 13. 11. 2026 gap vs Favi/Biano: dedicated categories, ahead of the broader rules they used to fall into
-    ("patrove-postele", R(r"patrov\w* (postel|lozk)|vyvysen\w* postel|postel (s|se) (pracovnim )?stolem pod")),
+    ("akusticke-panely", R(r"akustick\w* (panel|desk|obklad|stena|stenov|pena)|lamelov\w* (panel|obklad|stena|stenov)|\bakupanel|drevene lamely na zed|lamely na zed")),
+    ("postovni-schranky", R(r"postovn\w* schrank|schrank\w* na (dopis|postu|noviny)|\bschranka na dopisy")),
+    ("meteostanice", R(r"meteostanic|meteorologick\w* stanic|(venkovn|digitaln|okenn|pokojov|bezdratov)\w* teplomer|teplomer\w* (s vlhkomer|venkovn|na okno)|\bvlhkomer|hygrometr")),
+    ("popelnice", R(r"\bpopelnic|kontejner\w* na (odpad|smeti)|odpadov\w* nadob\w* \d{3}|nadob\w* na odpad \d{3}")),
+    ("site-proti-hmyzu", R(r"sit\w* proti (hmyz|komar|much)|moskytier|okenn\w* sit|dvern\w* sit|(sitov|hmyzov)\w* (dver|ramec|zaves)|rolet\w* proti hmyz")),
+    ("ucici-veze", R(r"ucic\w* vez|learning tower|montessori (vez|stolick|schudk)|pomocnik do kuchyne pro deti|kuchynsk\w* pomocnik pro deti")),
+    ("patrove-postele", R(r"\bpaland|patrov\w* (postel|lozk)|vyvysen\w* postel|postel (s|se) (pracovnim )?stolem pod")),
     ("detske-postylky", R(r"detsk\w* postyl\w*|\bpostylk|\bpostylka|kolebk|kolisk|\bpostyl\b")),
     ("prebalovaci-pulty", R(r"prebalovac\w* (pult|komod|stul|stolek|nastavec|pultik|desk|skrin)")),
     ("detske-jidelni-zidle", R(r"jideln\w* zidlick|zidlick\w* (ke|na|pro) krmeni|rostouc\w* zidl|detsk\w* jideln\w* zidl")),
@@ -591,6 +604,9 @@ TITLE_RULES = [
 # shop category path -> category, when the title alone said nothing (paths are folded too)
 PATH_RULES = [
     # 13. 11. 2026 gap categories
+    ("akusticke-panely", R(r"akusticke panely|lamelove panely|akustika")), ("postovni-schranky", R(r"postovni schranky|schranky na dopisy")),
+    ("meteostanice", R(r"meteostanic|teplomery|vlhkomery")), ("popelnice", R(r"popelnice")), ("site-proti-hmyzu", R(r"site proti hmyzu|proti hmyzu")),
+    ("ucici-veze", R(r"ucici veze")),
     ("patrove-postele", R(r"patrove postele")), ("detske-postylky", R(r"postylk|kolebk")), ("prebalovaci-pulty", R(r"prebalovaci pult|prebalovaci komod")),
     ("detske-jidelni-zidle", R(r"jidelni zidlick|zidlicky na krmeni")), ("nafukovaci-matrace", R(r"nafukovaci (matrace|postele)")),
     ("koupelnova-zrcadla", R(r"koupeln\w* [>|/,]\s*zrcadl|zrcadla do koupelny|koupelnova zrcadla")), ("pergoly-a-altany", R(r"pergol|altan")),
@@ -748,7 +764,7 @@ KIDS_MAP = {"koberce": "detske-koberce", "stolni-lampy": "detska-svitidla", "lus
 
 
 # nouns that name one category on their own, whatever words surround them: a single-word match of these is as good as a phrase
-UNAMBIGUOUS = {"umyvadla", "vany", "drezy", "panve", "hrnce", "kavovary", "vysavace", "trampoliny", "sauny", "grily", "tapety",
+UNAMBIGUOUS = {"meteostanice", "popelnice", "postovni-schranky", "akusticke-panely", "patrove-postele", "umyvadla", "vany", "drezy", "panve", "hrnce", "kavovary", "vysavace", "trampoliny", "sauny", "grily", "tapety",
                "zarovky", "garnyze", "prosteradla", "trezory", "lenosky", "biokrby", "paravany", "stinidla", "betlemy", "sklenice",
                "pribory", "talire", "fritezy", "digestore", "lucerny", "priborniky", "rolety-a-zaluzie", "boxspringy",
                "toppery-a-chranice-matraci", "wc-a-bidety", "skleniky-a-pestovani", "substraty-a-hnojiva", "vinylove-podlahy",
