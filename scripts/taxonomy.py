@@ -364,11 +364,11 @@ R = lambda s: re.compile(s, I)
 # (category, pattern on the folded title). First match wins.
 TITLE_RULES = [
     # 13. 11. 2026 gap vs Favi/Biano: dedicated categories, ahead of the broader rules they used to fall into
-    ("akusticke-panely", R(r"akustick\w* (panel|desk|obklad|stena|stenov|pena)|lamelov\w* (panel|obklad|stena|stenov)|\bakupanel|drevene lamely na zed|lamely na zed")),
-    ("postovni-schranky", R(r"postovn\w* schrank|schrank\w* na (dopis|postu|noviny)|\bschranka na dopisy")),
+    ("akusticke-panely", R(r"^(?!.*\b(dekorac\w*|piktogram\w*|jmenovk\w*|stitk\w*|figurk\w*|ozdob\w*|hacek|hacky|hack\w*|drzak\w*|profil\w*|lepidl\w*|sroub\w*|nahradn\w*)\b).*(akustick\w* (\w+ )?(panel|desk|obklad|stena|stenov|pena)|lamelov\w* (panel|obklad|stena|stenov)|\bakupanel|drevene lamely na zed|lamely na zed)")),
+    ("postovni-schranky", R(r"^(?!.*\b(dekorac\w*|piktogram\w*|jmenovk\w*|stitk\w*|figurk\w*|ozdob\w*|hacek|hacky|hack\w*|drzak\w*|profil\w*|lepidl\w*|sroub\w*|nahradn\w*)\b).*(postovn\w* schrank|schrank\w* na (dopis|postu|noviny)|\bschranka na dopisy)")),
     ("meteostanice", R(r"meteostanic|meteorologick\w* stanic|(venkovn|digitaln|okenn|pokojov|bezdratov)\w* teplomer|teplomer\w* (s vlhkomer|venkovn|na okno)|\bvlhkomer|hygrometr")),
     ("popelnice", R(r"\bpopelnic|kontejner\w* na (odpad|smeti)|odpadov\w* nadob\w* \d{3}|nadob\w* na odpad \d{3}")),
-    ("site-proti-hmyzu", R(r"sit\w* proti (hmyz|komar|much)|moskytier|okenn\w* sit|dvern\w* sit|(sitov|hmyzov)\w* (dver|ramec|zaves)|rolet\w* proti hmyz")),
+    ("site-proti-hmyzu", R(r"sit\w* proti (hmyz|komar|much)|^(\w+ ){0,2}moskytier|okenn\w* sit|dvern\w* sit|(sitov|hmyzov)\w* (dver|ramec|zaves)|rolet\w* proti hmyz")),
     ("ucici-veze", R(r"ucic\w* vez|learning tower|montessori (vez|stolick|schudk)|pomocnik do kuchyne pro deti|kuchynsk\w* pomocnik pro deti")),
     ("patrove-postele", R(r"\bpaland|patrov\w* (postel|lozk)|vyvysen\w* postel|postel (s|se) (pracovnim )?stolem pod")),
     ("detske-postylky", R(r"detsk\w* postyl\w*|\bpostylk|\bpostylka|kolebk|kolisk|\bpostyl\b")),
@@ -604,7 +604,6 @@ TITLE_RULES = [
 # shop category path -> category, when the title alone said nothing (paths are folded too)
 PATH_RULES = [
     # 13. 11. 2026 gap categories
-    ("akusticke-panely", R(r"akusticke panely|lamelove panely|akustika")), ("postovni-schranky", R(r"postovni schranky|schranky na dopisy")),
     ("meteostanice", R(r"meteostanic|teplomery|vlhkomery")), ("popelnice", R(r"popelnice")), ("site-proti-hmyzu", R(r"site proti hmyzu|proti hmyzu")),
     ("ucici-veze", R(r"ucici veze")),
     ("patrove-postele", R(r"patrove postele")), ("detske-postylky", R(r"postylk|kolebk")), ("prebalovaci-pulty", R(r"prebalovaci pult|prebalovaci komod")),
