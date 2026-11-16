@@ -251,6 +251,9 @@ button,input,select{font:inherit;color:inherit}
 .pager a,.pager .gap{min-width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;text-decoration:none;color:var(--ink);font-weight:600}
 .pager a{border:1.5px solid var(--ink);background:var(--card)}
 .pager a.on{background:var(--ink);color:#fff}
+.pager a.pnext{flex:1 0 100%;max-width:440px;margin:0 auto 10px;height:52px;gap:10px;background:var(--ink);color:#fff;border-color:var(--ink);font-size:1.02rem}
+.pager a.pnext small{font-weight:500;opacity:.75}
+.pager a.pnext:hover{opacity:.9}
 
 /* ---------- home ---------- */
 .hero{background:var(--card);border-bottom:1.5px solid var(--rule);overflow:hidden}

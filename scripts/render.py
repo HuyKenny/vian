@@ -13,7 +13,7 @@ from urllib.parse import quote
 import taxonomy as X
 
 E = html.escape
-PER_PAGE = 36
+PER_PAGE = 30          # Kenny 16. 11. 2026: 30 products per listing page, then a clear link to the next page
 SUFFIX = " | Vian"
 # prerender on hover; never /go/ (a prerender would count as a click at the network), /data/ or the search page
 SPECULATION = ('<script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/data/*"}},'
@@ -96,7 +96,9 @@ def img_url(u, size="card"):
     return u
 
 
-def pager_html(path, cur, pages):
+def pager_html(path, cur, pages, total=0, per=0):
+    """Page numbers; on listings (total given) also a full-width "Další strana · 31–60 z 3 417" link above them, a plain
+    crawlable link, so people and Google move on to the next page instead of only a small arrow."""
     if pages <= 1:
         return ""
     url = lambda k: path if k == 1 else f"{path}strana-{k}/"
@@ -109,7 +111,12 @@ def pager_html(path, cur, pages):
         last = k
     prev = f'<a class="pp" href="{url(cur - 1)}" rel="prev" aria-label="Předchozí strana">‹</a>' if cur > 1 else ""
     nxt = f'<a class="pp" href="{url(cur + 1)}" rel="next" aria-label="Další strana">›</a>' if cur < pages else ""
-    return f'<nav class="pager" aria-label="Stránkování">{prev}{"".join(out)}{nxt}</nav>'
+    big = ""
+    if total and per and cur < pages:
+        a, b, tot = cur * per + 1, min((cur + 1) * per, total), f"{total:,}".replace(",", "\u00a0")
+        big = (f'<a class="pnext" href="{url(cur + 1)}">Další strana <small>{a}–{b} z {tot}</small>'
+               '<svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></a>')
+    return f'<nav class="pager" aria-label="Stránkování">{big}{prev}{"".join(out)}{nxt}</nav>'
 
 
 def ld(x):
@@ -338,8 +345,8 @@ class Site:
         return (f'<div class="layout">{refine}{filt}<div class="factive" id="factive" hidden></div><div class="results"><div class="listhead"><p><b id="count">{n}</b> {plural(n, "kus", "kusy", "kusů")}</p>'
                 f'<label class="sort">Řadit <select id="sort"><option value="pop">doporučené</option><option value="price"{" selected" if order == "price" else ""}>nejlevnější</option>'
                 f'<option value="pricedesc">nejdražší</option><option value="sale">největší sleva</option></select></label></div>'
-                f'<ul class="grid grid--list" id="plist" data-json="{json_url}" data-page="{cur}" data-order="{order}">{"".join(self.card(p, lazy=i > 3) for i, p in enumerate(chunk))}</ul>'
-                f'{pager_html(path, cur, pages) if path else ""}</div></div>')
+                f'<ul class="grid grid--list" id="plist" data-json="{json_url}" data-page="{cur}" data-per="{PER_PAGE}" data-order="{order}">{"".join(self.card(p, lazy=i > 3) for i, p in enumerate(chunk))}</ul>'
+                f'{pager_html(path, cur, pages, n, PER_PAGE) if path else ""}</div></div>')
 
     @staticmethod
     def quick_caps(items):

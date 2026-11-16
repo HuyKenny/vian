@@ -123,7 +123,7 @@ SUBS = [
     ("botnik-s-lavici", "Botníky se sedákem", "botniky", "Botníky se sedákem a lavicí", r"lavic|sedak|sedadl|sedac|s polstrem"),
     ("uzke-botniky", "Úzké botníky", "botniky", "Úzké botníky", r"uzk|\bslim\b|vyklopn"),
     ("vesak-na-obleceni", "Stojanové věšáky", "vesaky", "Stojanové věšáky na oblečení", r"stojan|stojac|na kolecka|\bvesak\w* (na )?(obleceni|saty|kabat)|garnyz"),
-    ("nastenny-vesak", "Nástěnné věšáky", "vesaky", "Nástěnné věšáky", r"nastenn|na zed|vesakov\w* (panel|lista|stena)|na dvere"),
+    ("nastenny-vesak", "Nástěnné věšáky", "vesaky", "Věšáky na zeď a nástěnné věšáky", r"nastenn|na zed|vesakov\w* (panel|lista|stena)|na dvere"),
     ("zavesne-tv-stolky", "Závěsné TV stolky", "tv-stolky", "Závěsné TV stolky", r"zavesn|na zed|plovouc"),
     ("rohove-psaci-stoly", "Rohové psací stoly", "psaci-stoly", "Rohové psací stoly", r"rohov|tvaru l\b|\bl stul"),
     ("kancelarske-kreslo", "Kancelářská křesla", "kancelarske-zidle", "Kancelářská a manažerská křesla", r"kresl|manazer|reditel|director|executive|boss"),
@@ -141,7 +141,7 @@ SUBS = [
     ("stropni-ventilatory", "Stropní ventilátory", "stropni-svitidla", "Stropní ventilátory se světlem", r"ventilator"),
     ("stmivatelna-svitidla", "Stmívatelná svítidla", "stropni-svitidla", "Stmívatelná stropní svítidla s ovladačem", r"stmiv|dalkov\w* ovlad|s ovladac|ovladacem|smart|wifi|wi-fi|chytr"),
     ("lampicky-na-psaci-stul", "Lampy na psací stůl", "stolni-lampy", "Lampy na psací stůl", r"psac|kancelar|pracovn|architekt|studij|s klipem|na stul s"),
-    ("lampicka-k-posteli", "Noční lampičky", "stolni-lampy", "Noční lampičky k posteli", r"nocn|k posteli|lozni|ke posteli"),
+    ("lampicka-k-posteli", "Noční lampičky", "stolni-lampy", "Noční lampičky k posteli a na noční stolek", r"nocn|k posteli|lozni|ke posteli"),
     ("obloukove-lampy", "Obloukové lampy", "stojaci-lampy", "Obloukové stojací lampy", r"oblouk"),
     ("solarni-svitidla", "Solární svítidla", "venkovni-svitidla", "Solární svítidla", r"solar"),
     ("svitidla-s-cidlem", "Svítidla s čidlem", "venkovni-svitidla", "Venkovní svítidla s pohybovým čidlem", r"cidl|senzor|pohyb"),
@@ -237,8 +237,8 @@ SUBS = [
     ("lisy-na-cesnek", "Lisy na česnek", "kuchynske-nacini", "Lisy na česnek", r"lis\w* na cesnek|cesnekov"),   # 2 100
     ("vyvrtky", "Vývrtky", "kuchynske-nacini", "Vývrtky a otvíráky na víno", r"vyvrtk|otvirak\w* (na )?vin"),
     ("kolotoce-nad-postylku", "Kolotoče nad postýlku", "detske-postylky", "Kolotoče nad postýlku", r"kolotoc|\bmobil\w* nad|nad postyl"),   # 3 400
-    ("krmitka-pro-ptaky", "Krmítka a budky pro ptáky", "zahradni-dekorace", "Krmítka a budky pro ptáky", r"krmitk|budk\w* (pro|na) ptak|ptac\w* budk|pitk\w* pro ptak|hmyz\w* hotel"),   # 3 200
-    ("ohradky-pro-deti", "Ohrádky a zábrany", "pro-miminka", "Dětské ohrádky a zábrany", r"ohradk|zabran"),   # 2 100
+    ("krmitka-pro-ptaky", "Krmítka a budky pro ptáky", "zahradni-dekorace", "Krmítka, pítka a budky pro ptáky", r"krmitk|budk\w* (pro|na) ptak|ptac\w* budk|pitk\w* pro ptak|hmyz\w* hotel"),   # 3 200
+    ("ohradky-pro-deti", "Ohrádky a zábrany", "pro-miminka", "Ohrádky pro miminka a dětské zábrany", r"ohradk|zabran"),   # 2 100
     ("plastove-boxy", "Plastové boxy", "ulozne-boxy-a-kose", "Plastové úložné boxy", r"plastov\w* (box|krabic|bedn|ulozn|kontejner)|box\w* plastov|\bpp box"),   # 2 200
     ("sperkovnice", "Šperkovnice", "ulozne-boxy-a-kose", "Šperkovnice a stojany na šperky", r"sperk"),   # 5 700 + 560
     ("kosmeticke-zrcadlo", "Kosmetická zrcátka", "zrcadla", "Kosmetická zrcátka", r"kosmetick|zrcatk|make ?up|zvetsovac|lic\w* zrcad"),   # 2 400 + 1 600

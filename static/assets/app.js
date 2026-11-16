@@ -125,7 +125,8 @@
   }
   var list = $("#plist"), form = $("#filters");
   if (list && form) {
-    var data = null, shown = 36, sortSel = $("#sort"), count = $("#count"), pager = $(".pager"), chipsBox = $("#factive"), shade = $(".fshade");
+    var PER = +((document.getElementById("plist") || {}).dataset || {}).per || 30;
+    var data = null, shown = PER, sortSel = $("#sort"), count = $("#count"), pager = $(".pager"), chipsBox = $("#factive"), shade = $(".fshade");
     var RANGES = [["p", "Cena", "Kč"], ["w", "Šířka", "cm"], ["h", "Výška", "cm"], ["d", "Hloubka", "cm"]];
     var LISTS = ["brand", "shop", "colors", "mats", "styles", "feats", "size", "shape", "seats", "fx"];
     var num = function (n) { var el = form.elements[n]; return el ? (+el.value || 0) : 0; };
@@ -183,7 +184,7 @@
         var more = $("#lmore");
         if (items.length > shown) {
           if (!more) { more = document.createElement("p"); more.id = "lmore"; more.style.textAlign = "center"; more.innerHTML = '<button class="btn btn--g" type="button">Načíst další</button>'; list.after(more); }
-          more.firstChild.onclick = function () { shown += 36; apply(); };
+          more.firstChild.onclick = function () { shown += PER; apply(); };
         } else if (more) more.remove();
       });
     };
@@ -214,16 +215,16 @@
       if (b.dataset.all) { form.reset(); }
       else if (b.dataset.r) { form.elements[b.dataset.r + "min"].value = ""; form.elements[b.dataset.r + "max"].value = ""; }
       else { var p = b.dataset.c.split("|"); $$('input[name="' + p[0] + '"]', form).forEach(function (c) { if (c.value === p.slice(1).join("|")) c.checked = false; }); }
-      shown = 36; apply();
+      shown = PER; apply();
     });
-    form.addEventListener("change", function () { shown = 36; apply(); });
+    form.addEventListener("change", function () { shown = PER; apply(); });
     var wt;
-    $$("input[type=number]", form).forEach(function (i) { i.addEventListener("input", function () { clearTimeout(wt); wt = setTimeout(function () { shown = 36; apply(); }, 350); }); });
-    sortSel && sortSel.addEventListener("change", function () { shown = 36; apply(); });
+    $$("input[type=number]", form).forEach(function (i) { i.addEventListener("input", function () { clearTimeout(wt); wt = setTimeout(function () { shown = PER; apply(); }, 350); }); });
+    sortSel && sortSel.addEventListener("change", function () { shown = PER; apply(); });
     $$(".fquick button", form).forEach(function (b) {
-      b.addEventListener("click", function () { form.pmax.value = b.classList.contains("on") ? "" : b.dataset.pmax; $$(".fquick button", form).forEach(function (x) { x.classList.toggle("on", x === b && form.pmax.value); }); shown = 36; apply(); });
+      b.addEventListener("click", function () { form.pmax.value = b.classList.contains("on") ? "" : b.dataset.pmax; $$(".fquick button", form).forEach(function (x) { x.classList.toggle("on", x === b && form.pmax.value); }); shown = PER; apply(); });
     });
-    $$(".freset", form).forEach(function (r) { r.addEventListener("click", function () { form.reset(); shown = 36; apply(); }); });
+    $$(".freset", form).forEach(function (r) { r.addEventListener("click", function () { form.reset(); shown = PER; apply(); }); });
     $$(".fsearch", form).forEach(function (fs) {
       fs.addEventListener("input", function () { var w = fold(fs.value); $$(".flinks label", fs.parentNode).forEach(function (l) { l.style.display = fold(l.textContent).indexOf(w) >= 0 ? "" : "none"; }); });
     });

@@ -655,11 +655,37 @@ def room_page(S, room, items, subs, jsn):
     lo, med, hi = price_stats(items)
     n = len(items)
     title = f"{h1} – srovnání cen z {S.stats['shops']} obchodů" + SUFFIX
-    desc = f"{h1}: {blurb.lower()}. {n} kusů z českých e‑shopů, ceny od {R.kc(lo)}. Porovnejte rozměry a ceny na jednom místě."
+    desc = f"{h1}: {blurb.lower()}. {about(n)} kusů z českých e‑shopů na jednom místě ✓ ceny od {R.kc(lo)} ✓ ceny ověřujeme každou noc."
     tiles = S.tiles([(k, cat_name(k), len(ps)) for k, ps in sorted(subs, key=lambda x: -len(x[1]))])
-    lead = f"{blurb}. {n} {R.plural(n, 'kus', 'kusy', 'kusů')} z {len({o['shop'] for p in items for o in p['offers']})} obchodů, ceny od {R.kc(lo)}."
+    lead = f"{blurb}. {n} {R.plural(n, 'kus', 'kusy', 'kusů')} z {len({o['shop'] for p in items for o in p['offers']})} obchodů, ceny od {R.kc(lo)}. {fresh()}"
     body, lds = listing_body(S, f"/{room}/", E(h1), lead, items, jsn, X.ICON[room], texts_key=f"room:{room}", extra=tiles)
     return S.layout(f"/{room}/", title, desc, body, crumbs=[HOME, (name, f"/{room}/")], jsonld=lds, full=True)
+
+
+def about(n):
+    """A count that does not change the title every night: 3 417 -> "3 400+", 87 -> "80+", 12 -> "12"."""
+    if n < 20:
+        return str(n)
+    step = 100 if n >= 1000 else 10
+    return f"{n // step * step:,}".replace(",", "\u00a0") + "+"
+
+
+def category_title(h1, n, lo):
+    """'Komody a prádelníky – 3 400+ kusů od 932 Kč | Vian' (16. 11. 2026: the phrase first, then what the page offers;
+    a count and a price make the result stand out next to 'Komody | FAVI.cz'). Falls back to a shorter form past ~65 chars."""
+    t = f"{h1} – {about(n)} {R.plural(n, 'kus', 'kusy', 'kusů')} od {R.kc(lo)}"
+    if len(t + SUFFIX) > 66:
+        t = f"{h1} – ceny od {R.kc(lo)}"
+    return t + SUFFIX
+
+
+def category_desc(h1, n, shops, lo):
+    return (f"{h1} z {shops} {R.plural(shops, 'českého e‑shopu', 'českých e‑shopů', 'českých e‑shopů')} na jednom místě ✓ ceny od {R.kc(lo)} "
+            f"✓ filtr podle rozměrů, barvy a materiálu ✓ ceny ověřujeme každou noc.")
+
+
+def fresh():
+    return f"Ceny jsme naposledy ověřili {TODAY.day}. {TODAY.month}."
 
 
 def category_page(S, k, items, jsn):
@@ -667,15 +693,16 @@ def category_page(S, k, items, jsn):
     name, room, h1 = (SC.SUBCATS[k][0], X.CATS[parent][1], SC.SUBCATS[k][2]) if parent else (X.CATS[k][0], X.CATS[k][1], X.CATS[k][2])
     lo, med, hi = price_stats(items)
     n = len(items)
-    title = f"{h1} – srovnání cen od {R.kc(lo)}" + SUFFIX
-    desc = f"{h1}: {n} {R.plural(n, 'kus', 'kusy', 'kusů')} z {len({o['shop'] for p in items for o in p['offers']})} českých e‑shopů, ceny od {R.kc(lo)}. Filtr podle rozměrů, barvy a materiálu."
+    shops = len({o['shop'] for p in items for o in p['offers']})
+    title = category_title(h1, n, lo)
+    desc = category_desc(h1, n, shops, lo)
     if parent:      # a subcategory: the other subcategories of its category
         sibs = [(c, cat_name(c), len(S.ctx["by_cat"][c])) for c in S.subs_of[parent] if c != k]
     elif S.subs_of.get(k):      # a category with subcategories: those first (Favi-style), like a shop's category tree
         sibs = [(c, cat_name(c), len(S.ctx["by_cat"][c])) for c in S.subs_of[k]]
     else:
         sibs = [(c, cat_name(c), len(S.ctx["by_cat"][c])) for c in X.CATS if X.CATS[c][1] == room and c != k and c in S.cat_ok]
-    lead = f"{n} {R.plural(n, 'kus', 'kusy', 'kusů')} skladem, ceny od {R.kc(lo)} do {R.kc(hi)}. Polovina stojí méně než {R.kc(med)}."
+    lead = f"{n} {R.plural(n, 'kus', 'kusy', 'kusů')} skladem, ceny od {R.kc(lo)} do {R.kc(hi)}. Polovina stojí méně než {R.kc(med)}. {fresh()}"
     body, lds = listing_body(S, f"/{k}/", E(h1), lead, items, jsn, X.ICON[k], texts_key=f"cat:{k}", links=[], links_label="Upřesnit",
                              extra=S.tiles(sibs))
     return S.layout(f"/{k}/", title, desc, body, crumbs=crumbs_for(k), jsonld=lds, full=True)
