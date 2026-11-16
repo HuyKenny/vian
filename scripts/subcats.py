@@ -249,6 +249,43 @@ SUBS = [
     ("rozkladaci-postele", "Rozkládací postele", "postele", "Rozkládací a skládací postele", r"rozklad|skladac\w* (postel|lozk)|pristylk|hostovsk|pro hosty"),   # 7 000
     ("servirovaci-voziky", "Servírovací vozíky", "servirovaci-stolky", "Servírovací a kuchyňské vozíky", r"vozik|na kolecka|pojizdn"),   # 540 + 390
     ("kartoteky", "Kartotéky", "kancelarske-skrine", "Kartotéky a kontejnery pod stůl", r"kartotek|kontejner|pojizdn\w* (skrin|box)|zasuvkov\w* (box|skrink)"),   # 630 + 390
+    # ------------------------------------------------------------ round 4 (16. 11. 2026, reports/vian/content-gap-kolo4-2026-11.md)
+    ("vanicky-pro-miminka", "Vaničky pro miminka", "pro-miminka", "Vaničky pro miminka", r"vanick"),   # 4 300 + 3 700 + 720
+    ("lehatka-a-houpatka", "Lehátka a houpátka", "pro-miminka", "Lehátka a houpátka pro miminka", r"lehatk|houpatk|houpack|houpac\w* (sitk|kresilk)"),   # 3 400 + 3 300 + 1 600
+    ("hnizdecka", "Hnízdečka", "pro-miminka", "Hnízdečka pro miminka", r"hnizdeck|kokon"),   # 2 600
+    ("spaci-pytle", "Spací pytle", "pro-miminka", "Spací pytle pro miminka", r"spaci (pytel|pytl|vak)"),   # 2 400
+    ("koupelnove-police", "Poličky do koupelny", "police", "Poličky do koupelny", r"(do|pro|na) koupeln|koupelnov|do sprch|sprchov|bez vrtan"),   # 3 300 + 2 500 + 2 200 + 1 600
+    ("lavice-s-uloznym-prostorem", "Lavice s úložným prostorem", "lavice", "Lavice s úložným prostorem", r"uloz|s truhl|s box|s kosem|s kosi|s vik"),   # 2 800
+    ("presypaci-hodiny", "Přesýpací hodiny", "hodiny", "Přesýpací hodiny", r"presypac"),   # 2 300 + 1 500
+    ("obaly-na-kvetinace", "Obaly na květináče", "kvetinace", "Obaly na květináče", r"\bobal\w* na kvetinac|kvetinac\w* obal|\bcachepot"),   # 1 200
+    ("led-zrcadla", "Zrcadla s osvětlením", "koupelnova-zrcadla", "Zrcadla s LED osvětlením", r"\bled\b|osvetl|podsvic|se svetl|s svetl"),   # 1 300 + 1 900
+    ("protiskluzove-podlozky", "Protiskluzové podložky", "koupelnove-doplnky", "Protiskluzové podložky do vany a sprchy", r"protiskluz|podlozk\w* (do|na) (van|sprch)"),   # 2 000 + 1 070
+    ("stolky-do-postele", "Stolky do postele", "odkladaci-stolky", "Stolky do postele a na notebook", r"postel|snidan|notebook|laptop"),   # 1 200 + 1 100
+    ("struhadla", "Struhadla a kráječe", "kuchynske-nacini", "Struhadla, kráječe a mandolíny", r"struhadl|krajec|mandolin|spiraliz"),   # 24 600
+    ("valecky-na-testo", "Válečky na těsto", "kuchynske-nacini", "Válečky na těsto", r"valec\w* (na|k) test|\bvalecek\b"),   # 3 100
+    ("stojany-na-noze", "Stojany na nože", "kuchynske-doplnky", "Stojany a bloky na nože", r"(stojan|blok|drzak)\w* (na|pro) noz|magnetick\w* (list|drzak|tyc)|nozov\w* blok|\bblok na noz"),   # 6 400
+    ("zastery", "Zástěry", "kuchynsky-textil", "Kuchyňské zástěry", r"zaster"),   # 19 300
+    ("chnapky", "Chňapky", "kuchynsky-textil", "Chňapky a kuchyňské rukavice", r"chnapk|rukavic|podlozk\w* pod (hrnec|horke)"),
+    ("zavinovacky", "Zavinovačky", "detsky-textil", "Zavinovačky pro miminka", r"zavinov"),   # 18 700
+    ("prebalovaci-podlozky", "Přebalovací podložky", "pro-miminka", "Přebalovací podložky", r"prebalov\w* podlozk|podlozk\w* (na|k) prebal"),   # 14 100
+    ("party-stany", "Party stany", "pergoly-a-altany", "Party stany a zahradní pavilony", r"party|nuzkov\w* stan|skladac\w* stan|pavilon|\bstan\b|\bstany\b"),   # 21 900
+    ("zahradni-fontany", "Zahradní fontány", "zahradni-dekorace", "Zahradní a pokojové fontány", r"fontan|kaskad|vodn\w* prvek"),   # 7 300
+    ("zahradni-trpaslici", "Zahradní trpaslíci", "zahradni-dekorace", "Zahradní trpaslíci", r"trpasl"),   # 1 400
+    ("etazery", "Etažéry", "tacy-a-podnosy", "Etažéry", r"etazer|patrov\w* (podnos|tac|misa)"),   # 3 100
+    ("zapekaci-misy", "Zapékací mísy", "pekace-a-formy", "Zapékací mísy", r"zapekac|na zapekani"),   # 3 300
+    ("magneticke-tabule", "Magnetické tabule", "nastenky-a-tabule", "Magnetické tabule", r"magnetick|bil\w* tabul|whiteboard"),   # 12 800
+    ("cajove-konvice", "Konvice na čaj", "hrnky-a-salky", "Konvice na čaj a čajníky", r"konvic\w* (na|pro) caj|cajov\w* konvic|cajnik|\bkonvick\w* na caj"),   # 14 600
+    ("french-press", "French press a moka konvičky", "hrnky-a-salky", "French press a moka konvičky", r"french ?press|moka (konvic|kavovar|pot)|bialetti (moka|venus|brikka|musa|kitty|express)|presov\w* konvic|konvic\w* na kav|kavov\w* konvic"),   # 14 900
+    ("vonne-tycinky", "Vonné tyčinky", "difuzery-a-vune", "Vonné tyčinky", r"tycink|\bvonn\w* (tyc|kuzel)|\bkadidl"),   # 6 000
+    ("solne-lampy", "Solné lampy", "dekoracni-osvetleni", "Solné lampy", r"soln\w* lamp|\bsolna\b|himalaj"),   # 4 000
+    ("led-neony", "LED neony", "dekoracni-osvetleni", "LED neony a světelné cedule", r"neon|svetel\w* cedul"),   # 800 + 400
+    ("susene-kvetiny", "Sušené květiny", "umele-kvetiny", "Sušené květiny a pampová tráva", r"susen|pampov"),   # 3 000 + 2 400
+    ("krbove-prislusenstvi", "Krbové příslušenství", "biokrby", "Krbové nářadí, koše a stojany na dřevo", r"stojan\w* na drev|kos\w* na drev|krbov\w* (narad|sada|kos|zasten|mriz|rukavic|kleste|lopat)|\bdrevnik|\bnarad\w* ke krbu"),   # 3 400 + koš na dřevo
+    ("lapace-snu", "Lapače snů", "nastenne-dekorace", "Lapače snů", r"lapac\w* snu"),   # 4 400
+    ("remosky", "Remosky", "drobne-kuchynske-spotrebice", "Remosky", r"remosk|elektrick\w* pekac"),   # 16 000
+    ("fondue-a-raclette", "Fondue a raclette", "drobne-kuchynske-spotrebice", "Fondue a raclette", r"fondue|raclett"),   # 3 400
+    ("maslenky", "Máslenky", "skladovani-potravin", "Máslenky", r"maslenk|doz\w* na maslo"),   # 4 800
+    ("solnicky-a-mlynky", "Solničky a mlýnky na koření", "skladovani-potravin", "Solničky, pepřenky a mlýnky na koření", r"solnick|peprenk|mlyn\w* na (pepr|sul|koreni)|korenk|korenick|stojan\w* na koren"),   # 2 200 + mlýnky
 ]
 
 # older family landings (scripts/landings.py) that the subcategory replaces: once the subcategory is public, the landing is
@@ -284,6 +321,8 @@ ACCESSORY = re.compile(r"^(\w+ ){0,2}?(ochrann\w* )?(obal|kryt|plachta|nahradn\w
                        r"brikety|vune|naplne?|filtr\w*|kolecka|nozicky|nozky|podsalek|sada naradi|prislusenstvi|"
                        r"cistic\w*|odvapnovac\w*|kapsle|sacky?|hadice k vysav)\b")
 
+ACCESSORY_OK = re.compile(r"^(\w+ ){0,2}?obal\w* na kvetinac")   # a pot cover is a product of its own (subcategory obaly-na-kvetinace)
+
 
 def sub_of(p):
     """The subcategory of a product, or None. Only rules of its own category are tried; the first that matches wins."""
@@ -291,7 +330,7 @@ def sub_of(p):
     if not rules:
         return None
     name = fold(clean(p.get("name"))).replace("-", " ")
-    if ACCESSORY.search(name):
+    if ACCESSORY.search(name) and not ACCESSORY_OK.search(name):
         return None
     for slug, rx in rules:
         if rx.search(name):

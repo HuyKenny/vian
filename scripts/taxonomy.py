@@ -248,6 +248,8 @@ CATS = {
     "patrove-postele": ("Patrové postele", "detsky-pokoj", "Patrové postele a palandy", "detsky-pokoj"),
     # content gap round 3 (16. 11. 2026, MM: Favi/Biano/Sconto/JYSK/XXXLutz/Bonami/Siko gap + search volume)
     "ucici-veze": ("Učící věže", "detsky-pokoj", "Učící věže Montessori", "detsky-pokoj"),          # 3 100/měs.
+    "detska-hriste": ("Dětská hřiště", "zahrada", "Dětská hřiště, skluzavky a prolézačky na zahradu", "zahrada"),   # round 4: 12 000 + 7 700 + 2 000
+    "kryty-na-radiatory": ("Kryty na radiátory", "obyvaci-pokoj", "Kryty na radiátory", "komoda"),   # round 4: 1 100 + 470 + 410
     "postovni-schranky": ("Poštovní schránky", "zahrada", "Poštovní schránky", "zahrada"),           # 9 300/měs.
     "meteostanice": ("Meteostanice a teploměry", "domacnost", "Meteostanice a teploměry", "komoda"),  # 11 000 + 1 700/měs.
     "site-proti-hmyzu": ("Sítě proti hmyzu", "domacnost", "Sítě proti hmyzu do oken a dveří", "komoda"),  # 4 500/měs.
@@ -370,6 +372,24 @@ TITLE_RULES = [
     ("popelnice", R(r"\bpopelnic|kontejner\w* na (odpad|smeti)|odpadov\w* nadob\w* \d{3}|nadob\w* na odpad \d{3}")),
     ("site-proti-hmyzu", R(r"sit\w* proti (hmyz|komar|much)|^(\w+ ){0,2}moskytier|okenn\w* sit|dvern\w* sit|(sitov|hmyzov)\w* (dver|ramec|zaves)|rolet\w* proti hmyz")),
     ("ucici-veze", R(r"ucic\w* vez|learning tower|montessori (vez|stolick|schudk)|pomocnik do kuchyne pro deti|kuchynsk\w* pomocnik pro deti")),
+    # round 4 (16. 11. 2026): searched home goods the rules did not know (reports/vian/content-gap-kolo4-2026-11.md)
+    ("detska-hriste", R(r"^(?!.*\b(hrack\w*|figurk\w*|model\w*|stavebnic\w*|lego|playmobil|puzzle)\b).*(detsk\w* (hrist|prolezack|skluzavk)|\bhrist\w* (pro deti|na zahrad)|\bprolezack|\bskluzavk|\bpiskovist)")),
+    ("kryty-na-radiatory", R(r"kryt\w* (na |pro )?(radiator|topen|topn\w* telesa)|radiatorov\w* kryt|zakryt\w* radiator")),
+    ("kuchynske-nacini", R(r"teplomer\w* (na maso|do masa|do trouby|kuchynsk|na grilov|na peceni)|vpichov\w* teplomer")),
+    ("meteostanice", R(r"\bbarometr|^(\w+ ){0,1}teplomer(?!\w* (na maso|do masa|do trouby|kuchynsk|lekarsk|bezkontakt|do ucha|na celo|ušn|do vody|pro miminka|do vany))")),
+    ("drobne-kuchynske-spotrebice", R(r"\bremosk|\bfondue|\braclett")),
+    ("nastenne-dekorace", R(r"^(?!.*\b(skol\w*|batoh\w*|penal\w*|aktovk\w*|tric\w*|nausnic\w*|privesk\w*|retizk\w*|naramk\w*|puzzle|omalovank\w*|kniha|tetovac\w*)\b).*(lapac\w* snu|mapa sveta|nastenn\w* map[ay]\b)")),
+    ("dekoracni-osvetleni", R(r"\bled neon|\bneon\w* (napis|cedul|svetl|led)|svetel\w* cedul|\bsoln\w* lamp")),
+    ("skladovani-potravin", R(r"\bmaslenk|\bsolnick|\bpeprenk|mlyn\w* na (pepr|sul|koreni)|\bkorenk|\bkorenick")),
+    ("ulozne-boxy-a-kose", R(r"krabic\w* s vik|stojan\w* na sperk")),
+    ("zahradni-dekorace", R(r"pitk\w* (pro|na) ptak|ptac\w* pitk|hmyz\w* (hotel|domek)|zahradn\w* fontan|\bfontan|zahradn\w* trpasl|\btrpaslik")),
+    ("sosky-a-doplnky", R(r"\bpopelnik")),
+    ("biokrby", R(r"stojan\w* na drev|\bdrevnik\w* (ke krbu|do interier|na drev)")),
+    ("umele-kvetiny", R(r"pampov\w* trav|susen\w* (kvetin|kytic|trav|levandul|hortenz|ruz)")),
+    ("vanocni-dekorace", R(r"\bsnezitk")),
+    ("koupelnove-doplnky", R(r"\bmydlenk")),
+    ("servirovaci-stolky", R(r"kuchyn\w* vozik|servirovac\w* vozik")),
+    ("hrnky-a-salky", R(r"\bcajnik|konvic\w* na caj|moka konvic")),
     ("patrove-postele", R(r"\bpaland|patrov\w* (postel|lozk)|vyvysen\w* postel|postel (s|se) (pracovnim )?stolem pod")),
     ("detske-postylky", R(r"detsk\w* postyl\w*|\bpostylk|\bpostylka|kolebk|kolisk|\bpostyl\b")),
     ("prebalovaci-pulty", R(r"prebalovac\w* (pult|komod|stul|stolek|nastavec|pultik|desk|skrin)")),
@@ -400,7 +420,7 @@ TITLE_RULES = [
     ("trouby-a-varne-desky", R(r"(vestavn\w* |horkovzdusn\w* |elektrick\w* |parni )?\btroub[ay]\b|varn\w* desk|indukcn\w* desk|sklokeramick\w* desk|\bsporak\b|plynov\w* desk|kombinovan\w* sporak")),
     # v2 categories (12. 11. 2026)
     ("police", R(r"\bpolic[eiy]?\b|nastenn\w* polic|\bpolick|\bpolicka")),
-    ("odkladaci-stolky", R(r"(odkladac|prirucn|kavov|sofa|boc)\w* (stolek|stolk|stol|stul)")),
+    ("odkladaci-stolky", R(r"(odkladac|prirucn|kavov|sofa|boc)\w* (stolek|stolk|stol|stul)|\bstol(ek|ky|ik)\w* (do|na|k|ke) postel|postelov\w* stol")),
     # brackets are not console tables: shelf brackets -> hardware, washbasin/countertop supports -> bathroom accessories
     ("kliky-a-kovani", R(r"\bkonzol\w* (na|pro|pod) polic|\bpolicov\w* konzol|\bnastenn\w* konzol(?!ov\w* stol)")),
     ("koupelnove-doplnky", R(r"\b(podpern|nosn|skryt)\w* (podpern\w* )?konzol|\bkonzol\w* (pro|pod|k|na) (desk|umyvad)")),
@@ -423,7 +443,7 @@ TITLE_RULES = [
     ("umyvadla", R(r"umyvadl(o|a|el|u)?\b(?! ?(se|s) skrin)|umyvatk|keramick\w* umyvadl|umyvadlov\w* misa|\bmisa na desku|\bdrez do koupeln")),
     ("vany", R(r"\bvan[ay]\b|\bvanu\b|akrylatov\w* van|volne stojic\w* van|rohov\w* van|asymetrick\w* van|obdelnikov\w* van|hydromasazn\w* van")),
     ("sprchove-kouty", R(r"sprchov\w* (kout|zasten|dver|stena|sten|box|kabin)|walk.?in|vanov\w* zasten|zasten\w* (na|k) van")),
-    ("sprchove-vanicky", R(r"sprchov\w* (vanick|zlab)|\bvanick|odtokov\w* zlab|podlahov\w* zlab|\bzlab\w* (do sprch|sprchov)")),
+    ("sprchove-vanicky", R(r"sprchov\w* (vanick|zlab)|\bvanick(?!\w* (pro|na koupani)\b)|odtokov\w* zlab|podlahov\w* zlab|\bzlab\w* (do sprch|sprchov)")),
     ("wc-a-bidety", R(r"\bwc\b(?! ?(kartac|stetk|drzak|papir|dopln|souprav|kos|osvezov|cistic|blok|predlozk|kobere|sada))|zachod|zavesn\w* wc|kombi ?wc|\bbidet|pisoar|\bklozet|instalacn\w* (modul|system)|predstenov|splachov\w* (tlacitk|nadrz)|\bsedatk|wc prkenk")),
     ("vodovodni-baterie", R(r"(vodovodn|umyvadlov|sprchov|vanov|stojankov|nastenn|termostatick|pakov|podomitkov|bidetov|panelakov|kohoutkov)\w* (\w+ ){0,2}bateri|bateri\w* (umyvadl|sprch|van|stojank|nastenn|bidet)")),
     ("sprchove-sety", R(r"sprchov\w* (set|sestav|hlavic|souprav|sloup|panel|hadic|tyc|ruzic|system)|hlavov\w* sprch|ruc\w* sprch|dest\w* sprch|\bsprcha\b|\bsprchy\b")),
@@ -461,7 +481,7 @@ TITLE_RULES = [
     ("led-pasky", R(r"led pas|svetel\w* pas|\bpasek led|led strip|led profil|hlinikov\w* profil|\bled pásk|profil pro led|napajec\w* (zdroj|pro led)|led zdroj")),
     ("led-panely", R(r"led panel")),
     ("zarovky", R(r"zarovk|zarivk|\bled zdroj|\bled trubic|\be27\b|\be14\b|\bgu10\b|\bmr16\b|\bg9\b|filament")),
-    ("koupelnova-svitidla", R(r"koupelnov\w* (svitid|svetl|lamp|led)|svitidl\w* (do|nad) koupeln|svetl\w* (nad|k) zrcadl|osvetleni zrcadl")),
+    ("koupelnova-svitidla", R(r"koupelnov\w* (svitid|svetl|lamp|led)|svitidl\w* (do|nad) koupeln|svetl\w* (nad|k) zrcadl|osvetleni zrcadl|svetl\w* (do|nad|pro) koupeln|(lamp|svitidl)\w* nad zrcadl")),
     ("stinidla", R(r"\bstinidl|\bpaplat")),
     ("prosteradla", R(r"prosteradl|napinac\w* prost|jersey prost|frote prost")),
     ("rolety-a-zaluzie", R(r"zaluzi|\brolet|\bplise|\bpliss|den.?noc rolet|textiln\w* rolet|okenn\w* (stineni|rolet)|\bmarkyzet")),
@@ -502,7 +522,8 @@ TITLE_RULES = [
     ("susaky-na-pradlo", R(r"susak\w* (na pradlo|pradla|na balkon|na radiator|nastenn|stropn|vezov|stojanov|kridl|venkovn|zahradn)|susic\w* (na pradlo)|\bsusak\b(?!.*(nadob|rucnik|bot|vlas))|\bkolicky na pradlo|\bsnura na pradlo")),
     ("zehlici-prkna", R(r"zehlic\w* prkn|potah\w* na zehlic|\bzehlic\w* (desk|podlozk)")),
     ("uklidove-pomucky", R(r"\bmop\b|\bmopy\b|\bmopu\b|\bkbelik|\bsmetak|\blopatk|\bkoste\b|\bkostet|uklidov\w* (sad|voz|pomuck|souprav|hadr|uterk)|\bhadr(y|u|ik|iky)?\b(?! ?kobere)|\bprachovk|sterk\w* na okn|\bstěrk|mikrovlakn\w* (uterk|hadr)|\bhoub[ay] na nadobi|\bstetk\w* na (nadobi|lahv)")),
-    ("pro-miminka", R(r"prebalovac\w* (pult|komod|podlozk|stul|nastavec|pultik|desk)|\bohradk|\bmiminko\b|pro miminka|pro novorozen|zabran\w* (na schod|ke schod|do dveri|na postel)|detsk\w* zabran|\bhrazdic|zabranka na postel|\bbaby box")),
+    ("pro-miminka", R(r"prebalovac\w* (pult|komod|podlozk|stul|nastavec|pultik|desk)|\bohradk|\bmiminko\b|pro miminka|pro novorozen|zabran\w* (na schod|ke schod|do dveri|na postel)|detsk\w* zabran|\bhrazdic|zabranka na postel|\bbaby box"
+                      r"|(detsk\w* |skladac\w* )vanick|vanick\w* (pro|na koupani)\b|lehatk\w* pro (mimin|novoroz|kojen|deti)|\bhoupatk|\bhnizdeck|spaci (pytel|pytl|vak)")),   # round 4: baby baths, bouncers, nests
     ("detska-svitidla", R(r"detsk\w* (lamp|svitid|svetl|lampick|nocn\w* svetl|stropn|lustr)|nocni svetylko|\bnocni svetlo|svitidl\w* (do|pro) detsk")),
     ("detske-koberce", R(r"detsk\w* (koberec|kobere|koberc|predlozk)|koberec (do detsk|pro deti|hraci)|hraci (koberec|podlozk)|penov\w* (puzzle )?podlozk")),
     ("domecky-a-teepee", R(r"\bteepee|\btipi\b|detsk\w* (domek|domecek|stan|stanek)|domek pro deti|domecek pro deti|hraci (domek|domecek|stan)|zahradn\w* domecek pro deti|\bpiskoviste")),
@@ -537,7 +558,7 @@ TITLE_RULES = [
     # garden (before chairs/tables/sofas)
     ("houpaci-kresla", R(r"houpac\w* kresl|zavesn\w* kresl|kresl\w* (houpac|zavesn)|houpaci kreslo|\bhoupak\w* kresl")),
     ("houpacky-a-site", R(r"houpac\w* (sit|lehatk)|zahradn\w* houpac|zavesn\w* houpac|\bhoupacka")),
-    ("lehatka", R(r"lehatk|zahradn\w* (lehatk|lehatko)|\bsezlong\w* zahrad")),
+    ("lehatka", R(r"lehatk(?!\w* pro (mimin|novoroz|kojen|deti))|zahradn\w* (lehatk|lehatko)|\bsezlong\w* zahrad")),
     ("zahradni-sestavy", R(r"zahradn\w* (sestav|souprav|\bset\b|lounge|sedack|sedaci|nabytek)|ratanov\w* (sestav|souprav|set|nabytek)|balkonov\w* (set|sestav|souprav)|lounge (set|sestav)|venkovn\w* (sedac|sestav)")),
     ("zahradni-stoly", R(r"(zahradn|balkonov|venkovn|kempinkov)\w* (stul|stol\b|stolek|stolk)")),
     ("zahradni-zidle", R(r"(zahradn|balkonov|venkovn|kempinkov|ratanov)\w* (zidl|kresl|lavic)|skladac\w* zahradn|adirondack")),
@@ -567,7 +588,7 @@ TITLE_RULES = [
     ("predsinove-steny", R(r"predsin|predsinov")),
     # bathroom
     ("koupelnove-skrinky", R(r"desk\w* pod umyvadl|koupelnov\w* (skrin|skrink|sestav|nabytek|regal|polic|komod|galerk)|skrink\w* pod umyvadl|skrin\w* pod umyvadl|\bgalerk|umyvadl\w* se skrink|(skrinka|skrin) (do|v) koupeln")),
-    ("koupelnove-doplnky", R(r"davkovac mydl|drzak (na kartack|na rucnik|toaletn|na wc|na papir)|mydelnic|stetka|koupelnov\w* (doplnk|sada|set)|kelimek na (zubni )?kartac|pohar\w* na (zubni )?kartac|drzak\w* na (zubni )?kartac|davkovac\w* (mydl|saponat)|wc (kartac|stetk|souprav|drzak)|drzak\w* na toaletn|\bpolick\w* do sprch|\bstetk\w* na wc")),
+    ("koupelnove-doplnky", R(r"davkovac mydl|drzak (na kartack|na rucnik|toaletn|na wc|na papir)|mydelnic|stetka|koupelnov\w* (doplnk|sada|set)|kelimek na (zubni )?kartac|pohar\w* na (zubni )?kartac|drzak\w* na (zubni )?kartac|davkovac\w* (mydl|saponat)|wc (kartac|stetk|souprav|drzak)|drzak\w* na toaletn|\bpolick\w* do sprch|\bstetk\w* na wc|protiskluz\w* (podlozk|rohoz|predlozk)|podlozk\w* (do|na) (vanu|vany|van\b|sprch)")),
     # tables / chairs / shelves (generic, after the specific ones)
     ("jidelni-stoly", R(r"jideln\w* (stul|stol\b)|rozkladac\w* (stul|stol\b)|\bstul\b|\bstoly\b|\bstol\b")),
     ("jidelni-zidle", R(r"jideln\w* zidl|\bzidl|\bzidle|\bstolick")),
@@ -763,7 +784,7 @@ KIDS_MAP = {"koberce": "detske-koberce", "stolni-lampy": "detska-svitidla", "lus
 
 
 # nouns that name one category on their own, whatever words surround them: a single-word match of these is as good as a phrase
-UNAMBIGUOUS = {"meteostanice", "popelnice", "postovni-schranky", "akusticke-panely", "patrove-postele", "umyvadla", "vany", "drezy", "panve", "hrnce", "kavovary", "vysavace", "trampoliny", "sauny", "grily", "tapety",
+UNAMBIGUOUS = {"detska-hriste", "kryty-na-radiatory", "meteostanice", "popelnice", "postovni-schranky", "akusticke-panely", "patrove-postele", "umyvadla", "vany", "drezy", "panve", "hrnce", "kavovary", "vysavace", "trampoliny", "sauny", "grily", "tapety",
                "zarovky", "garnyze", "prosteradla", "trezory", "lenosky", "biokrby", "paravany", "stinidla", "betlemy", "sklenice",
                "pribory", "talire", "fritezy", "digestore", "lucerny", "priborniky", "rolety-a-zaluzie", "boxspringy",
                "toppery-a-chranice-matraci", "wc-a-bidety", "skleniky-a-pestovani", "substraty-a-hnojiva", "vinylove-podlahy",
