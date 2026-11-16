@@ -8,7 +8,7 @@ Rules run on the folded product name and only inside the parent category, so a s
 out of another category. Within a parent, the FIRST rule that matches wins (put the specific ones first).
 
 A slug equal to an existing phrase landing (content/landings/kw2.json) takes over that URL: the landing is skipped as
-"path exists" once the subcategory is public (>= MIN_CAT products), so an indexed URL keeps working with more products.
+"path exists" once the subcategory is public (>= MIN_CAT = 5 products), so an indexed URL keeps working with more products.
 Search volume (Marketing Miner, CZ, 15. 11. 2026) is in the comment column; reports/vian/category-gap-2026-11.md has the table."""
 import re
 

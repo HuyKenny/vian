@@ -90,7 +90,7 @@ class Out:
 
 
 CAT_CAP = int(os.environ.get("VIAN_CAT_CAP", "1500"))   # Kenny 12. 11. 2026: enough to choose from, not everything
-MIN_CAT = 8                                              # a category is public (nav, tiles, sitemap) from this many products
+MIN_CAT = 5                                              # a category is public (nav, tiles, sitemap) from this many products (Kenny 16. 11.: 5 is enough, feeds fill it later)
 
 
 def quality(p):
