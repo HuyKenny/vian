@@ -630,6 +630,8 @@ def gone_page(S, g):
 def listing_body(S, path, h1, lead, items, jsn, icon, texts_key=None, extra_ld=None, links=None, links_label="Upřesnit", extra=""):
     t = TX.get(texts_key) if texts_key else None
     intro = t["intro"] if t and t.get("intro") else ""
+    if intro and fresh() in lead:       # hand-written intros replace the lead; keep the "prices checked" date
+        intro = f"{intro.rstrip()} {fresh()}"
     kids = [k for k in getattr(S, "kids", {}).get(path, []) if k[0] != path]
     cats = list(links or [])
     if kids:
