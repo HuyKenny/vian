@@ -58,7 +58,8 @@ def upload(cfg, name):
     r = wrangler(cfg, name, ("versions", "upload", "--message", "vian build"), capture=True)
     m = re.search(r"Worker Version ID:\s*([0-9a-f-]{36})", (r.stdout or "") + (r.stderr or ""))
     if r.returncode or not m:
-        if "does not exist" in (r.stderr or "") + (r.stdout or "") or "10007" in (r.stderr or ""):
+        out = (r.stderr or "") + (r.stdout or "")
+        if re.search(r"does not (yet )?exist|10007", out):     # wrangler 4.151: "...a Worker that does not yet exist"
             return None
         sys.exit(f"version upload of {name} failed")
     return m.group(1)
