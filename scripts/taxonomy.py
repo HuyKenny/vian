@@ -345,7 +345,7 @@ PRICE_FLOOR = {"rohove-sedacky": 4000, "sedacky": 2500, "pohovky": 2000, "kresla
 
 # ------------------------------------------------------------------ veto: not furniture / décor
 VETO_TITLE = re.compile(
-    r"\b(vrtack|bruska|sroubovak|pilk|pila\b|kladiv|naradi|hmozdin|sroub[uy]?\b|hrebik|barva na|lak na|lazur|penetrac|tmel|silikon\b|stetec(?! na peceni)|malirsk|valecek(?! na testo)|"
+    r"\b(jmenovk\w* (pro|na|do) schrank|vrtack|bruska|sroubovak|pilk|pila\b|kladiv|naradi|hmozdin|sroub[uy]?\b|hrebik|barva na|lak na|lazur|penetrac|tmel|silikon\b|stetec(?! na peceni)|malirsk|valecek(?! na testo)|"
     r"dlazb(?!ic\w* (koberc|kobercov))|obklad|^(posuvn\w* |interierov\w* |vchodov\w* |balkonov\w* )?dvere\b|zarubn|\bzamek|lepidl|deštník|destnik|pantofl|backor|boxerk|"
     r"sifon|odpad\b|ventil\b|"
     r"cerpadl|kotel|bojler|"
