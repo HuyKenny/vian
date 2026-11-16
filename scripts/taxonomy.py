@@ -394,7 +394,7 @@ TITLE_RULES = [
     # the longer phrase wins over talire's lone "miska" at the same position
     ("drezy", R(r"(odkapavac\w* )?misk\w* (do|na|ke|k|pro) drez\w*|odkapavac\w* misk\w* pro drez")),
     ("wc-a-bidety", R(r"(zavesn\w*|stojic\w*|kombi\w*) (wc )?mis[ak]\w*(?! na (mydl|ovoc|koren|psy|kocky|krm))|\bmis[ak]\w* wc\b|\bwc mis[ak]\w*")),
-    ("koupelnove-doplnky", R(r"(zavesn\w* )?misk\w* na mydl")),
+    ("koupelnove-doplnky", R(r"(zavesn\w* )?misk\w* na (mydl|postaveni)")),
     ("patrove-postele", R(r"\bpaland|patrov\w* (postel|lozk)|vyvysen\w* postel|postel (s|se) (pracovnim )?stolem pod")),
     ("detske-postylky", R(r"detsk\w* postyl\w*|\bpostylk|\bpostylka|kolebk|kolisk|\bpostyl\b")),
     ("prebalovaci-pulty", R(r"prebalovac\w* (pult|komod|stul|stolek|nastavec|pultik|desk|skrin)")),

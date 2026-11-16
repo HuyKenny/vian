@@ -293,7 +293,7 @@ SUBS = [
     ("wok-panve", "Wok pánve", "panve", "Wok pánve", r"^(?!.*(lopat|limec|poklic|kartac|obracec|stojan\w* na)).*\bwok"),   # 12 000
     ("elektricke-krby", "Elektrické krby", "biokrby", "Elektrické krby", r"elektrick\w* krb"),   # 5 500 + do bytu, na zeď
     ("cukrenky", "Cukřenky", "talire", "Cukřenky", r"\bcukrenk"),   # 2 400
-    ("misy-a-misky", "Mísy a misky", "talire", "Mísy, misky a salátové mísy", r"^(?!.*(\bwc\b|drez|sedatk|mydl|odkapav)).*(\bmis(a|y|u|ek)\b|\bmisk(a|y|u|ami)?\b|salatov\w* mis)"),   # 5 900 + 5 200 + salátová
+    ("misy-a-misky", "Mísy a misky", "talire", "Mísy, misky a salátové mísy", r"^(?!.*(\bwc\b|drez|sedatk|mydl|odkapav|na postaveni)).*(\bmis(a|y|u|ek)\b|\bmisk(a|y|u|ami)?\b|salatov\w* mis)"),   # 5 900 + 5 200 + salátová
     ("rucni-slehace", "Ruční šlehače a tyčové mixéry", "mixery-a-roboty", "Ruční šlehače a tyčové mixéry", r"rucn\w* (slehac|mixer)|tycov\w* mixer|\bslehac\b|penic\w* mlek"),   # 6 100 + 4 200
     ("aromalampy", "Aromalampy", "difuzery-a-vune", "Aromalampy", r"aromalamp"),   # 2 100
     ("organizery-do-supliku", "Organizéry do šuplíku", "kuchynske-doplnky", "Organizéry do šuplíku a zásuvky", r"organizer\w* (do|na) (supl|zasuv)|\bdo (supliku|zasuvky)\b"),   # 2 400 + 800
