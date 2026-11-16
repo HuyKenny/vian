@@ -28,7 +28,7 @@ def words(html):
 def main():
     strict = "--strict" in sys.argv
     bad = 0
-    files = sorted((APP / "content/texts").glob("*.json")) + sorted(f for f in (APP / "content/guides").glob("*.json") if f.name != "_index.json")
+    files = sorted((APP / "content/texts").glob("*.json")) + sorted(f for f in (APP / "content/guides").glob("*.json") if f.name not in ("_index.json", "photos.json"))   # photos.json = Pexels data for guides, not a text
     for f in files:
         issues = []
         try:

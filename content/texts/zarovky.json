@@ -1,0 +1,27 @@
+{
+ "key": "cat:zarovky",
+ "intro": "LED žárovky a další světelné zdroje s paticí E27, E14 i GU10, včetně žárovky do trouby. Porovnáte ceny stejné žárovky v e-shopech a vyfiltrujete podle patice, výkonu a barvy světla.",
+ "body": "<p>Žárovka se vybírá podle tří věcí: jakou patici má svítidlo, kolik světla potřebujete a jakou barvu má mít. Klasické wolframové žárovky se pro běžné svícení v EU už neprodávají, domácnosti dnes kupují hlavně LED žárovky, které při stejném množství světla spotřebují zlomek energie a vydrží roky.</p><h2>Patice: E27, E14, GU10 a další</h2><ul><li><strong>E27</strong> – velký závit, nejběžnější v lustrech, stojacích lampách a stropních světlech.</li><li><strong>E14</strong> – malý závit, v menších lampičkách, nástěnných svítidlech a lustrech se svíčkovými žárovkami.</li><li><strong>GU10</strong> – dva kolíky s rozšířenou hlavičkou, na síťové napětí, typická pro bodovky.</li><li><strong>GU5.3 (MR16)</strong> – tenké kolíky, obvykle na 12 V přes trafo.</li><li><strong>G9 a G4</strong> – drobné kolíkové zdroje do designových lustrů a digestoří.</li></ul><p>Patici najdete na staré žárovce nebo v návodu ke svítidlu, spolu s maximálním povoleným příkonem.</p><h2>Kolik světla: lumeny místo wattů</h2><p>U LED žárovky watty neříkají, jak moc svítí. Dívejte se na lumeny (lm). Staré 60W žárovce odpovídá zhruba 800 lm, 100W žárovce kolem 1 500 lm. Do obýváku a kuchyně se počítá víc světla, na noční stolek méně. Když chcete světlo tlumit, musí být LED žárovka výslovně stmívatelná a stmívač musí být určený pro LED, jinak světlo bliká nebo bzučí.</p><h2>Barva světla a podání barev</h2><p>Barva se udává v kelvinech. Teplá bílá kolem 2 700 K připomíná klasickou žárovku a patří do obýváku a ložnice, neutrální bílá kolem 4 000 K do kuchyně, koupelny a pracovny, studená nad 5 000 K spíš do dílny a garáže. Index podání barev CRI nad 80 je běžný standard, nad 90 ho oceníte u zrcadla, kde se líčíte, a v šatně. Pro vlhké prostory hledejte zdroje do <a href=\"/koupelnova-svitidla/\">koupelnových svítidel</a> s odpovídajícím krytím.</p><h2>Žárovka do trouby a další speciální zdroje</h2><p>Žárovka do trouby musí snést vysokou teplotu, obvykle až 300 °C. Bývá to malá žárovka s paticí E14 nebo kolíková G9, často halogenová, protože běžná LED elektronika takové teplo nevydrží. Podobně se kupuje žárovka do lednice nebo digestoře: vezměte starou s sebou, nebo si opište údaje z baňky. Filamentové LED žárovky s viditelným vláknem se hodí tam, kde je zdroj vidět, třeba v <a href=\"/lustry/\">lustrech a závěsných svítidlech</a> v industriálním stylu.</p><h2>Na co si dát pozor</h2><ul><li>velikost baňky, velká žárovka typu globe se nemusí vejít pod stínidlo,</li><li>úhel vyzařování u GU10, úzký svítí bodově, široký rozlije světlo,</li><li>uzavřená svítidla, v těsném skleněném krytu LED zdroj stárne rychleji,</li><li>chytré žárovky ovládané aplikací potřebují, aby vypínač na zdi zůstal zapnutý.</li></ul>",
+ "faq": [
+  [
+   "Jakou žárovku dát do trouby?",
+   "Žárovku určenou do trouby, odolnou do 300 °C, se stejnou paticí jako původní, nejčastěji E14 nebo G9. Běžná LED žárovka teplo v troubě nevydrží."
+  ],
+  [
+   "Kolik lumenů odpovídá 60W žárovce?",
+   "Zhruba 800 lm. Staré 40W žárovce odpovídá asi 470 lm, 100W žárovce kolem 1 500 lm."
+  ],
+  [
+   "Jaký je rozdíl mezi paticí E27 a E14?",
+   "Obě jsou závitové, E27 má průměr závitu 27 mm, E14 jen 14 mm. Bez redukce nejsou zaměnitelné."
+  ],
+  [
+   "Dá se každá LED žárovka stmívat?",
+   "Ne. Stmívat jde jen LED žárovka označená jako stmívatelná a stmívač musí být určený pro LED zdroje."
+  ],
+  [
+   "Jakou barvu světla zvolit do obýváku?",
+   "Teplou bílou kolem 2 700 až 3 000 K. Neutrální bílá kolem 4 000 K se hodí spíš do kuchyně a pracovny."
+  ]
+ ]
+}
