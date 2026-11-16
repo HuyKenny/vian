@@ -286,6 +286,28 @@ SUBS = [
     ("fondue-a-raclette", "Fondue a raclette", "drobne-kuchynske-spotrebice", "Fondue a raclette", r"fondue|raclett"),   # 3 400
     ("maslenky", "Máslenky", "skladovani-potravin", "Máslenky", r"maslenk|doz\w* na maslo"),   # 4 800
     ("solnicky-a-mlynky", "Solničky a mlýnky na koření", "skladovani-potravin", "Solničky, pepřenky a mlýnky na koření", r"solnick|peprenk|mlyn\w* na (pepr|sul|koreni)|korenk|korenick|stojan\w* na koren"),   # 2 200 + mlýnky
+    # ------------------------------------------------------------ round 5 (16. 11. 2026, reports/vian/content-gap-kolo5-2026-11.md):
+    # searched phrases without a page of their own, checked against the kw2 phrase landings and the live catalogue (>= 5 products)
+    ("vence-na-dvere", "Věnce na dveře", "adventni-dekorace", "Věnce na dveře", r"^(?!.*drzak).*(\bven(ec|ce)\w* na dver|\bna dvere\b.*\bven(ec|ce))"),   # 960 + 640
+    ("adventni-vence", "Adventní věnce", "adventni-dekorace", "Adventní věnce", r"^(?!.*\b(drzak|hacek|haky)\b).*\bven(ec|ce|cu|cem|ci)\b"),   # 14 700 + na stůl 3 200
+    ("wok-panve", "Wok pánve", "panve", "Wok pánve", r"^(?!.*(lopat|limec|poklic|kartac|obracec|stojan\w* na)).*\bwok"),   # 12 000
+    ("elektricke-krby", "Elektrické krby", "biokrby", "Elektrické krby", r"elektrick\w* krb"),   # 5 500 + do bytu, na zeď
+    ("cukrenky", "Cukřenky", "talire", "Cukřenky", r"\bcukrenk"),   # 2 400
+    ("misy-a-misky", "Mísy a misky", "talire", "Mísy, misky a salátové mísy", r"^(?!.*(\bwc\b|drez|sedatk|mydl|odkapav)).*(\bmis(a|y|u|ek)\b|\bmisk(a|y|u|ami)?\b|salatov\w* mis)"),   # 5 900 + 5 200 + salátová
+    ("rucni-slehace", "Ruční šlehače a tyčové mixéry", "mixery-a-roboty", "Ruční šlehače a tyčové mixéry", r"rucn\w* (slehac|mixer)|tycov\w* mixer|\bslehac\b|penic\w* mlek"),   # 6 100 + 4 200
+    ("aromalampy", "Aromalampy", "difuzery-a-vune", "Aromalampy", r"aromalamp"),   # 2 100
+    ("organizery-do-supliku", "Organizéry do šuplíku", "kuchynske-doplnky", "Organizéry do šuplíku a zásuvky", r"organizer\w* (do|na) (supl|zasuv)|\bdo (supliku|zasuvky)\b"),   # 2 400 + 800
+    ("detske-knihovny", "Dětské knihovny", "detske-skrine-a-ulozne-boxy", "Dětské knihovny a regály na knížky", r"knihovn|regal\w* na kni"),   # 5 700
+    ("teplomery-na-maso", "Teploměry na maso", "kuchynske-nacini", "Teploměry na maso a do trouby", r"teplomer"),   # 3 000 + trouby 580 + vpichový 490
+    ("cedniky", "Cedníky", "kuchynske-nacini", "Cedníky a síta", r"\bcednik|\bsito\b|\bsita\b"),   # 1 600
+    ("sitka-na-caj", "Sítka na čaj", "kuchynske-nacini", "Sítka a louhovátka na čaj", r"sitk\w* (na|pro) caj|caj\w* sitk|louhovat"),   # 1 400
+    ("rohozky", "Rohožky", "behouny-a-predlozky", "Rohožky ke dveřím", r"^(?!.*(sorpc|schod)).*\brohoz"),   # 3 500 + ke dveřím 3 100 + venkovní
+    ("hacky-na-zed", "Háčky na zeď", "vesaky", "Háčky na zeď a na obrazy", r"^(?!.*vesak)(\w+ ){0,2}hac(ek|ky|ku|iky)\b|\bhac\w* na obraz"),   # háčky na obrazy 1 700 + háčky 600
+    ("plechy-na-peceni", "Plechy na pečení", "pekace-a-formy", "Plechy na pečení a pizzu", r"\bplech"),   # 2 300 + pečení
+    ("servirovaci-tacy", "Servírovací tácy", "tacy-a-podnosy", "Servírovací tácy", r"servirovac\w* tac|\btac\w* (na|k) servir"),   # 710 + 440
+    ("stolni-hodiny", "Stolní hodiny", "hodiny", "Stolní hodiny", r"\bstoln\w* hodin"),   # 1 300
+    ("dzbany", "Džbány", "sklenice", "Džbány na vodu", r"\bdzban"),   # na vodu 920 + 690
+    ("podsedaky", "Podsedáky", "polstare-na-zahradni-nabytek", "Podsedáky na židle a lavice", r"podsedak|sedak\w* na (zidl|lavic)"),   # 4 200 + na židle 3 300 + na lavici 2 400
 ]
 
 # older family landings (scripts/landings.py) that the subcategory replaces: once the subcategory is public, the landing is

@@ -390,6 +390,11 @@ TITLE_RULES = [
     ("koupelnove-doplnky", R(r"\bmydlenk")),
     ("servirovaci-stolky", R(r"kuchyn\w* vozik|servirovac\w* vozik")),
     ("hrnky-a-salky", R(r"\bcajnik|konvic\w* na caj|moka konvic")),
+    # round 5: a "mísa / miska" that is a sink tray, a toilet bowl or a soap dish was taken for a plate (104 of 1 500 in talire);
+    # the longer phrase wins over talire's lone "miska" at the same position
+    ("drezy", R(r"(odkapavac\w* )?misk\w* (do|na|ke|k|pro) drez\w*|odkapavac\w* misk\w* pro drez")),
+    ("wc-a-bidety", R(r"(zavesn\w*|stojic\w*|kombi\w*) (wc )?mis[ak]\w*(?! na (mydl|ovoc|koren|psy|kocky|krm))|\bmis[ak]\w* wc\b|\bwc mis[ak]\w*")),
+    ("koupelnove-doplnky", R(r"(zavesn\w* )?misk\w* na mydl")),
     ("patrove-postele", R(r"\bpaland|patrov\w* (postel|lozk)|vyvysen\w* postel|postel (s|se) (pracovnim )?stolem pod")),
     ("detske-postylky", R(r"detsk\w* postyl\w*|\bpostylk|\bpostylka|kolebk|kolisk|\bpostyl\b")),
     ("prebalovaci-pulty", R(r"prebalovac\w* (pult|komod|stul|stolek|nastavec|pultik|desk|skrin)")),
@@ -952,7 +957,7 @@ FEATURES = [
     ("rozkladaci", "rozkládací", r"rozkladac\w*|s funkci spani|na spani|\bs rozkladem|\brozklad\b"),
     ("s-uloznym-prostorem", "s úložným prostorem", r"ulozn\w* prostor|s ulozn\w*|uloznym|s uloznym|se zasuvk\w*|s uloz"),
     ("polohovaci", "polohovací", r"polohovac\w*|relax funkc|elektrick\w* polohov"),
-    ("s-led", "s LED osvětlením", r"\bs led\b|s led osvetl|led osvetlen"),
+    ("s-led", "s LED osvětlením", r"\bs led\b|s led osvetl|led osvetlen|\bse svetlem\b|\bs osvetlenim\b|\bs podsvicenim\b|\bpodsvicen\w*"),
     ("vyskove-nastavitelne", "výškově nastavitelné", r"vyskove (stavitel|nastavitel)\w*|elektricky stavitel"),
     ("kulate", "kulaté", r"\bkulat\w*|\bkruhov\w*|\boval\w*"),
 ]
@@ -1143,6 +1148,72 @@ FACETS = {
         ("volne-stojici", "volně stojící", r"voln\w* stojic")]),
     "energy": ("Energetická třída", {"lednice", "pracky-a-susicky", "mycky", "trouby-a-varne-desky", "vinoteky"}, [
         (c, c.upper(), rf"(energetick\w* )?trid\w* {c}\b|\b{c}\s?\+*\s?(energ|trid)") for c in "abcdefg"]),
+    # round 5 (16. 11. 2026): what people add to the category word in searches ("stmívatelná lampa", "pratelný koberec",
+    # "konvice s regulací teploty" 3 300/month, "postel s roštem a matrací" 2 900, "mikroplyšové povlečení" 11 000) and the
+    # filters Favi shows on the same categories (favi.cz category sitemap, 73 k one-facet pages). Size words (úzká, velká),
+    # persons and indoor/outdoor were measured too: under 5 % of titles say them, so the width filter covers size instead.
+    "mount": ("Umístění", {"tv-stolky", "police", "koupelnove-skrinky", "botniky", "vitriny", "zrcadla", "nocni-stolky", "psaci-stoly",
+                           "kvetinace", "susaky-na-pradlo", "vesaky", "hodiny", "knihovny-a-regaly", "stojany-na-vino", "koupelnova-zrcadla",
+                           "lucerny", "toaletni-stolky", "ulozne-boxy-a-kose"}, [
+        ("zavesne", "závěsné / na zeď", r"\bzavesn\w*|\bnastenn\w*|\bna (zed|stenu)\b"),
+        ("stojici", "stojací", r"\bstojac\w*|volne stojic\w*"),
+        ("rohove", "rohové", r"\brohov\w*"),
+        ("stolni", "stolní", r"\bstoln\w*")]),
+    "light": ("Ovládání a napájení", {"stropni-svitidla", "nastenna-svitidla", "stojaci-lampy", "stolni-lampy",
+                                      "koupelnova-svitidla", "venkovni-svitidla", "led-pasky", "dekoracni-osvetleni", "lucerny",
+                                      "vanocni-osvetleni", "detska-svitidla"}, [
+        ("stmivatelne", "stmívatelné", r"stmivateln\w*|stmivac\w*|\bdimmable\b"),
+        ("ovladac", "s dálkovým ovladačem", r"dalkov\w* ovlad\w*|\bs ovladacem\b"),
+        ("chytre", "chytré (Wi-Fi, aplikace)", r"\bsmart\b|\bwi-?fi\b|\bchytr\w*|\bzigbee\b|\bbluetooth\b|\bv aplikaci\b"),
+        ("cidlo", "s pohybovým čidlem", r"\bcidl\w*|\bsenzor\w*"),
+        ("baterie", "na baterie / USB", r"na bateri\w*|\bbateriov\w*|\bakumulator\w*|\bnabijec\w*|\busb\b"),
+        ("solarni", "solární", r"\bsolarn\w*"),
+        ("ip", "do vlhka (IP44 a víc)", r"\bip ?(44|54|55|65|66|67|68)\b")]),
+    "rug": ("Vlastnosti koberce", {"koberce", "detske-koberce", "behouny-a-predlozky", "koberce-metraz"}, [
+        ("pratelne", "pratelné", r"\bpratel\w*|\blze prat\b|prat v prack\w*"),
+        ("protiskluzove", "protiskluzové", r"protiskluz\w*"),
+        ("shaggy", "s vysokým vlasem", r"\bshaggy\b|vysok\w* vlas\w*|\bchlupat\w*"),
+        ("venkovni", "venkovní", r"\bvenkovn\w*|\boutdoor\b|na teras\w*")]),
+    "cook": ("Vlastnosti nádobí", {"panve", "hrnce", "pekace-a-formy", "rychlovarne-konvice"}, [
+        ("indukce", "na indukci", r"\bindukc\w*"),
+        ("litina", "litinové", r"\blitin\w*"),
+        ("nerez", "nerezové", r"\bnerez\w*"),
+        ("neprilnave", "nepřilnavé", r"neprilnav\w*|\bteflon\w*|nepriln\w*"),
+        ("regulace", "s regulací teploty", r"regulac\w* teplot\w*|nastaveni\w* teplot\w*|termoregul\w*|volb\w* teplot\w*")]),
+    "bed": ("Výbava postele", {"postele", "calounene-postele", "detske-postele", "boxspringy"}, [
+        ("s-rostem", "s roštem", r"\bs rost\w*|vcetne rost\w*|\brost(em)? a matrac\w*|\+ ?rost\w*"),
+        ("s-matraci", "s matrací", r"\bs matrac\w*|vcetne matrac\w*|a matraci\b|\+ ?matrac\w*"),
+        ("s-celem", "s čalouněným čelem", r"calounen\w* celo\w*|\bcel\w* calounen\w*|s calounen\w* celem"),
+        ("nebesa", "s nebesy", r"\bnebes\w*"),
+        ("zvysene", "zvýšené", r"\bzvysen\w*|\bvysok\w* postel\w*")]),
+    "mfeat": ("Vlastnosti matrace", {"matrace", "toppery-a-chranice-matraci"}, [
+        ("zonove", "zónové", r"\bzon(ov)?\w*\b|\b\d ?-?zon\w*"),
+        ("oboustranne", "oboustranné", r"oboustran\w*"),
+        ("alergie", "pro alergiky", r"alergi\w*|antialerg\w*"),
+        ("zdravotni", "zdravotní / ortopedické", r"\bzdravotn\w*|ortoped\w*|antidekub\w*"),
+        ("snimatelny-potah", "se snímatelným potahem", r"snimateln\w* potah\w*|prateln\w* potah\w*")]),
+    "office": ("Ergonomie", {"kancelarske-zidle", "herni-kresla"}, [
+        ("ergonomicke", "ergonomické / zdravotní", r"\bergonom\w*|\bzdravotn\w*|bedern\w*|\blumbal\w*"),
+        ("oprka-hlavy", "s opěrkou hlavy", r"oprk\w* hlavy|operk\w* hlavy|\bpodhlavnik\w*|hlavov\w* oper\w*"),
+        ("podnozka", "s podnožkou", r"\bpodnozk\w*|oprk\w* (na )?noh|operk\w* (na )?noh|vysuvn\w* oper\w*"),
+        ("tezke", "nosnost 130 kg a víc", r"\b(1[3-9]\d|2\d\d) ?kg\b")]),
+    "doors": ("Dveře a zásuvky", {"satni-skrine", "komody", "botniky", "vitriny", "koupelnove-skrinky", "tv-stolky", "predsinove-steny"}, [
+        ("zrcadlo", "se zrcadlem", r"\bse zrcadl\w*|zrcadlov\w* dver\w*|\bzrcadlem\b"),
+        ("posuvne", "posuvné dveře", r"\bposuvn\w*"),
+        ("vyklopne", "výklopné", r"\bvyklop\w*"),
+        ("zasuvky", "se zásuvkami", r"\bzasuv\w*|\bsupli\w*|\bsuplat\w*"),
+        ("sedak", "se sedákem", r"\bs lavic\w*|\bse sedak\w*|\bsedac\w* botnik\w*|\bs podsedak\w*"),
+        ("police", "s policemi", r"\bs polic\w*|\bpolicov\w*")]),
+    "fabric": ("Látka", {"povleceni", "prosteradla", "deky-a-prehozy", "detske-povleceni", "detsky-textil", "rucniky-a-osusky"}, [
+        ("mikroplys", "mikroplyš", r"mikroplys\w*|mikrovlak\w*|\bmicrofib\w*|\bmikrofleec\w*"),
+        ("krep", "krep", r"\bkrep\w*"),
+        ("muselin", "mušelín", r"\bmuselin\w*"),
+        ("flanel", "flanel", r"\bflanel\w*"),
+        ("saten", "satén", r"\bsaten\w*"),
+        ("damask", "damašek", r"\bdamas\w*"),
+        ("frote", "froté", r"\bfrote\b"),
+        ("jersey", "jersey", r"\bjersey\b|\bzerzej\w*"),
+        ("nepromokave", "nepromokavé", r"nepromokav\w*|nepropustn\w*|\bvodeodoln\w*")]),
 }
 FACETS_RX = {k: (lab, cats, [(v, vl, re.compile(rx)) for v, vl, rx in vals]) for k, (lab, cats, vals) in FACETS.items()}
 FACET_VALUE = {k: {v: vl for v, vl, _ in vals} for k, (_, _, vals) in FACETS.items()}
