@@ -16,6 +16,8 @@ import shutil
 import subprocess
 import sys
 import time
+import urllib.error
+import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from collections import Counter
 from pathlib import Path
@@ -50,6 +52,47 @@ def wrangler(cfg, name, cmd=("deploy",), capture=False):
     if capture:
         print(r.stdout[-3000:], r.stderr[-2000:], sep="\n")
     return r
+
+
+def cf_api(method, path, body=None):
+    """Cloudflare API with the deploy token (zone read + Workers routes edit). Returns the parsed JSON, errors included."""
+    req = urllib.request.Request("https://api.cloudflare.com/client/v4" + path, method=method,
+                                 data=json.dumps(body).encode() if body is not None else None,
+                                 headers={"Authorization": "Bearer " + os.environ["CLOUDFLARE_API_TOKEN"], "Content-Type": "application/json",
+                                          "User-Agent": "vian-deploy"})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return json.load(r)
+    except urllib.error.HTTPError as e:
+        return json.load(e)
+
+
+def sync_routes(shard_dirs):
+    """Point every vian.cz/produkt/<char>* route at the shard that now holds that character, in place.
+
+    `wrangler triggers deploy` cannot move a route from one Worker to another ("Can't deploy routes that are assigned to
+    another worker"): on 16. 11. 2026 a new fifth shard shifted the characters, the routes stayed on the old shards and
+    product pages answered 404. Updating the existing route's script is a single atomic change per route; routes of
+    characters that went back to the main Worker are deleted. Returns a list of error texts."""
+    zone = cf_api("GET", f"/zones?name={ZONE}")["result"][0]["id"]
+    have = {r["pattern"]: r for r in cf_api("GET", f"/zones/{zone}/workers/routes?per_page=500")["result"]}
+    want = {f"{ZONE}/produkt/{c}*": name for name, _, chars in shard_dirs for c in chars}
+    jobs = []
+    for pattern, script in want.items():
+        r = have.get(pattern)
+        if r is None:
+            jobs.append(("POST", f"/zones/{zone}/workers/routes", {"pattern": pattern, "script": script}))
+        elif r.get("script") != script:
+            jobs.append(("PUT", f"/zones/{zone}/workers/routes/{r['id']}", {"pattern": pattern, "script": script}))
+    for pattern, r in have.items():
+        if pattern.startswith(f"{ZONE}/produkt/") and pattern not in want:
+            jobs.append(("DELETE", f"/zones/{zone}/workers/routes/{r['id']}", None))
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        res = list(pool.map(lambda j: (j, cf_api(*j)), jobs))
+    errs = [f"route {j[0]} {(j[2] or {}).get('pattern', j[1])}: {r.get('errors')}" for j, r in res if not r.get("success")]
+    print(f"routes: {sum(1 for j in jobs if j[0] == 'PUT')} moved, {sum(1 for j in jobs if j[0] == 'POST')} added, "
+          f"{sum(1 for j in jobs if j[0] == 'DELETE')} removed, {len(errs)} errors")
+    return errs
 
 
 def upload(cfg, name):
@@ -145,23 +188,31 @@ def main():
     for name, d, chars in shard_dirs:
         cfg = base_cfg(name, d)
         cfg["workers_dev"] = False
-        cfg["routes"] = [{"pattern": f"{ZONE}/produkt/{c}*", "zone_name": ZONE} for c in chars]
-        workers.append((name, cfg))
+        workers.append((name, cfg))          # no routes here: sync_routes() moves them through the API after the switch
     t0 = time.time()
-    versions = [(name, cfg, upload(cfg, name)) for name, cfg in workers]
+    versions = []
+    for name, cfg in workers:
+        version = upload(cfg, name)
+        if version is None and name != "vian":     # a brand-new shard: create it now (no routes, so it serves nothing yet)
+            if wrangler(cfg, name).returncode:
+                sys.exit(f"creating {name} failed")
+            version = upload(cfg, name)
+        if version is None:
+            sys.exit(f"no version for {name}")
+        versions.append((name, cfg, version))
     print(f"phase 1: {len(versions)} versions uploaded in {time.time() - t0:.0f}s, nothing served yet")
     # phase 2: main alone first (~1 s; it serves /assets/), then every shard at the same moment, then the routes.
     # Sequential switching took 28 s on 13. 11.; this way new listings and new product pages go live ~2 s apart.
     t1 = time.time()
     (mname, mcfg, mver), shards = versions[0], versions[1:]
-    err = activate(mcfg, mname, mver) if mver else (None if not wrangler(mcfg, mname).returncode else "first deploy of vian failed")
+    err = activate(mcfg, mname, mver)
     if err:
         sys.exit(err)
     with ThreadPoolExecutor(max_workers=max(1, len(shards))) as pool:
-        errs = list(pool.map(lambda w: activate(w[1], w[0], w[2]) if w[2] else
-                             (None if not wrangler(w[1], w[0]).returncode else f"first deploy of {w[0]} failed"), shards))
-        print(f"phase 2: all Workers serve the new build {time.time() - t1:.1f}s after the first switch")
-        errs += list(pool.map(lambda w: routes(w[1], w[0]), versions))
+        errs = list(pool.map(lambda w: activate(w[1], w[0], w[2]), shards))
+    print(f"phase 2: all Workers serve the new build {time.time() - t1:.1f}s after the first switch")
+    errs += sync_routes(shard_dirs)          # right after the switch: a moved character is unreachable for seconds only
+    errs.append(routes(mcfg, mname))          # vian.cz/* + www (unchanged: a no-op)
     errs = [e for e in errs if e]
     if errs:
         sys.exit("; ".join(errs))
