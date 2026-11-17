@@ -54,7 +54,8 @@ def main():
         links = LINK.findall(body)
         if len(links) > (5 if is_guide else 4):
             issues.append(f"{len(links)} links")
-        if any(l.strip("/") == slug.strip("/") for l in links if slug):
+        own = f"poradna/{slug}" if is_guide else slug      # a guide lives under /poradna/; a landing with the same slug is a valid target
+        if any(l.strip("/") == own.strip("/") for l in links if slug):
             issues.append("self link")
         low = TAG.sub(" ", body + " " + " ".join(q + " " + a for q, a in d.get("faq", []))).lower()
         for b in BANNED:

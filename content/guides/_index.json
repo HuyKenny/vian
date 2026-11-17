@@ -1,5 +1,522 @@
 [
  {
+  "slug": "jak-ozdobit-vanocni-stromek",
+  "h1": "Jak ozdobit vánoční stromek: postup, barevná schémata a inspirace",
+  "date": "2026-11-17",
+  "related": [
+   "/vanocni-ozdoby/",
+   "/vanocni-osvetleni/",
+   "/vanocni-osvetleni-na-stromecek/",
+   "/vanocni-ozdoby-na-stromecek/"
+  ],
+  "rules": {
+   "cat": [
+    "vanocni-ozdoby",
+    "vanocni-osvetleni"
+   ]
+  },
+  "title": "Jak ozdobit vánoční stromek: postup a barevná schémata"
+ },
+ {
+  "slug": "umely-nebo-zivy-vanocni-stromek",
+  "h1": "Umělý, nebo živý vánoční stromek? Srovnání a jak vybrat",
+  "date": "2026-11-17",
+  "related": [
+   "/vanocni-dekorace/",
+   "/vanocni-ozdoby/",
+   "/umele-stromky/",
+   "/vanocni-stromek-v-kvetinaci/"
+  ],
+  "rules": {
+   "cat": [
+    "vanocni-dekorace",
+    "vanocni-ozdoby"
+   ]
+  },
+  "title": "Umělý, nebo živý vánoční stromek? Srovnání"
+ },
+ {
+  "slug": "adventni-venec-jak-vybrat-a-nazdobit",
+  "h1": "Adventní věnec: jak vybrat, nazdobit a kdy zapalovat svíčky",
+  "date": "2026-11-17",
+  "related": [
+   "/adventni-dekorace/",
+   "/svicky-a-svicny/",
+   "/svicny-na-cajove-svicky/"
+  ],
+  "rules": {
+   "cat": [
+    "adventni-dekorace",
+    "svicky-a-svicny"
+   ]
+  },
+  "title": "Adventní věnec: jak vybrat, nazdobit a kdy zapálit"
+ },
+ {
+  "slug": "vanocni-dekorace-do-bytu-napady",
+  "h1": "Jak vyzdobit byt na Vánoce: nápady pro obývák, kuchyň i malý byt",
+  "date": "2026-11-17",
+  "related": [
+   "/vanocni-dekorace/",
+   "/svetelne-zavesy/",
+   "/dekoracni-osvetleni/"
+  ],
+  "rules": {
+   "cat": [
+    "vanocni-dekorace"
+   ]
+  },
+  "title": "Vánoční dekorace do bytu: nápady pro každou místnost"
+ },
+ {
+  "slug": "vanocni-osvetleni-venkovni-a-do-okna",
+  "h1": "Jak vybrat vánoční osvětlení venkovní i do okna a bezpečně ho zapojit",
+  "date": "2026-11-17",
+  "related": [
+   "/vanocni-osvetleni/",
+   "/venkovni-vanocni-osvetleni/",
+   "/svetelne-zavesy/"
+  ],
+  "rules": {
+   "cat": [
+    "vanocni-osvetleni"
+   ]
+  },
+  "title": "Vánoční osvětlení venkovní i do okna: jak vybrat"
+ },
+ {
+  "slug": "jak-prostrit-vanocni-stul",
+  "h1": "Jak prostřít vánoční stůl: prostírání, ubrus a dekorace na stůl",
+  "date": "2026-11-17",
+  "related": [
+   "/ubrusy-a-prostirani/",
+   "/svicky-a-svicny/",
+   "/vanocni-dekorace/",
+   "/drevena-vanocni-dekorace/"
+  ],
+  "rules": {
+   "cat": [
+    "ubrusy-a-prostirani",
+    "svicky-a-svicny",
+    "vanocni-dekorace"
+   ]
+  },
+  "title": "Jak prostřít vánoční stůl: ubrus, prostírání, dekorace"
+ },
+ {
+  "slug": "vanocni-dekorace-na-dvere",
+  "h1": "Jak vyzdobit dveře na Vánoce: věnec, girlanda a jak je pověsit",
+  "date": "2026-11-17",
+  "related": [
+   "/adventni-dekorace/",
+   "/vanocni-dekorace/",
+   "/vence-na-dvere/",
+   "/vanocni-svetelna-dekorace/"
+  ],
+  "rules": {
+   "cat": [
+    "adventni-dekorace",
+    "vanocni-dekorace"
+   ]
+  },
+  "title": "Vánoční dekorace na dveře: věnec a jak ho pověsit"
+ },
+ {
+  "slug": "tipy-na-vanocni-darky-do-domacnosti",
+  "h1": "Tipy na vánoční dárky do domácnosti: co potěší a nezůstane ve skříni",
+  "date": "2026-11-17",
+  "related": [
+   "/deky-a-prehozy/",
+   "/svicky-a-svicny/",
+   "/hrnky-a-salky/",
+   "/difuzery-a-vune/"
+  ],
+  "rules": {
+   "cat": [
+    "deky-a-prehozy",
+    "svicky-a-svicny",
+    "hrnky-a-salky"
+   ]
+  },
+  "title": "Tipy na vánoční dárky do domácnosti"
+ },
+ {
+  "slug": "darek-pro-maminku-a-babicku",
+  "h1": "Dárek pro maminku a babičku: tipy do bytu, kuchyně i na odpočinek",
+  "date": "2026-11-17",
+  "related": [
+   "/deky-a-prehozy/",
+   "/hrnky-a-salky/",
+   "/difuzery-a-vune/",
+   "/stolni-lampy/"
+  ],
+  "rules": {
+   "cat": [
+    "deky-a-prehozy",
+    "hrnky-a-salky",
+    "difuzery-a-vune"
+   ]
+  },
+  "title": "Dárek pro maminku a babičku: tipy do domácnosti"
+ },
+ {
+  "slug": "vonne-svicky-a-vanocni-vune",
+  "h1": "Vonné svíčky a vánoční vůně do bytu: jak vybrat a bezpečně používat",
+  "date": "2026-11-17",
+  "related": [
+   "/svicky-a-svicny/",
+   "/difuzery-a-vune/",
+   "/svicny-na-cajove-svicky/",
+   "/lucerna-na-svicku/"
+  ],
+  "rules": {
+   "cat": [
+    "svicky-a-svicny",
+    "difuzery-a-vune"
+   ]
+  },
+  "title": "Vonné svíčky a vánoční vůně do bytu: jak vybrat"
+ },
+ {
+  "slug": "vanocni-ozdoby-z-papiru",
+  "h1": "Jak vyrobit vánoční ozdoby z papíru: jednoduché nápady s dětmi",
+  "date": "2026-11-17",
+  "related": [
+   "/vanocni-ozdoby/",
+   "/vanocni-ozdoby-z-papiru/",
+   "/vanocni-dekorace-z-papiru/"
+  ],
+  "rules": {
+   "cat": [
+    "vanocni-ozdoby"
+   ]
+  },
+  "title": "Vánoční ozdoby z papíru: nápady na výrobu s dětmi"
+ },
+ {
+  "slug": "jak-vycistit-troubu",
+  "h1": "Jak vyčistit troubu před Vánoci: postup bez agresivní chemie",
+  "date": "2026-11-17",
+  "related": [
+   "/trouby-a-varne-desky/",
+   "/pekace-a-formy/"
+  ],
+  "rules": {
+   "cat": [
+    "trouby-a-varne-desky"
+   ]
+  },
+  "title": "Jak vyčistit troubu: postup bez agresivní chemie"
+ },
+ {
+  "slug": "loznice-inspirace",
+  "h1": "Ložnice inspirace: nápady na uspořádání, barvy a malou ložnici",
+  "date": "2026-11-17",
+  "related": [
+   "/postele/",
+   "/nocni-stolky/",
+   "/loznicove-sestavy/"
+  ],
+  "rules": {
+   "cat": [
+    "postele",
+    "nocni-stolky"
+   ]
+  },
+  "title": "Ložnice inspirace: uspořádání, barvy a malá ložnice"
+ },
+ {
+  "slug": "koupelna-inspirace",
+  "h1": "Koupelna inspirace: nápady pro malou a panelákovou koupelnu",
+  "date": "2026-11-17",
+  "related": [
+   "/koupelnove-skrinky/",
+   "/koupelnova-zrcadla/",
+   "/sprchove-kouty/"
+  ],
+  "rules": {
+   "cat": [
+    "koupelnove-skrinky",
+    "koupelnova-zrcadla"
+   ]
+  },
+  "title": "Koupelna inspirace: nápady pro malou koupelnu"
+ },
+ {
+  "slug": "obyvaci-pokoj-inspirace",
+  "h1": "Obývací pokoj inspirace: rozvržení, barvy a malý obývák",
+  "date": "2026-11-17",
+  "related": [
+   "/sedacky/",
+   "/konferencni-stolky/",
+   "/stojaci-lampy/",
+   "/koberce/"
+  ],
+  "rules": {
+   "cat": [
+    "sedacky",
+    "konferencni-stolky"
+   ]
+  },
+  "title": "Obývací pokoj inspirace: rozvržení, barvy, malý obývák"
+ },
+ {
+  "slug": "kuchyne-inspirace",
+  "h1": "Kuchyně inspirace: tvary linek, barvy a malá kuchyň",
+  "date": "2026-11-17",
+  "related": [
+   "/kuchynske-linky/",
+   "/jidelni-stoly/",
+   "/rohove-kuchyne/"
+  ],
+  "rules": {
+   "cat": [
+    "kuchynske-linky",
+    "jidelni-stoly"
+   ]
+  },
+  "title": "Kuchyně inspirace: tvary linek, barvy a malá kuchyň"
+ },
+ {
+  "slug": "detsky-pokoj-inspirace",
+  "h1": "Dětský pokoj inspirace: od miminka po školáka",
+  "date": "2026-11-17",
+  "related": [
+   "/detske-postele/",
+   "/detske-skrine-a-ulozne-boxy/",
+   "/detske-pokoje/"
+  ],
+  "rules": {
+   "cat": [
+    "detske-postele",
+    "detske-skrine-a-ulozne-boxy"
+   ]
+  },
+  "title": "Dětský pokoj inspirace: od miminka po školáka"
+ },
+ {
+  "slug": "home-office-pracovni-kout",
+  "h1": "Home office: jak zařídit pracovní kout doma a vybrat kancelářskou židli",
+  "date": "2026-11-17",
+  "related": [
+   "/kancelarske-zidle/",
+   "/psaci-stoly/",
+   "/vyskove-nastavitelne-stoly/"
+  ],
+  "rules": {
+   "cat": [
+    "kancelarske-zidle",
+    "psaci-stoly"
+   ]
+  },
+  "title": "Home office: pracovní kout doma a kancelářská židle"
+ },
+ {
+  "slug": "hygge-styl-bydleni",
+  "h1": "Hygge: jak zařídit útulný domov po dánsku",
+  "date": "2026-11-17",
+  "related": [
+   "/deky-a-prehozy/",
+   "/svicky-a-svicny/",
+   "/stolni-lampy/"
+  ],
+  "rules": {
+   "cat": [
+    "deky-a-prehozy",
+    "svicky-a-svicny"
+   ]
+  },
+  "title": "Hygge: jak zařídit útulný domov po dánsku"
+ },
+ {
+  "slug": "boho-styl",
+  "h1": "Boho styl v interiéru: materiály, barvy a jak to nepřehnat",
+  "date": "2026-11-17",
+  "related": [
+   "/koberce/",
+   "/ulozne-boxy-a-kose/",
+   "/zavesne-kvetinace/"
+  ],
+  "rules": {
+   "cat": [
+    "koberce",
+    "ulozne-boxy-a-kose"
+   ]
+  },
+  "title": "Boho styl v interiéru: materiály, barvy a tipy"
+ },
+ {
+  "slug": "skandinavsky-styl",
+  "h1": "Skandinávský styl: světlo, dřevo a jednoduchost v praxi",
+  "date": "2026-11-17",
+  "related": [
+   "/jidelni-zidle/",
+   "/police/"
+  ],
+  "rules": {
+   "cat": [
+    "jidelni-zidle",
+    "police"
+   ]
+  },
+  "title": "Skandinávský styl v interiéru: jak na něj v praxi"
+ },
+ {
+  "slug": "japandi-styl",
+  "h1": "Japandi styl: klid, přírodní materiály a méně věcí",
+  "date": "2026-11-17",
+  "related": [
+   "/konferencni-stolky/",
+   "/postele/",
+   "/koberce/"
+  ],
+  "rules": {
+   "cat": [
+    "konferencni-stolky",
+    "postele"
+   ]
+  },
+  "title": "Japandi styl: klid, přírodní materiály a méně věcí"
+ },
+ {
+  "slug": "industrialni-styl",
+  "h1": "Industriální styl: kov, dřevo a beton doma",
+  "date": "2026-11-17",
+  "related": [
+   "/police/",
+   "/barove-zidle/",
+   "/jidelni-stoly/"
+  ],
+  "rules": {
+   "cat": [
+    "police",
+    "barove-zidle"
+   ]
+  },
+  "title": "Industriální styl: kov, dřevo a beton v bytě"
+ },
+ {
+  "slug": "jak-vybrat-matraci-tvrdost",
+  "h1": "Jak vybrat matraci: tvrdost, materiál a rozměr podle váhy a spaní",
+  "date": "2026-11-17",
+  "related": [
+   "/matrace/",
+   "/rosty/",
+   "/ortopedicka-matrace/",
+   "/detska-matrace/"
+  ],
+  "rules": {
+   "cat": [
+    "matrace"
+   ]
+  },
+  "title": "Jak vybrat matraci: tvrdost, materiál a rozměr"
+ },
+ {
+  "slug": "jak-vycistit-matraci",
+  "h1": "Jak vyčistit matraci: skvrny, zápach a jak často ji měnit",
+  "date": "2026-11-17",
+  "related": [
+   "/matrace/",
+   "/toppery-a-chranice-matraci/",
+   "/povleceni/"
+  ],
+  "rules": {
+   "cat": [
+    "matrace",
+    "toppery-a-chranice-matraci"
+   ]
+  },
+  "title": "Jak vyčistit matraci: skvrny, zápach a výměna"
+ },
+ {
+  "slug": "jak-vycistit-sedacku",
+  "h1": "Jak vyčistit sedačku: látka, kůže a skvrny krok za krokem",
+  "date": "2026-11-17",
+  "related": [
+   "/sedacky/",
+   "/potahy-na-nabytek/"
+  ],
+  "rules": {
+   "cat": [
+    "sedacky",
+    "potahy-na-nabytek"
+   ]
+  },
+  "title": "Jak vyčistit sedačku: látka, kůže a skvrny"
+ },
+ {
+  "slug": "predsin-inspirace",
+  "h1": "Předsíň inspirace: jak zařídit malou předsíň a chodbu",
+  "date": "2026-11-17",
+  "related": [
+   "/botniky/",
+   "/vesaky/",
+   "/botnik-s-lavici/",
+   "/kulata-zrcadla/"
+  ],
+  "rules": {
+   "cat": [
+    "botniky",
+    "vesaky"
+   ]
+  },
+  "title": "Předsíň inspirace: jak zařídit malou předsíň"
+ },
+ {
+  "slug": "rozmery-jidelniho-stolu",
+  "h1": "Rozměry jídelního stolu: pro 4, 6 i 8 osob a kolik místa kolem",
+  "date": "2026-11-17",
+  "related": [
+   "/jidelni-stoly/",
+   "/jidelni-zidle/",
+   "/jidelni-stul-a-zidle/"
+  ],
+  "rules": {
+   "cat": [
+    "jidelni-stoly",
+    "jidelni-zidle"
+   ]
+  },
+  "title": "Rozměry jídelního stolu pro 4, 6 i 8 osob"
+ },
+ {
+  "slug": "rozmery-postele",
+  "h1": "Rozměry postele: standardní velikosti, manželská postel a matrace",
+  "date": "2026-11-17",
+  "related": [
+   "/postele/",
+   "/matrace/",
+   "/manzelske-postele-s-uloznym-prostorem/",
+   "/boxspringy/"
+  ],
+  "rules": {
+   "cat": [
+    "postele",
+    "matrace"
+   ]
+  },
+  "title": "Rozměry postele: standardní velikosti a manželská postel"
+ },
+ {
+  "slug": "feng-shui-loznice",
+  "h1": "Feng shui v ložnici: kam postavit postel a co do ložnice nepatří",
+  "date": "2026-11-17",
+  "related": [
+   "/postele/",
+   "/nocni-stolky/",
+   "/cela-posteli/",
+   "/lampicka-k-posteli/"
+  ],
+  "rules": {
+   "cat": [
+    "postele",
+    "nocni-stolky"
+   ]
+  },
+  "title": "Feng shui v ložnici: kam postavit postel"
+ },
+ {
   "slug": "nabytek-na-splatky-jak-financovat-nakup",
   "h1": "Nábytek na splátky: jak financovat nákup a nepřeplatit",
   "date": "2026-11-14",
