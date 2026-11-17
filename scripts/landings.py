@@ -232,7 +232,8 @@ def plan(products, reserved=()):
     for p in products:
         by_cat[p["cat"]].append(p)
     recs = load_records() + generated_records(products, by_cat)
-    recs = [r for r in recs if r.get("group") != "kw2"] + [r for r in recs if r.get("group") == "kw2"]      # phrase pages last: they only add what the families do not cover
+    late = ("kw2", "gap7")       # phrase pages last: they only add what the families do not cover; gap7 (round 7 facets) after kw2 so live kw2 URLs keep their products
+    recs = [r for r in recs if r.get("group") not in late] + [r for g in late for r in recs if r.get("group") == g]
     seen_paths, groups, out, dropped = set(reserved), defaultdict(list), [], defaultdict(int)
     all_sets = []        # product-id sets of every accepted page: records with "dedupe_all" must differ from all of them
     for r in recs:
