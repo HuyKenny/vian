@@ -1,0 +1,42 @@
+{
+ "slug": "black-friday-2026",
+ "publish": "2026-11-23",
+ "title": "Black Friday 2026: ceny nábytku a skutečné slevy",
+ "h1": "Black Friday 2026: stejný nábytek, jiná cena",
+ "desc": "Sledujeme ceny {n} kusů nábytku v českých e-shopech. Stejný kus se mezi obchody liší v mediánu o {kc_med} Kč, uvedenou slevu má {share} % nabídek.",
+ "lead": "Od {first} každý den porovnáváme ceny {n} kusů nábytku a bytových doplňků v českých e-shopech. {multi} z nich prodává víc obchodů najednou a u stejného kusu se nejlevnější a nejdražší obchod liší v mediánu o <b>{kc_med} Kč</b> ({sp_med} %). Uvedenou slevu má <b>{share} %</b> nabídek.",
+ "kpis": [
+  {"label": "kusů nábytku v měření", "value": "{n}"},
+  {"label": "medián rozdílu mezi obchody", "value": "{kc_med} Kč"},
+  {"label": "kusů s rozdílem aspoň 10 %", "value": "{sp10} %"},
+  {"label": "nabídek s uvedenou slevou", "value": "{share} %"}
+ ],
+ "chart_caption": "Podíl nabídek s uvedenou původní cenou a podíl kusů, u kterých se obchody liší o 10 % a víc. Zdroj: Vian.cz, denní měření od {first}.",
+ "sections": [
+  {
+   "h2": "Výběr obchodu rozhoduje víc než akce",
+   "html": "<p>U {multi} kusů nábytku máme cenu z aspoň dvou obchodů. U {sp10} % z nich je nejdražší obchod o 10 % a víc dražší než nejlevnější, u {sp20} % o 20 % a víc. Čtvrtina kusů má rozdíl vyšší než {kc_p75} Kč.</p><p>Uváděné slevy jsou přitom v mediánu {med} %. Kdo před Black Friday porovná stejný kus ve více obchodech, ušetří často víc, než kolik slibuje samotná akce.</p>"
+  },
+  {
+   "h2": "Kolik slev je opravdu slevou",
+   "html": "<p>Z {n} sledovaných kusů má {claim} u nejlevnější nabídky uvedenou původní cenu vyšší než aktuální. Čtvrtina těchto slev je nižší než {p25} %, čtvrtina vyšší než {p75} %.</p><p>{unseen_sentence} To samo o sobě neznamená klamání: původní cena mohla platit dřív, než měříme, nebo jde o doporučenou cenu výrobce. Je to ale důvod podívat se na historii ceny, než se rozhodnete.</p>"
+  },
+  {
+   "h2": "Jak nakoupit nábytek na Black Friday",
+   "html": "<ul><li>Najděte stejný kus podle přesného názvu nebo kódu výrobce ve více obchodech. U sedaček, postelí a skříní jde o tisíce korun.</li><li>Porovnávejte cenu včetně dopravy a montáže. U velkého nábytku může doprava rozdíl smazat.</li><li>Na stránce produktu ukazujeme nejnižší cenu za posledních 30 dní. Když je akční cena nad ní, nejde o výhodný nákup.</li><li>U drahých kusů si cenu poznamenejte pár dní předem a v den akce ji porovnejte.</li></ul>"
+  }
+ ],
+ "method": "<p>Každý den stahujeme nabídky českých e-shopů s nábytkem a bytovými doplňky, spojujeme nabídky stejného produktu (podle EAN, značky a kódu výrobce) a ukládáme cenu i uvedenou původní cenu, pokud ji obchod uvádí.</p><p><b>Rozdíl mezi obchody</b> počítáme jen u stejné varianty (rozměr, barva) prodávané aspoň dvěma obchody: rozdíl nejdražší a nejlevnější ceny vůči nejdražší. Rozdíl nad 2,5násobek vyřazujeme jako pravděpodobně chybné spárování. Ceny nezahrnují dopravu.</p><p><b>Uvedená sleva</b> se počítá u nejlevnější nabídky, jen když je původní cena vyšší než aktuální a sleva nepřesahuje 80 %. Produkt počítáme jako „s nevidenou původní cenou“, když jeho uvedená původní cena je vyšší než jakákoli nejnižší cena, kterou jsme za posledních 14 dní viděli, a sledujeme ho aspoň 7 dní.</p><p>Měření začalo {first}, historie je proto krátká a čísla berte jako orientační. Zveřejňujeme jen souhrnná čísla, ne ceny a jména jednotlivých obchodů.</p>",
+ "quote": "Podle měření Vian.cz se stejný kus nábytku mezi českými e-shopy liší v mediánu o {kc_med} Kč, uvedenou slevu má {share} % nabídek.",
+ "faq": [
+  ["Jak velký je rozdíl cen stejného nábytku mezi obchody?", "V mediánu {kc_med} Kč neboli {sp_med} % ceny. U {sp10} % kusů se obchody liší o 10 % a víc."],
+  ["Znamená vysoká uvedená sleva výhodný nákup?", "Ne nutně. Rozhoduje cena, za kterou kus prodávají ostatní obchody, a jeho cena v posledních týdnech. Obojí ukazujeme u každého produktu."],
+  ["Jak často se čísla aktualizují?", "Každý den při aktualizaci cen. Po Black Friday studii doplníme o srovnání cen před akcí a po ní."],
+  ["Mohu data použít v článku?", "Ano, s uvedením zdroje Vian.cz a odkazem na tuto stránku. CSV je pod licencí CC BY 4.0."]
+ ],
+ "dataset": {
+  "name": "Ceny nábytku v českých e-shopech: rozdíly mezi obchody a uváděné slevy (agregovaná denní data)",
+  "description": "Denní agregáty: počet sledovaných kusů nábytku, počet s uvedenou původní cenou, medián uvedené slevy, počet kusů ve 2+ obchodech a medián rozdílu cen mezi obchody. Zdroj: Vian.cz, měření od {first}.",
+  "variables": ["datum", "produktu", "s_uvedenou_slevou", "median_slevy_procent", "produktu_ve_2_a_vice_obchodech", "median_rozdilu_procent", "median_rozdilu_kc"]
+ }
+}

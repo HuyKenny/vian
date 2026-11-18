@@ -30,6 +30,8 @@ import taxonomy as X  # noqa: E402
 import landings as LD  # noqa: E402
 import texts as TX  # noqa: E402
 import subcats as SC  # noqa: E402  (registers the subcategories in X.TREE / X.ICON)
+import studie as ST  # noqa: E402
+import studie_data as SD  # noqa: E402
 
 APP = Path(__file__).resolve().parent.parent
 DIST = APP / "dist"
@@ -223,6 +225,7 @@ def main():
     log(f"category cap {CAT_CAP}: {sum(capped.values())} products left out in {len(capped)} categories")
     new_slugs = C.assign_slugs(products, state)
     C.price_history(products, state)
+    C.collect_study_data(products, state)
     present = sorted({o["shop"] for p in products for o in p["offers"]})
     multi = sum(1 for p in products if len(p["offers"]) > 1)
     log(f"{len(products)} products ({multi} in 2+ shops, {sum(1 for p in products if p['variants'])} with variants), {bad} price errors dropped, {new_slugs} new slugs")
@@ -305,6 +308,7 @@ def main():
     guides = LD.load_guides()
     S.guides = {f"/poradna/{g['slug']}/": g for g in guides}
     S.has_guides = bool(guides)
+    S.has_studies = any(json.loads(f.read_text())["publish"] <= TODAY.isoformat() for f in (APP / "content/studies").glob("*.json"))
     S.guide_links = defaultdict(list)
     for g in guides:
         for rel in g.get("related", []):
@@ -366,6 +370,12 @@ def main():
         out.page(path, guide_page(S, g, LD.guide_picks(products, g)), "guides")
     if S.guides:
         paged(out, S, "/poradna/", list(S.guides.items()), lambda: guides_index(S, S.guides), "pages", per=BLOG_PER_PAGE)
+
+    # ---------------- data studies (/studie/, content/studies): only aggregates of state["agg"]
+    site = {"name": "Vian.cz", "publisher": {"@type": "Organization", "name": "Vian", "url": BASE + "/", "logo": BASE + "/favicon-512.png"}}
+    studies = ST.build(out, S, APP, BASE, site, {"black-friday-2026": SD.black_friday}, state.get("agg", {}), SUFFIX, HOME, TODAY, log)
+    if studies:
+        log(f"studies: {studies}")
 
     # ---------------- static pages, search, home, 404
     out.page("/kategorie/", categories_index(S, by_room, by_cat), "pages")

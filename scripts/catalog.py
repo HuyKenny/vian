@@ -506,6 +506,63 @@ def price_history(products, state):
             ph.pop(k)
 
 
+AGG_DAYS = 120
+
+
+def _med(xs):
+    xs = sorted(xs)
+    return xs[len(xs) // 2] if xs else 0
+
+
+def collect_study_data(products, state):
+    """Daily aggregates for the data studies (/studie/, huy.cz/barometr). Two measurements:
+    - claimed discounts: the cheapest offer carries an original price ("was"); for products we have watched >= 7 days, is that original
+      price higher than anything we saw as the lowest selling price in the last 14 days ("unseen")?
+    - shop spread: the SAME variant sold by 2+ shops; how far apart the cheapest and the dearest shop are (a spread over 2.5x is
+      treated as a matching error and left out).
+    Aggregates only: the public repo and the studies never carry shop-level prices or shop names. One entry per day, idempotent."""
+    agg = state.setdefault("agg", {})
+    claims, spreads = [], []
+    for p in products:
+        o = p["offers"][0]
+        claim = o.get("was") or 0
+        if claim > o["price"] and (claim - o["price"]) / claim <= 0.8:
+            h = p.get("hist") or [[DAY, p["price"]]]
+            seen = h[0][0] <= DAY - 7
+            recent = [x[1] for x in h if x[0] >= DAY - 14]
+            before = [x[1] for x in h if x[0] < DAY - 14]
+            top = max(recent + before[-1:] or [p["price"]])
+            claims.append((p["cat"], round((claim - o["price"]) / claim * 100), seen, claim > top * 1.01))
+        groups = [v["offers"] for v in p["variants"]] if p["variants"] else [p["offers"]]
+        groups = [g for g in groups if len(g) > 1]
+        if groups:
+            g = max(groups, key=len)
+            lo, hi = min(x["price"] for x in g), max(x["price"] for x in g)
+            if lo > 0 and hi <= lo * 2.5:
+                spreads.append((p["cat"], round((hi - lo) / hi * 100), round(hi - lo)))
+    pct = sorted(r[1] for r in claims)
+    elig = [r for r in claims if r[2]]
+    by_cat = defaultdict(lambda: [0, [], [], []])     # products, claimed discounts, spread %, spread Kč
+    for p in products:
+        by_cat[p["cat"]][0] += 1
+    for c, d, _, _ in claims:
+        by_cat[c][1].append(d)
+    for c, sp, kc in spreads:
+        by_cat[c][2].append(sp)
+        by_cat[c][3].append(kc)
+    kc = sorted(r[2] for r in spreads)
+    agg[str(DAY)] = {
+        "n": len(products), "claim": len(claims), "med": _med(pct), "p25": pct[len(pct) // 4] if pct else 0, "p75": pct[len(pct) * 3 // 4] if pct else 0,
+        "elig": len(elig), "unseen": sum(1 for r in elig if r[3]),
+        "multi": len(spreads), "sp_med": _med(r[1] for r in spreads), "sp10": sum(1 for r in spreads if r[1] >= 10), "sp20": sum(1 for r in spreads if r[1] >= 20),
+        "kc_med": _med(kc), "kc_p75": kc[len(kc) * 3 // 4] if kc else 0, "kc_sum": sum(kc),
+        "cat": {c: [n, len(cl), _med(cl), len(sp), _med(sp), _med(k)] for c, (n, cl, sp, k) in by_cat.items()},
+    }
+    for k in list(agg):
+        if int(k) < DAY - AGG_DAYS:
+            agg.pop(k)
+
+
 def gone_products(products, state, last_seen_snapshot):
     """Products that disappeared keep a "momentálně nedostupné" page for GONE_DAYS (search engines and links keep
     working; the page points to similar pieces), then they 404."""
