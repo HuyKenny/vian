@@ -531,5 +531,43 @@
     "sedacky"
    ]
   }
+ },
+ {
+  "slug": "vanocni-dekorace-a-darky-pro-domov",
+  "h1": "Vánoční dekorace a dárky pro domov: co dát a čemu se vyhnout",
+  "title": "Vánoční dekorace a dárky pro domov: co a čemu se vyhnout",
+  "date": "2026-11-22",
+  "related": [
+   "/vanocni-dekorace/",
+   "/deky-a-prehozy/",
+   "/svicky-a-svicny/",
+   "/vanocni-osvetleni/"
+  ],
+  "rules": {
+   "cat": [
+    "vanocni-dekorace",
+    "svicky-a-svicny",
+    "deky-a-prehozy"
+   ]
+  }
+ },
+ {
+  "slug": "zarizeni-prvniho-bytu",
+  "h1": "Zařízení prvního bytu: co koupit hned a co nechat na později",
+  "title": "Zařízení prvního bytu: co koupit hned a co později",
+  "date": "2026-11-22",
+  "related": [
+   "/postele/",
+   "/matrace/",
+   "/pohovky/",
+   "/satni-skrine/"
+  ],
+  "rules": {
+   "cat": [
+    "postele",
+    "matrace",
+    "pohovky"
+   ]
+  }
  }
 ]
