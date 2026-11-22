@@ -67,7 +67,11 @@ def main():
     order = sorted(rules.items(), key=lambda kv: (-(kv[1][1] == 4), len(kv[0].strip("/")) > 22, kv[0]))
     out = [f"{s} {t} 301" for s, (t, _) in order[:LIMIT]]
     (APP / "data/redirects.txt").write_text("# Old vian.cz URLs -> live categories (scripts/redirect_map.py; rules above 2 000 are not emitted).\n" + "\n".join(out) + "\n")
-    print(dict(stats), "rules:", len(rules), "written:", len(out))
+    # the rest goes to Cloudflare Bulk Redirects (account list, synced by scripts/vian/bulk-redirects.py in ai-workspace; free plan, no Worker)
+    live_paths = {f"/{c}/" for c in X.CATS} | {f"/{r}/" for r in X.ROOMS}
+    rest = [f"{s}\t{t}" for s, (t, _) in order[LIMIT:] if s not in live_paths]
+    (APP / "data/redirects-bulk.tsv").write_text("\n".join(rest) + "\n")
+    print(dict(stats), "bulk:", len(rest), "rules:", len(rules), "written:", len(out))
     if "report" in sys.argv:
         for s, (t, sc) in order[:40]:
             print(s, "->", t)
